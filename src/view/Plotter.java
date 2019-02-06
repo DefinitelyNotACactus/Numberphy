@@ -21,15 +21,15 @@ public class Plotter extends JPanel {
     private double max;
     private int points;
     
-    private View view;
+    private Application application;
     
-    public Plotter(View view) {
-        this.view = view;
+    public Plotter(Application application) {
+        this.application = application;
         
-        function = view.functionTextField.getText();
-        points = Integer.parseInt(view.nopTextField.getText());
-        min = Double.parseDouble(view.initialXTextField.getText());
-        max = Double.parseDouble(view.finalXTextField.getText());
+        function = application.functionTextField.getText();
+        points = Integer.parseInt(application.nopTextField.getText());
+        min = Double.parseDouble(application.initialXTextField.getText());
+        max = Double.parseDouble(application.finalXTextField.getText());
         
         initComponents();
     }
@@ -101,10 +101,10 @@ public class Plotter extends JPanel {
     
     public void update() {
         try {
-            function = view.functionTextField.getText();
-            points = Integer.parseInt(view.nopTextField.getText());
-            min = Double.parseDouble(view.initialXTextField.getText());
-            max = Double.parseDouble(view.finalXTextField.getText());
+            function = application.functionTextField.getText();
+            points = Integer.parseInt(application.nopTextField.getText());
+            min = Double.parseDouble(application.initialXTextField.getText());
+            max = Double.parseDouble(application.finalXTextField.getText());
             plot();
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(getParent(), "A entrada esta errada", "Erro", JOptionPane.ERROR_MESSAGE);
