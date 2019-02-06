@@ -63,7 +63,6 @@ public class Intro extends JFrame {
         halleyButton.setMaximumSize(new java.awt.Dimension(160, 40));
         halleyButton.setMinimumSize(new java.awt.Dimension(160, 40));
         halleyButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        halleyButton.setSize(new java.awt.Dimension(170, 95));
         halleyButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 halleyButtonActionPerformed(evt);
@@ -75,7 +74,6 @@ public class Intro extends JFrame {
         riddersButton.setMaximumSize(new java.awt.Dimension(160, 40));
         riddersButton.setMinimumSize(new java.awt.Dimension(160, 40));
         riddersButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        riddersButton.setSize(new java.awt.Dimension(160, 40));
         riddersButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 riddersButtonActionPerformed(evt);
@@ -89,7 +87,6 @@ public class Intro extends JFrame {
         hermiteButton.setMaximumSize(new java.awt.Dimension(160, 40));
         hermiteButton.setMinimumSize(new java.awt.Dimension(160, 40));
         hermiteButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        hermiteButton.setSize(new java.awt.Dimension(160, 40));
         hermiteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 hermiteButtonActionPerformed(evt);
@@ -102,7 +99,6 @@ public class Intro extends JFrame {
         splinesButton.setMaximumSize(new java.awt.Dimension(160, 40));
         splinesButton.setMinimumSize(new java.awt.Dimension(160, 40));
         splinesButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        splinesButton.setSize(new java.awt.Dimension(160, 40));
         splinesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 splinesButtonActionPerformed(evt);
@@ -115,7 +111,6 @@ public class Intro extends JFrame {
         gaussButton.setMaximumSize(new java.awt.Dimension(160, 40));
         gaussButton.setMinimumSize(new java.awt.Dimension(160, 40));
         gaussButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        gaussButton.setSize(new java.awt.Dimension(160, 40));
         gaussButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gaussButtonActionPerformed(evt);

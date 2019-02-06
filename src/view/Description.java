@@ -7,6 +7,7 @@ package view;
 
 import java.awt.Container;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /**
@@ -90,6 +91,16 @@ public class Description extends javax.swing.JPanel {
         switch(operation){
             case 1://Halley
                 titleLabel.setText("Metodo de Halley");
+                JLabel NewtonMath = new JLabel();
+                NewtonMath.setIcon(new ImageIcon("../images/NewtonMath.PNG"));
+                label.setText("<html>O método de Halley é usado para busca de raizes de funções reais de uma variável que possuem primeira e segunda derivada contínuas,<br>" +
+                "realizando iterativamente uma sequência de aproximações à raiz, tendo uma taxa de convergência cúbica.<br>" +
+                "Inventado pelo fisíco Edmond Halley, o algoritmo consiste em aplicar o método de Newton-Raphson duas vezes. Esse segundo método,<br>" +
+                "desenvolvido por Isaac Newton e Joseph Raphson, estima as raízes de uma função escolhendo-se uma aproximação inicial; Cria-se então<br>" +
+                "um método iterativo, repetindo o processo de cálculo a reta tangente a partir da darivada da função no ponto e a interseção dela<br>" +
+                "com o eixo das abcissas.<br>" +
+                        "<br>" +
+                "olutpat.</html>");
                 break;
             case 2://Ridders
                 titleLabel.setText("Metodo de Ridders");
@@ -99,25 +110,7 @@ public class Description extends javax.swing.JPanel {
                 applicationButton.setVisible(false);
                 break;
         }
-        label.setText("<html>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultricies tortor dignissim urna porta mattis ut id dui. Fusce varius aliquet purus nec placerat. Phasellus leo enim, lacinia ut massa sit amet, eleifend molestie diam. Phasellus eget mauris augue. Mauris pharetra felis at nisl varius, id volutpat magna scelerisque. Integer tempus non ipsum non gravida. Donec ac dui vitae dui tempus efficitur vitae in tellus. Sed eros leo, auctor ac diam a, porta accumsan dolor. Duis ante diam, gravida sit amet malesuada nec, laoreet lacinia libero. Phasellus iaculis dolor quis facilisis porttitor. Suspendisse placerat est vel libero mattis malesuada. Curabitur in urna at magna blandit scelerisque. Sed a tristique orci. Pellentesque consectetur, tortor id gravida luctus, eros lorem vehicula mi, at volutpat urna libero id ex. Proin sed aliquam justo. Nam elit magna, luctus a convallis eu, mollis dictum mi.<br>" +
-            "<br>" +
-            "Mauris semper pharetra egestas. In ultricies eget mauris eget sodales. Maecenas in dictum tellus, id viverra leo. Maecenas sed cursus ligula. Sed pretium orci dui. Ut sollicitudin, ipsum nec vulputate porttitor, urna libero pulvinar arcu, nec bibendum nibh metus at ipsum. Ut nec maximus urna, vitae auctor sapien. Etiam nisi justo, egestas ut quam quis, finibus molestie sem. Sed malesuada eget magna nec ullamcorper. Nullam vitae ligula porttitor, accumsan velit nec, mattis leo. Sed in viverra leo. Etiam sit amet pulvinar enim. Nulla dolor turpis, sodales a dignissim sit amet, tincidunt et massa.<br>" +
-            "<br>" +
-            "Donec lobortis accumsan quam, in varius tortor volutpat id. Fusce magna risus, pharetra ut mauris ut, luctus mattis magna. Praesent non sem molestie, lacinia metus non, euismod ligula. Proin nisl arcu, hendrerit sed neque ut, ullamcorper porta ante. Etiam at eros tempus, rutrum elit quis, bibendum risus. Ut sit amet mauris ac ex iaculis dignissim. Sed pharetra tellus sit amet fringilla molestie. Quisque venenatis auctor sem, quis ornare eros vehicula ac.<br>" +
-            "<br>" +
-            "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Praesent vitae justo sem. Nunc vestibulum tortor at leo feugiat semper. Aenean vel justo justo. Nunc ac rutrum purus, dictum efficitur quam. Sed in lectus quam. Nunc feugiat nunc suscipit sem dictum ultrices. Proin ultricies sollicitudin sem, eleifend aliquet risus tincidunt non. Nunc et nunc porta, dapibus nibh sed, feugiat quam. Nullam quis lorem ipsum. Ut quis sodales nisl. Mauris bibendum at nisl sed laoreet. Donec justo purus, viverra non bibendum quis, suscipit at erat. Pellentesque pretium arcu eget justo tincidunt eleifend. Nunc scelerisque, orci id rhoncus iaculis, lectus nisl bibendum dui, eu finibus nulla diam ut dui. Integer sodales finibus mauris eget eleifend.<br>" +
-            "<br>" +
-            "Nullam facilisis vestibulum velit eget ullamcorper. Nam turpis nisl, ultricies ac ligula eget, maximus finibus tortor. Mauris et nisl at risus porta imperdiet. Vestibulum at lorem id leo tempus venenatis vel dapibus neque. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas eget enim nec nibh efficitur sagittis. Etiam vitae nunc eu augue hendrerit mattis eget aliquet risus. Aenean fermentum a lectus quis commodo. Sed auctor porttitor augue, ac tempus magna rutrum vel. Nunc consectetur lectus ac vestibulum iaculis. Nullam rhoncus dignissim dignissim. Suspendisse potenti. Sed placerat, felis at molestie cursus, nisi lorem viverra felis, nec maximus sem erat ac arcu.<br>" +
-            "<br>" +
-            "Praesent elit enim, ornare sit amet dui id, eleifend dapibus velit. Pellentesque eu dapibus augue. Nulla pellentesque augue at ullamcorper tempor. Aenean at odio feugiat, feugiat mi a, vulputate lacus. Cras placerat at nisi at commodo. Ut cursus, massa eu porttitor rutrum, erat metus ornare nibh, vitae rhoncus tellus mauris sed ex. Aliquam tortor eros, tincidunt eu erat ut, consectetur faucibus nulla. Pellentesque ex felis, gravida sed tincidunt sit amet, euismod a neque.<br>" +
-            "<br>" +
-            "Suspendisse potenti. Aliquam mi arcu, porttitor sollicitudin nibh quis, varius finibus neque. Phasellus eu venenatis purus. Sed auctor commodo tellus, nec feugiat odio convallis nec. Phasellus euismod sit amet sapien mollis luctus. Curabitur sagittis dictum hendrerit. Donec pulvinar molestie lorem, eget facilisis turpis.<br>" +
-            "<br>" +
-            "Sed euismod mi eget purus tempus, eu molestie lectus laoreet. Etiam bibendum nibh egestas, pretium eros ac, fermentum odio. Mauris at mauris porttitor ex interdum cursus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Duis tortor nibh, convallis et congue sed, cursus ut diam. Ut blandit ornare erat et sagittis. Fusce sit amet nisl dui. Vivamus fringilla est in risus semper sagittis. Aenean dignissim enim ac odio convallis pharetra.<br>" +
-            "<br>" +
-            "Vestibulum quis nisl vel libero placerat lobortis. Vivamus sagittis non massa ultrices pulvinar. Donec imperdiet ipsum neque, eu vehicula urna bibendum non. Sed leo metus, porttitor id magna et, fringilla maximus quam. Suspendisse quis auctor sem. Aliquam arcu mauris, auctor non tincidunt cursus, pellentesque vel lacus. Maecenas egestas, tortor non ullamcorper placerat, turpis dui tincidunt enim, non accumsan dolor quam vehicula justo. Donec dictum ac diam vel gravida. Donec fringilla ante risus, in vestibulum urna dapibus sed. Fusce nec volutpat tellus, at feugiat nulla. Integer pellentesque enim hendrerit consequat cursus. Morbi semper ante placerat nulla viverra consectetur ut vel ex. Vestibulum nec libero sem. Morbi malesuada risus non turpis accumsan lacinia id lacinia lorem. Morbi iaculis luctus egestas. Nunc pretium enim ut egestas accumsan.<br>" +
-            "<br>" +
-            "Morbi tempor iaculis accumsan. Mauris auctor, dolor a posuere maximus, justo ante scelerisque neque, eget cursus dui nisi non erat. Vivamus quis lacus malesuada, tincidunt mi nec, volutpat sapien. Suspendisse dapibus, nulla eu pharetra tincidunt, nisi ex eleifend dui, eget pharetra libero eros quis turpis. Nulla volutpat id lectus ac laoreet. Vivamus tincidunt a dui in consectetur. Morbi feugiat dui id pharetra placerat. Fusce faucibus sodales orci convallis suscipit. Quisque pulvinar leo at orci rhoncus, id lacinia diam posuere. Maecenas vitae ultrices diam. Quisque venenatis leo vel urna lobortis, at varius tortor tempus. Vestibulum ornare sapien enim, et imperdiet risus viverra non. Phasellus malesuada lectus blandit orci ultrices venenatis. In auctor nisl eget nulla interdum volutpat.</html>");
+    
         cont.add(label);
         cont.setLayout(new BoxLayout(cont, BoxLayout.X_AXIS));
         scrollPane.getViewport().setView(cont);
