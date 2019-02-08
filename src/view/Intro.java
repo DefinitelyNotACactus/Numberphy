@@ -17,7 +17,7 @@ public class Intro extends JFrame {
 
     /**
      * Creates new form Intro
-     */    
+     */
     public Intro() {
         initComponents();
     }
@@ -158,14 +158,14 @@ public class Intro extends JFrame {
         update(5);
     }//GEN-LAST:event_gaussButtonActionPerformed
 
-    private void update(int selected){
+    private void update(int selected) {
         Color d = new Color(238, 238, 238);
         gaussButton.setBackground(d);
         halleyButton.setBackground(d);
         hermiteButton.setBackground(d);
         riddersButton.setBackground(d);
         splinesButton.setBackground(d);
-        switch(selected){
+        switch (selected) {
             case 1:
                 halleyButton.setBackground(Color.YELLOW);
                 break;
@@ -186,6 +186,7 @@ public class Intro extends JFrame {
         contentPanel.add(new Description(selected));
         contentPanel.revalidate();
     }
+
     /**
      * @param args the command line arguments
      */
