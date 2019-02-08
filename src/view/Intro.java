@@ -133,7 +133,7 @@ public class Intro extends JFrame {
             .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
         );
 
-        contentPanel.add(new Description(0));
+        contentPanel.add(new WelcomeScreen());
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -168,6 +168,9 @@ public class Intro extends JFrame {
         switch (selected) {
             case 1:
                 halleyButton.setBackground(Color.YELLOW);
+                contentPanel.removeAll();
+                contentPanel.add(new HalleyDescription(selected));
+                contentPanel.revalidate();
                 break;
             case 2:
                 riddersButton.setBackground(Color.YELLOW);
@@ -182,9 +185,7 @@ public class Intro extends JFrame {
                 gaussButton.setBackground(Color.YELLOW);
                 break;
         }
-        contentPanel.removeAll();
-        contentPanel.add(new Description(selected));
-        contentPanel.revalidate();
+        
     }
 
     /**
