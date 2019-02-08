@@ -133,57 +133,57 @@ public class Intro extends JFrame {
             .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
         );
 
-        contentPanel.add(new Description(0));
+        contentPanel.add(new Description(Methods.WELCOME));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void halleyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_halleyButtonActionPerformed
-        update(1);
+        update(Methods.HALLEY);
     }//GEN-LAST:event_halleyButtonActionPerformed
 
     private void riddersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_riddersButtonActionPerformed
-        update(2);
+        update(Methods.RIDDERS);
     }//GEN-LAST:event_riddersButtonActionPerformed
 
     private void hermiteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hermiteButtonActionPerformed
-        update(3);
+        update(Methods.HERMITE);
     }//GEN-LAST:event_hermiteButtonActionPerformed
 
     private void splinesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splinesButtonActionPerformed
-        update(4);
+        update(Methods.SPLINES);
     }//GEN-LAST:event_splinesButtonActionPerformed
 
     private void gaussButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gaussButtonActionPerformed
-        update(5);
+        update(Methods.GAUSS);
     }//GEN-LAST:event_gaussButtonActionPerformed
 
-    private void update(int selected) {
+    private void update(Methods method) {
         Color d = new Color(238, 238, 238);
         gaussButton.setBackground(d);
         halleyButton.setBackground(d);
         hermiteButton.setBackground(d);
         riddersButton.setBackground(d);
         splinesButton.setBackground(d);
-        switch (selected) {
-            case 1:
+        switch (method) {
+            case HALLEY:
                 halleyButton.setBackground(Color.YELLOW);
                 break;
-            case 2:
+            case RIDDERS:
                 riddersButton.setBackground(Color.YELLOW);
                 break;
-            case 3:
+            case HERMITE:
                 hermiteButton.setBackground(Color.YELLOW);
                 break;
-            case 4:
+            case SPLINES:
                 splinesButton.setBackground(Color.YELLOW);
                 break;
-            case 5:
+            case GAUSS:
                 gaussButton.setBackground(Color.YELLOW);
                 break;
         }
         contentPanel.removeAll();
-        contentPanel.add(new Description(selected));
+        contentPanel.add(new Description(method));
         contentPanel.revalidate();
     }
 

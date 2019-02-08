@@ -1,7 +1,6 @@
 package view;
 
 import edu.hws.jcm.awt.Controller;
-import edu.hws.jcm.awt.ExpressionInput;
 import edu.hws.jcm.awt.JCMPanel;
 import edu.hws.jcm.awt.VariableInput;
 import edu.hws.jcm.data.Function;
@@ -23,12 +22,14 @@ public class Application extends JPanel {
     private Variable variable;
     private DisplayCanvas canvas;
     private LimitControlPanel limits;
+    private boolean limitsEnabled;
     private ExpressionInput input;
     
     private Function function; //input function
     private Function firstDer; //first derivative
     private Function secondDer; //seconde derivative
-    private int operation;
+    private Methods method;
+    //private DrawString str;
     
     private Graph1D graph; //input graph
     private Graph1D firstDerGraph; //first derivative graph
@@ -40,8 +41,15 @@ public class Application extends JPanel {
     private JCMPanel main;
     private Controller controller;
     
-    public Application(int operation) {
-        this.operation = operation;
+    public Application(Methods method) {
+        this.method = method;
+        limitsEnabled = false;
+        initComponents();
+    }
+    
+    public Application(Methods method, boolean limits) {
+        this.method = method;
+        limitsEnabled = limits;
         initComponents();
     }
     
@@ -54,10 +62,12 @@ public class Application extends JPanel {
         canvas.setUseOffscreenCanvas(false);
         canvas.setHandleMouseZooms(true);
         
-        limits = new LimitControlPanel();
-        limits.addCoords(canvas);
+        if(limitsEnabled){
+            limits = new LimitControlPanel();
+            limits.addCoords(canvas);
+        }
         
-        input = new ExpressionInput("sin(x)+2*cos(3*x)", parser);
+        input = new ExpressionInput(method, "x^2 - x^3 + x", parser);
         function = input.getFunction(variable);
         firstDer = function.derivative(1);
         secondDer = firstDer.derivative(1);
@@ -72,17 +82,18 @@ public class Application extends JPanel {
         xInput = new VariableInput(variable.getName(), "1");
         cross = new Crosshair(xInput, firstDer);
         
-        DrawString str = new DrawString("f(x) = " + input.getText());
-        str.setColor(Color.black);
-        str.setBackgroundColor(Color.white);
-        str.setFrameWidth(1);
+        //str = new DrawString("f(x) = " + input.getText());
+        //str.setColor(Color.black);
+        //str.setBackgroundColor(Color.white);
+        //str.setFrameWidth(1);
         
-         
         main = new JCMPanel();
         main.add(canvas, BorderLayout.CENTER);
         main.add(input, BorderLayout.SOUTH);
-        main.add(limits, BorderLayout.EAST);
-        main.setInsetGap(3);
+        if(limitsEnabled) {
+            main.add(limits, BorderLayout.EAST);
+        }
+        main.setInsetGap(5);
         
         setLayout(new BorderLayout());
         add(main, BorderLayout.CENTER);
@@ -93,11 +104,14 @@ public class Application extends JPanel {
         canvas.add(firstDerGraph);
         canvas.add(secondDerGraph);
         canvas.add(cross);
-        canvas.add(str,0);
+        //canvas.add(str);
         
         controller = main.getController();
         controller.setErrorReporter(canvas);
-        limits.setErrorReporter(canvas);
+        
+        if(limitsEnabled) {
+            limits.setErrorReporter(canvas);
+        }
         
         main.gatherInputs();
     }

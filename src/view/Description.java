@@ -9,20 +9,21 @@ import java.awt.Container;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
  * @author david
  */
-public class Description extends javax.swing.JPanel {
+public class Description extends JPanel {
 
     /**
      * Creates new form Description
      */
-    private int operation;
+    private Methods method;
     
-    public Description(int method) {
-        this.operation = method;
+    public Description(Methods method) {
+        this.method = method;
         initComponents();
         loadContent();
     }
@@ -80,7 +81,7 @@ public class Description extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void applicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_applicationButtonActionPerformed
-        getParent().add(new Application(operation));
+        getParent().add(new Application(method));
         getParent().revalidate();
         getParent().remove(this);
     }//GEN-LAST:event_applicationButtonActionPerformed
@@ -88,8 +89,8 @@ public class Description extends javax.swing.JPanel {
     private void loadContent() {
         Container cont = new Container();
         JLabel label = new JLabel();
-        switch(operation){
-            case 1://Halley
+        switch(method){
+            case HALLEY:
                 titleLabel.setText("Metodo de Halley");
                 JLabel NewtonMath = new JLabel();
                 NewtonMath.setIcon(new ImageIcon("../images/NewtonMath.PNG"));
@@ -102,7 +103,7 @@ public class Description extends javax.swing.JPanel {
                         "<br>" +
                 "olutpat.</html>");
                 break;
-            case 2://Ridders
+            case RIDDERS:
                 titleLabel.setText("Metodo de Ridders");
                 break;
             default://Quando abre o programa
