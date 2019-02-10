@@ -25,14 +25,14 @@ public class Application extends JPanel {
     private ExpressionInput input;
     
     private Function function; //input function
-    private Function firstDer; //first derivative
-    private Function secondDer; //seconde derivative
+//    private Function firstDer; //first derivative
+//    private Function secondDer; //seconde derivative
     private Methods method;
     //private DrawString str;
     
     private Graph1D graph; //input graph
-    private Graph1D firstDerGraph; //first derivative graph
-    private Graph1D secondDerGraph; //second derivative graph
+//    private Graph1D firstDerGraph; //first derivative graph
+//    private Graph1D secondDerGraph; //second derivative graph
     
     private Crosshair cross; //a point on the graph
     private VariableInput xInput; //point x value
@@ -54,8 +54,8 @@ public class Application extends JPanel {
     
     private void initComponents() {
         parser = new Parser();
-        variable = new Variable("x");
-        parser.add(variable);
+        setVariable(new Variable("x"));
+        parser.add(getVariable());
         
         canvas = new DisplayCanvas();
         getCanvas().setUseOffscreenCanvas(false);
@@ -67,19 +67,19 @@ public class Application extends JPanel {
         }
         
         input = new ExpressionInput(method, "x^2 - x^3 + x", parser, this);
-        function = getExpressionInput().getFunction(variable);
-        firstDer = function.derivative(1);
-        secondDer = firstDer.derivative(1);
+        function = getExpressionInput().getFunction(getVariable());
+//        firstDer = function.derivative(1);
+//        secondDer = firstDer.derivative(1);
         
         graph = new Graph1D(function);
         graph.setColor(Color.black);
-        firstDerGraph = new Graph1D(firstDer);
-        firstDerGraph.setColor(Color.red);
-        secondDerGraph = new Graph1D(secondDer);
-        secondDerGraph.setColor(Color.green);
+//        firstDerGraph = new Graph1D(firstDer);
+//        firstDerGraph.setColor(Color.red);
+//        secondDerGraph = new Graph1D(secondDer);
+//        secondDerGraph.setColor(Color.green);
         
-        xInput = new VariableInput(variable.getName(), "1");
-        cross = new Crosshair(xInput, firstDer);
+        xInput = new VariableInput(getVariable().getName(), "1");
+        cross = new Crosshair(xInput, function);
         
         //str = new DrawString("f(x) = " + input.getText());
         //str.setColor(Color.black);
@@ -100,8 +100,8 @@ public class Application extends JPanel {
         
         getCanvas().add(new Axes());
         getCanvas().add(graph);
-        getCanvas().add(firstDerGraph);
-        getCanvas().add(secondDerGraph);
+//        getCanvas().add(firstDerGraph);
+//        getCanvas().add(secondDerGraph);
         getCanvas().add(cross);
         //canvas.add(str);
         
@@ -140,5 +140,19 @@ public class Application extends JPanel {
     public void setInputEvent(InputEvent event)
     {
         getExpressionInput().setInputEvent(event);
+    }
+
+    /**
+     * @return the variable
+     */
+    public Variable getVariable() {
+        return variable;
+    }
+
+    /**
+     * @param variable the variable to set
+     */
+    public void setVariable(Variable variable) {
+        this.variable = variable;
     }
 }

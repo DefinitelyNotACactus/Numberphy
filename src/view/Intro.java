@@ -219,7 +219,14 @@ public class Intro extends JFrame {
             new Intro().setVisible(true);
         });
     }
-
+    
+    public void setVisibleContent(java.awt.Component c)
+    {
+        contentPanel.removeAll();
+        contentPanel.add(c);
+        contentPanel.revalidate();
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private javax.swing.JButton gaussButton;

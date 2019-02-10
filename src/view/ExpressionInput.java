@@ -163,10 +163,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     }// </editor-fold>//GEN-END:initComponents
 
     private void functionTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_functionTextFieldActionPerformed
-        input_event.invokeEvent();
-        if (onUserAction != null) {
-            onUserAction.compute();
-        }
+        performInputEvent();
     }//GEN-LAST:event_functionTextFieldActionPerformed
 
 
@@ -197,7 +194,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * only constant expressions will
     * be allowed.   
     */
-   protected Parser parser;
+   private Parser parser;
 
    //protected boolean hasChanged;
    protected String previousContents;   
@@ -277,6 +274,13 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
       //hasChanged = true;  // force re-compute when checkInput() is next called.
       previousContents = null;
    }
+
+    /**
+     * @return the parser
+     */
+    public Parser getParser() {
+        return parser;
+    }
    
    /**
     * Get the Expression associated with this ExpressionInput.
@@ -425,7 +429,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
       expr.serialNumber++;
       String contents = functionTextField.getText();
       try {
-         expr.exp = parser.parse(contents);
+         expr.exp = getParser().parse(contents);
          errorMessage = null;
          previousContents = functionTextField.getText();
       }
@@ -578,5 +582,16 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     public void setInputEvent(InputEvent event)
     {
         this.input_event.setInputEvent(event);
+    }
+    
+    /**
+     * Invocado quando o usuário pressiona Enter.
+     * Por padrão, invoca InputEvent e, em seguida, invoca a computação e exibição do input.
+     */
+    public void performInputEvent() {
+        input_event.invokeEvent();
+        if (onUserAction != null) {
+            onUserAction.compute();
+        }
     }
 }

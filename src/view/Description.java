@@ -147,7 +147,7 @@ public class Description extends JPanel {
                 "<p>Teste com algumas cadeias:</p>\n" +
                 "\n" +
                 "<p align=\"center\">\n" +
-                " <img src='"+ getClass().getResource("/images/NewtonMath.PNG" ).toString() +"'><br>\n" +
+                " <img src='"+ getResource("/images/NewtonMath.png", "/images/NewtonMath.PNG") +"'><br>\n" +
                 "  Cadeia Aceita<br>\n </p>\n" +
                 "</div></html>");
             default:
@@ -184,11 +184,46 @@ public class Description extends JPanel {
                 "<p>Teste com algumas cadeias:</p>\n" +
                 "\n" +
                 "<p align=\"center\">\n" +
-                " <img src='"+ getClass().getResource("/images/NewtonGraph.PNG" ).toString() +"'><br>\n" +
+                " <img src='"+ getResource("/images/NewtonGraph.png", "/images/NewtonGraph.PNG") +"'><br>\n" +
                 "  Cadeia Aceita<br>\n </p>\n" +
                 "</div></html>");
         }
     }
+    
+    
+    
+    /**
+     * Percorre list tentando retornar o recurso especificado.
+     * Para cada item I de list, retorna se o recurso de nome I existe; senão, continua para o próximo item.
+     * Caso nenhum item seja encontrado em list, retorna null.
+     * @param list Lista de recursos
+     * @return URI do item ou null
+     */
+    private static String getResource(String... list) {
+        return getResourceOrDefault(null, list);
+    }
+    
+    /**
+     * Percorre list tentando retornar o recurso especificado, retorna defaultItem em caso de falha.
+     * Para cada item I de list, retorna se o recurso de nome I existe; senão, continua para o próximo item.
+     * Caso nenhum item seja encontrado em list, retorna defaultItem.
+     * @param defaultItem Item padrão
+     * @param list Lista de recursos
+     * @return URI do item ou defaultItem
+     */
+    private static String getResourceOrDefault(String defaultItem, String... list) {
+        for (String s : list) {
+            try {
+                return Description.class.getResource(s).toString();
+            }
+            catch (Exception e) {
+                // who cares?
+            }
+        }
+        return defaultItem;
+    }
+    
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton applicationButton;
