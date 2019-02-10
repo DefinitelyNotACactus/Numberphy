@@ -147,7 +147,7 @@ public class Description extends JPanel {
                 "<p>Teste com algumas cadeias:</p>\n" +
                 "\n" +
                 "<p align=\"center\">\n" +
-                " <img src='"+ getClass().getResource("/images/NewtonMath.png" ).toString() +"'><br>\n" +
+                " <img src='"+ getClass().getResource("/images/NewtonMath.PNG" ).toString() +"'><br>\n" +
                 "  Cadeia Aceita<br>\n </p>\n" +
                 "</div></html>");
             default:
@@ -178,13 +178,13 @@ public class Description extends JPanel {
                 "        Pattern pattern = Pattern.compile(cpf_regex);\n" +
                 "        Matcher matcher = pattern.matcher(cpf);\n" +
                 "        return matcher.matches();\n" +
-                "}\n" +
-                "</code></pre>\n" +
+                "}\n" + 
+               "</code></pre>\n" +
                 "\n" +
                 "<p>Teste com algumas cadeias:</p>\n" +
                 "\n" +
                 "<p align=\"center\">\n" +
-                " <img src='"+ getClass().getResource("/images/NewtonGraph.png" ).toString() +"'><br>\n" +
+                " <img src='"+ getClass().getResource("/images/NewtonGraph.PNG" ).toString() +"'><br>\n" +
                 "  Cadeia Aceita<br>\n </p>\n" +
                 "</div></html>");
         }
