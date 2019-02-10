@@ -131,4 +131,14 @@ public class Application extends JPanel {
     public ExpressionInput getExpressionInput() {
         return input;
     }
+    
+    
+    /**
+     * Event called when the user updates the input.
+     * @param event Event
+     */
+    public void setInputEvent(InputEvent event)
+    {
+        getExpressionInput().setInputEvent(event);
+    }
 }
