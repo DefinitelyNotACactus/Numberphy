@@ -39,7 +39,6 @@ public class Application extends JPanel {
     
     private JCMPanel main;
     private Controller controller;
-    
     public Application(Methods method) {
         this.method = method;
         limitsEnabled = false;
@@ -66,10 +65,12 @@ public class Application extends JPanel {
             limits.addCoords(getCanvas());
         }
         
-        input = new ExpressionInput(method, "x^2 - x^3 + x", parser, this);
+        input = new ExpressionInput(method, "x^2 - 2", parser, this);
         function = getExpressionInput().getFunction(getVariable());
 //        firstDer = function.derivative(1);
 //        secondDer = firstDer.derivative(1);
+
+
         
         graph = new Graph1D(function);
         graph.setColor(Color.black);
@@ -114,8 +115,11 @@ public class Application extends JPanel {
         
         main.gatherInputs();
     }
-
     
+    public Function getFunction() {
+        return function;
+    }   
+        
     
     
     /**
