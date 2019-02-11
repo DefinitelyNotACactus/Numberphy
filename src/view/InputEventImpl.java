@@ -9,6 +9,8 @@ import data.ValueImpl;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.Value;
 import edu.hws.jcm.data.ValueMath;
+import edu.hws.jcm.draw.Crosshair;
+import java.awt.Color;
 
 /**
  *
@@ -38,6 +40,7 @@ public class InputEventImpl implements InputEvent {
         Function f = input.getFunction(input.getApplication().getVariable());
         Function dev1 = f.derivative(1);
         Function dev2 = dev1.derivative(1);
+        Crosshair crossh = null;
         
         while (tolmax > tolmin && itr < nitr) {
             x0 = xn;
@@ -47,12 +50,16 @@ public class InputEventImpl implements InputEvent {
             double d2 = new ValueMath(dev2, v).getVal();
             
             xn = xn - (2 * fx * d1) / (2 * d1 * d1 - fx * d2);
-            event.drawCrossHair(v, f);
+            crossh = event.drawCrossHair(v, f);
             
             itr++;
             if (xn != 0) {
                 tolmax = Math.abs((xn - x0) / xn);
             }
+        }
+        if (crossh != null) {
+            crossh.setColor(Color.red);
+            crossh.setLineWidth(2);
         }
     }
 }
