@@ -11,7 +11,11 @@
     <Component class="javax.swing.JTextField" name="x0TextField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="1"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="xrLabel">
       <Properties>
@@ -22,7 +26,11 @@
     <Component class="javax.swing.JTextField" name="xrTextField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="5"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="toleranceLabel">
       <Properties>
@@ -33,7 +41,11 @@
     <Component class="javax.swing.JTextField" name="toleranceTextField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="0.001"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="iterationsLabel">
       <Properties>
@@ -44,7 +56,11 @@
     <Component class="javax.swing.JTextField" name="iterationsTextField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="10"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldActionPerformed"/>
+      </Events>
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -94,7 +110,7 @@
             <Property name="columns" type="int" value="15"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="functionTextFieldActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

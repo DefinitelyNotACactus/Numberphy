@@ -2,12 +2,10 @@ package view;
 
 import edu.hws.jcm.awt.Controller;
 import edu.hws.jcm.awt.JCMPanel;
-import edu.hws.jcm.awt.VariableInput;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.Parser;
 import edu.hws.jcm.data.Variable;
 import edu.hws.jcm.draw.Axes;
-import edu.hws.jcm.draw.Crosshair;
 import edu.hws.jcm.draw.DisplayCanvas;
 import edu.hws.jcm.draw.Graph1D;
 import edu.hws.jcm.draw.LimitControlPanel;
@@ -27,18 +25,16 @@ public class Application extends JPanel {
     private Function function; //input function
 //    private Function firstDer; //first derivative
 //    private Function secondDer; //seconde derivative
-    private Methods method;
+    private Methods method; //method used
     //private DrawString str;
     
     private Graph1D graph; //input graph
-//    private Graph1D firstDerGraph; //first derivative graph
+//  private Graph1D firstDerGraph; //first derivative graph
 //    private Graph1D secondDerGraph; //second derivative graph
-    
-    private Crosshair cross; //a point on the graph
-    private VariableInput xInput; //point x value
     
     private JCMPanel main;
     private Controller controller;
+    
     public Application(Methods method) {
         this.method = method;
         limitsEnabled = false;
@@ -79,9 +75,6 @@ public class Application extends JPanel {
 //        secondDerGraph = new Graph1D(secondDer);
 //        secondDerGraph.setColor(Color.green);
         
-        xInput = new VariableInput(getVariable().getName(), "1");
-        cross = new Crosshair(xInput, function);
-        
         //str = new DrawString("f(x) = " + input.getText());
         //str.setColor(Color.black);
         //str.setBackgroundColor(Color.white);
@@ -103,7 +96,6 @@ public class Application extends JPanel {
         getCanvas().add(graph);
 //        getCanvas().add(firstDerGraph);
 //        getCanvas().add(secondDerGraph);
-        getCanvas().add(cross);
         //canvas.add(str);
         
         controller = main.getController();
@@ -116,12 +108,13 @@ public class Application extends JPanel {
         main.gatherInputs();
     }
     
+    /**
+     * @return the function 
+     */
     public Function getFunction() {
         return function;
     }   
-        
-    
-    
+
     /**
      * @return the canvas
      */
@@ -136,13 +129,11 @@ public class Application extends JPanel {
         return input;
     }
     
-    
     /**
      * Event called when the user updates the input.
      * @param event Event
      */
-    public void setInputEvent(InputEvent event)
-    {
+    public void setInputEvent(InputEvent event) {
         getExpressionInput().setInputEvent(event);
     }
 

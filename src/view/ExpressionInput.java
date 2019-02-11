@@ -48,12 +48,11 @@ import edu.hws.jcm.data.Parser;
 import edu.hws.jcm.data.ParseError;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.SimpleFunction;
-import edu.hws.jcm.draw.DrawString;
 import java.awt.AWTEvent;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.TextEvent;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -105,21 +104,45 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         x0Label.setToolTipText("X inicial");
 
         x0TextField.setColumns(4);
+        x0TextField.setText("1");
+        x0TextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldActionPerformed(evt);
+            }
+        });
 
         xrLabel.setText("Xr");
         xrLabel.setToolTipText("X da direita");
 
         xrTextField.setColumns(4);
+        xrTextField.setText("5");
+        xrTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldActionPerformed(evt);
+            }
+        });
 
         toleranceLabel.setText("Tol.");
         toleranceLabel.setToolTipText("Tolerancia");
 
         toleranceTextField.setColumns(4);
+        toleranceTextField.setText("0.001");
+        toleranceTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldActionPerformed(evt);
+            }
+        });
 
         iterationsLabel.setText("Iter.");
         iterationsLabel.setToolTipText("Iteracoes");
 
         iterationsTextField.setColumns(4);
+        iterationsTextField.setText("10");
+        iterationsTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textFieldActionPerformed(evt);
+            }
+        });
 
         setBackground(Color.lightGray);
 
@@ -129,7 +152,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         functionTextField.setColumns(15);
         functionTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                functionTextFieldActionPerformed(evt);
+                textFieldActionPerformed(evt);
             }
         });
         inputPanel.add(functionTextField);
@@ -162,9 +185,9 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void functionTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_functionTextFieldActionPerformed
+    private void textFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldActionPerformed
         performInputEvent();
-    }//GEN-LAST:event_functionTextFieldActionPerformed
+    }//GEN-LAST:event_textFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -232,10 +255,11 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
    
    private Methods method;
    private final Application app;
-   private double x0;
+   private double x0; //xL for Ridders
    private double xR;
    private int iterations;
-   private double moe;
+   private double tolerance;
+   
    private final InputEventManager input_event;
    
    /**
@@ -260,6 +284,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         checkInput();  // Won't throw an error, since throwErrors is false.
         throwErrors = true;
         input_event = new InputEventManager(this);
+        performInputEvent();
    }
    
    /**   
@@ -424,8 +449,9 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     */
    public void checkInput() {
       boolean hasChanged = previousContents == null || !previousContents.equals(functionTextField.getText());
-      if (!hasChanged)
+      if (!hasChanged) {
          return;
+      }
       expr.serialNumber++;
       String contents = functionTextField.getText();
       try {
@@ -440,9 +466,9 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
             functionTextField.setCaretPosition(e.context.pos);
             requestFocus();
             throw new JCMError(e.getMessage(),this);
-         }
-         else
+         } else {
             errorMessage = "Error in expression at position " + e.context.pos + ": " + e.getMessage();
+         }
       }
    }   
 
@@ -522,18 +548,21 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
       EI() {
           serialNumber = -1; // Forces exp to be computed the first time it is needed.
       }
+      
       public double getVal() {
          checkForChanges();
          if (exp == null)
             return Double.NaN;
          return exp.getVal();
       }
+      
       public double getValueWithCases(Cases c) {
          checkForChanges();
          if (exp == null)
             return Double.NaN;
          return exp.getValueWithCases(c);
       }
+      
       public String toString() {
          checkForChanges();
          if (exp == null)
@@ -567,6 +596,29 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
       }
    }  // end nested class EI
 
+    /** 
+    * @return the method 
+    */
+    public Methods getMethod() {
+        return method;
+    }
+    
+    public double getx0() { //Returns xL for Ridders
+        return x0;
+    }
+    
+    public double getXr() {
+        return xR;
+    }
+    
+    public double getTolerance() {
+        return tolerance;
+    }
+    
+    public int getIterations() {
+        return iterations;
+    }
+    
     /**
      * @return the app
      */
@@ -574,14 +626,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         return app;
     }
     
-    
     /**
      * Event called when the user updates the input.
      * @param event Event
      */
-    public void setInputEvent(InputEvent event)
-    {
-        this.input_event.setInputEvent(event);
+    public void setInputEvent(InputEvent event) {
+        input_event.setInputEvent(event);
     }
     
     /**
@@ -589,9 +639,19 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
      * Por padrão, invoca InputEvent e, em seguida, invoca a computação e exibição do input.
      */
     public void performInputEvent() {
-        input_event.invokeEvent();
+        try {
+        iterations = Integer.parseInt(iterationsTextField.getText());
+        x0 = Double.parseDouble(x0TextField.getText());
+        if(method == Methods.RIDDERS) {
+            xR = Double.parseDouble(xrTextField.getText());
+        }
+        tolerance = Double.parseDouble(toleranceTextField.getText());
+        } catch(NumberFormatException ex) {
+            JOptionPane.showMessageDialog(getParent(), "Erro ao processar os parametros!");
+        }
         if (onUserAction != null) {
             onUserAction.compute();
         }
+        input_event.invokeEvent();
     }
 }
