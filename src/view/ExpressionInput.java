@@ -163,9 +163,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     }// </editor-fold>//GEN-END:initComponents
 
     private void functionTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_functionTextFieldActionPerformed
-        if (onUserAction != null) {
-            onUserAction.compute();
-        }
+        performInputEvent();
     }//GEN-LAST:event_functionTextFieldActionPerformed
 
 
@@ -196,7 +194,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * only constant expressions will
     * be allowed.   
     */
-   protected Parser parser;
+   private Parser parser;
 
    //protected boolean hasChanged;
    protected String previousContents;   
@@ -233,10 +231,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
                                       //   user's input;
    
    private Methods method;
+   private final Application app;
    private double x0;
    private double xR;
    private int iterations;
    private double moe;
+   private final InputEventManager input_event;
    
    /**
     * Create an ExpressionInputBox with initial contents given by initialValue.(If initialValue is null, the empty string is used.)  If p is not null,
@@ -245,9 +245,11 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * @param method
     * @param initialValue initial contents of ExpressionInputBox.
     * @param p if non-null, this parser will be used to parse contents of the ExpressionInputBox.
+     * @param app
     */
-   public ExpressionInput(Methods method, String initialValue, Parser p) {
+   public ExpressionInput(Methods method, String initialValue, Parser p, Application app) {
         this.method = method;
+        this.app = app;
         initComponents();
         expr = new EI();
         if (initialValue == null) {
@@ -257,6 +259,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         setParser(p);  // (Sets previousContents to null, so checkInput() will actually check the input.)
         checkInput();  // Won't throw an error, since throwErrors is false.
         throwErrors = true;
+        input_event = new InputEventManager(this);
    }
    
    /**   
@@ -271,6 +274,13 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
       //hasChanged = true;  // force re-compute when checkInput() is next called.
       previousContents = null;
    }
+
+    /**
+     * @return the parser
+     */
+    public Parser getParser() {
+        return parser;
+    }
    
    /**
     * Get the Expression associated with this ExpressionInput.
@@ -311,6 +321,14 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     */
    public Function getFunction(Variable[] v) {
       return new SimpleFunction(expr,v);
+   }
+   
+   /**
+    * Get the latest expression inserted by the user.
+    * @return Get the latest expression inserted by the user.
+    */
+   public String getFunctionString() {
+       return previousContents;
    }
 
    /**      
@@ -411,7 +429,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
       expr.serialNumber++;
       String contents = functionTextField.getText();
       try {
-         expr.exp = parser.parse(contents);
+         expr.exp = getParser().parse(contents);
          errorMessage = null;
          previousContents = functionTextField.getText();
       }
@@ -548,4 +566,32 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
          }
       }
    }  // end nested class EI
+
+    /**
+     * @return the app
+     */
+    public Application getApplication() {
+        return app;
+    }
+    
+    
+    /**
+     * Event called when the user updates the input.
+     * @param event Event
+     */
+    public void setInputEvent(InputEvent event)
+    {
+        this.input_event.setInputEvent(event);
+    }
+    
+    /**
+     * Invocado quando o usuário pressiona Enter.
+     * Por padrão, invoca InputEvent e, em seguida, invoca a computação e exibição do input.
+     */
+    public void performInputEvent() {
+        input_event.invokeEvent();
+        if (onUserAction != null) {
+            onUserAction.compute();
+        }
+    }
 }

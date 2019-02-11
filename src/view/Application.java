@@ -9,7 +9,6 @@ import edu.hws.jcm.data.Variable;
 import edu.hws.jcm.draw.Axes;
 import edu.hws.jcm.draw.Crosshair;
 import edu.hws.jcm.draw.DisplayCanvas;
-import edu.hws.jcm.draw.DrawString;
 import edu.hws.jcm.draw.Graph1D;
 import edu.hws.jcm.draw.LimitControlPanel;
 import java.awt.BorderLayout;
@@ -26,14 +25,14 @@ public class Application extends JPanel {
     private ExpressionInput input;
     
     private Function function; //input function
-    private Function firstDer; //first derivative
-    private Function secondDer; //seconde derivative
+//    private Function firstDer; //first derivative
+//    private Function secondDer; //seconde derivative
     private Methods method;
     //private DrawString str;
     
     private Graph1D graph; //input graph
-    private Graph1D firstDerGraph; //first derivative graph
-    private Graph1D secondDerGraph; //second derivative graph
+//    private Graph1D firstDerGraph; //first derivative graph
+//    private Graph1D secondDerGraph; //second derivative graph
     
     private Crosshair cross; //a point on the graph
     private VariableInput xInput; //point x value
@@ -55,32 +54,32 @@ public class Application extends JPanel {
     
     private void initComponents() {
         parser = new Parser();
-        variable = new Variable("x");
-        parser.add(variable);
+        setVariable(new Variable("x"));
+        parser.add(getVariable());
         
         canvas = new DisplayCanvas();
-        canvas.setUseOffscreenCanvas(false);
-        canvas.setHandleMouseZooms(true);
+        getCanvas().setUseOffscreenCanvas(false);
+        getCanvas().setHandleMouseZooms(true);
         
         if(limitsEnabled){
             limits = new LimitControlPanel();
-            limits.addCoords(canvas);
+            limits.addCoords(getCanvas());
         }
         
-        input = new ExpressionInput(method, "x^2 - x^3 + x", parser);
-        function = input.getFunction(variable);
-        firstDer = function.derivative(1);
-        secondDer = firstDer.derivative(1);
+        input = new ExpressionInput(method, "x^2 - x^3 + x", parser, this);
+        function = getExpressionInput().getFunction(getVariable());
+//        firstDer = function.derivative(1);
+//        secondDer = firstDer.derivative(1);
         
         graph = new Graph1D(function);
         graph.setColor(Color.black);
-        firstDerGraph = new Graph1D(firstDer);
-        firstDerGraph.setColor(Color.red);
-        secondDerGraph = new Graph1D(secondDer);
-        secondDerGraph.setColor(Color.green);
+//        firstDerGraph = new Graph1D(firstDer);
+//        firstDerGraph.setColor(Color.red);
+//        secondDerGraph = new Graph1D(secondDer);
+//        secondDerGraph.setColor(Color.green);
         
-        xInput = new VariableInput(variable.getName(), "1");
-        cross = new Crosshair(xInput, firstDer);
+        xInput = new VariableInput(getVariable().getName(), "1");
+        cross = new Crosshair(xInput, function);
         
         //str = new DrawString("f(x) = " + input.getText());
         //str.setColor(Color.black);
@@ -88,8 +87,8 @@ public class Application extends JPanel {
         //str.setFrameWidth(1);
         
         main = new JCMPanel();
-        main.add(canvas, BorderLayout.CENTER);
-        main.add(input, BorderLayout.SOUTH);
+        main.add(getCanvas(), BorderLayout.CENTER);
+        main.add(getExpressionInput(), BorderLayout.SOUTH);
         if(limitsEnabled) {
             main.add(limits, BorderLayout.EAST);
         }
@@ -99,20 +98,61 @@ public class Application extends JPanel {
         add(main, BorderLayout.CENTER);
         setBackground(Color.lightGray);
         
-        canvas.add(new Axes());
-        canvas.add(graph);
-        canvas.add(firstDerGraph);
-        canvas.add(secondDerGraph);
-        canvas.add(cross);
+        getCanvas().add(new Axes());
+        getCanvas().add(graph);
+//        getCanvas().add(firstDerGraph);
+//        getCanvas().add(secondDerGraph);
+        getCanvas().add(cross);
         //canvas.add(str);
         
         controller = main.getController();
-        controller.setErrorReporter(canvas);
+        controller.setErrorReporter(getCanvas());
         
         if(limitsEnabled) {
-            limits.setErrorReporter(canvas);
+            limits.setErrorReporter(getCanvas());
         }
         
         main.gatherInputs();
+    }
+
+    
+    
+    
+    /**
+     * @return the canvas
+     */
+    public DisplayCanvas getCanvas() {
+        return canvas;
+    }
+
+    /**
+     * @return the input
+     */
+    public ExpressionInput getExpressionInput() {
+        return input;
+    }
+    
+    
+    /**
+     * Event called when the user updates the input.
+     * @param event Event
+     */
+    public void setInputEvent(InputEvent event)
+    {
+        getExpressionInput().setInputEvent(event);
+    }
+
+    /**
+     * @return the variable
+     */
+    public Variable getVariable() {
+        return variable;
+    }
+
+    /**
+     * @param variable the variable to set
+     */
+    public void setVariable(Variable variable) {
+        this.variable = variable;
     }
 }
