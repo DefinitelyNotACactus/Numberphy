@@ -6,6 +6,7 @@
 package view;
 
 import java.awt.Container;
+import java.awt.event.ActionEvent;
 import java.awt.event.ComponentEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -13,7 +14,7 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author david
+ * @author nullPointerException
  */
 public class Description extends JPanel {
 
@@ -47,10 +48,11 @@ public class Description extends JPanel {
         titleLabel.setText("Titulo");
 
         applicationButton.setText("Aplicacao");
-        applicationButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                applicationButtonActionPerformed(evt);
-            }
+        if(method == Methods.WELCOME) {
+            applicationButton.setVisible(false);
+        }
+        applicationButton.addActionListener((ActionEvent evt) -> {
+            applicationButtonActionPerformed(evt);
         });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -103,7 +105,7 @@ public class Description extends JPanel {
                 titleLabel.setText("Metodo de Ridders");
                 break;
             default:
-                titleLabel.setText("This is a Title");
+                titleLabel.setText("Bem-vind@ ao Numberphy");
                 break;
         }
         cont.add(label);
@@ -114,79 +116,52 @@ public class Description extends JPanel {
     public String getMethodDescription(Methods method) {
         switch(method){
             case HALLEY:
-                return ("<html><div WIDTH="+getWidth()+"><<h1 id=\"validator\">Validator</h1>\n" +
+                return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-1\">Introdução</h4>\n" +
                 "\n" +
-                "<p>Projeto 1 de Teoria da Computação</p>\n" +
+                "<p>O método de Halley é usado para busca de raizes de funções reais de uma variável que possuem primeira e segunda derivada contínuas, realizando iterativamente uma sequência de aproximações à raiz, tendo uma taxa de convergência cúbica. Inventado pelo fisíco Edmond Halley, o algoritmo consiste em aplicar o método de Newton-Raphson duas vezes. Esse segundo método, desenvolvido por Isaac Newton e Joseph Raphson, estima as raízes de uma função escolhendo-se uma aproximação inicial. Cria-se então um método iterativo, repetindo o processo de cálculo a reta tangente a partir da derivada da função no ponto e a intersecção dela com o eixo das abcissas.</p>\n" +
                 "\n" +
-                "<h2 id=\"introduo\">Introdução</h2>\n" +
+                "<p>(Inserir imagem aqui)</p>\n" +
                 "\n" +
-                "<p>Durante o primeiro estágio da cadeira de Teoria da Computação aprendemos sobre autômatos finitos e expressões regulares. O projeto deste estágio consiste em usar expressões regulares em uma linguagem de programação para verificar se algumas cadeias satisfazem certos padrões. Para implementar isso, desenvolveremos uma aplicação <b>Java</b> que receberá cadeias e fará a verificação delas com uso da biblioteca <b>java.util.regex.*</b>. A aplicação se divide entre uma classe com uma interface visual para testar as cadeias e outra para validar as cadeias recebidas.</p>\n" +
+                "<h4 id=\"desenvolvimento\">Desenvolvimento</h4>\n" +
                 "\n" +
-                "<h2 id=\"cadeiasaseremreconhecidas\">Cadeias a serem reconhecidas</h2>\n" +
+                "<p>(Inserir desenvolvimento aqui)</p>\n" +
                 "\n" +
-                "<h3 id=\"nmerodecpf\">Número de CPF</h3>\n" +
+                "<h4 id=\"algoritmo\">Algoritmo</h4>\n" +
                 "\n" +
-                "<p>O CPF é composto por cadeias de 3 dígitos, seguidos de ponto, mais 3 dígitos, ponto, 3 dígitos, hífen, 2 dígitos. Sua expressão regular logo é dada por:</p>\n" +
+                "<p>(Inserir pseudocodigo aqui)</p></html>");
+            case RIDDERS:
+                return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-2\">Introdução</h4>\n" +
                 "\n" +
-                "<pre><code class=\"Java language-Java\">  String cpf_regex = \"^\\\\d{3}\\\\.\\\\d{3}\\\\.\\\\d{3}\\\\-\\\\d{2}$\";\n" +
-                "</code></pre>\n" +
+                "<p>(Inserir introdução aqui)</p>\n" +
                 "\n" +
-                "<p>O ^ no começo e $ no fim da expressão servem pra indicar que a expressão deve bater com o padrão do começo ao fim da linha de entrada.\n" +
-                "Para representar os digitos usamos \\d seguido de {3} onde 3 é o número de digitos(0-9) que devem ocorrer, logo depois \\. para indicar que a cadeia deve seguir com um ponto e novamente \\d{3} para mais três digitos, \\. para outro ponto, \\d{3} para outros três dígitos, \\- para indicar que deve se seguir um hifen e por fim \\d{2} para indicar que a cadeia se encerra com dois dígitos.</p>\n" +
+                "<h4 id=\"desenvolvimento-1\">Desenvolvimento</h4>\n" +
                 "\n" +
-                "<p>Depois disso é necessário compilar o padrão cpf_regex e testar com a cadeia recebida, eis o código do método, o seu retorno é um valor booleano para se a cadeia de entrada corresponde a expressão regular pedida:</p>\n" +
+                "<p>(Inserir desenvolvimento aqui)</p>\n" +
                 "\n" +
-                "<pre><code class=\"Java language-Java\">public static boolean validateCPF(String cpf) {\n" +
-                "        String cpf_regex = \"^\\\\d{3}\\\\.\\\\d{3}\\\\.\\\\d{3}\\\\-\\\\d{2}$\";\n" +
-                "        Pattern pattern = Pattern.compile(cpf_regex);\n" +
-                "        Matcher matcher = pattern.matcher(cpf);\n" +
-                "        return matcher.matches();\n" +
-                "}\n" +
-                "</code></pre>\n" +
+                "<h4 id=\"algoritmo-1\">Algoritmo</h4>\n" +
                 "\n" +
-                "<p>Teste com algumas cadeias:</p>\n" +
-                "\n" +
-                "<p align=\"center\">\n" +
-                " <img src='"+ getResource("/images/NewtonMath.png", "/images/NewtonMath.PNG") +"'><br>\n" +
-                "  Cadeia Aceita<br>\n </p>\n" +
-                "</div></html>");
+                "<p>(Inserir pseudocodigo aqui)</p></html>");
+            case WELCOME:
             default:
-                return ("<html><div WIDTH="+getWidth()+"><<h1 id=\"validator\">Validator</h1>\n" +
+                return ("<html><div WIDTH="+getWidth()+"><h1 id=\"numberphy\">Numberphy</h1>\n" +
                 "\n" +
-                "<p>Projeto 1 de Teoria da Computação</p>\n" +
+                "<p>Projecto de Cálculo Numérico, Numberphy, essa é uma distribuição do grupo de desenvolvimento Pales.</p>\n" +
                 "\n" +
-                "<h2 id=\"introduo\">Introdução</h2>\n" +
+                "<h3 id=\"introduo\">Introdução</h3>\n" +
                 "\n" +
-                "<p>Durante o primeiro estágio da cadeira de Teoria da Computação aprendemos sobre autômatos finitos e expressões regulares. O projeto deste estágio consiste em usar expressões regulares em uma linguagem de programação para verificar se algumas cadeias satisfazem certos padrões. Para implementar isso, desenvolveremos uma aplicação <b>Java</b> que receberá cadeias e fará a verificação delas com uso da biblioteca <b>java.util.regex.*</b>. A aplicação se divide entre uma classe com uma interface visual para testar as cadeias e outra para validar as cadeias recebidas.</p>\n" +
+                "<p>O projecto Numberphy consiste em um programa desenvolvido usando Java/Swing junto à biblioteca JCM (Java Components for Math Project), usando os conhecimentos adquiridos na aula de Calculo Numérico para apresentar uma interface gráfica para explicação e aplicaçao de alguns métodos.</p>\n" +
                 "\n" +
-                "<h2 id=\"cadeiasaseremreconhecidas\">Cadeias a serem reconhecidas</h2>\n" +
+                "<h4 id=\"requerimentos\">Requerimentos</h4>\n" +
                 "\n" +
-                "<h3 id=\"nmerodecpf\">Número de CPF</h3>\n" +
-                "\n" +
-                "<p>O CPF é composto por cadeias de 3 dígitos, seguidos de ponto, mais 3 dígitos, ponto, 3 dígitos, hífen, 2 dígitos. Sua expressão regular logo é dada por:</p>\n" +
-                "\n" +
-                "<pre><code class=\"Java language-Java\">  String cpf_regex = \"^\\\\d{3}\\\\.\\\\d{3}\\\\.\\\\d{3}\\\\-\\\\d{2}$\";\n" +
-                "</code></pre>\n" +
-                "\n" +
-                "<p>O ^ no começo e $ no fim da expressão servem pra indicar que a expressão deve bater com o padrão do começo ao fim da linha de entrada.\n" +
-                "Para representar os digitos usamos \\d seguido de {3} onde 3 é o número de digitos(0-9) que devem ocorrer, logo depois \\. para indicar que a cadeia deve seguir com um ponto e novamente \\d{3} para mais três digitos, \\. para outro ponto, \\d{3} para outros três dígitos, \\- para indicar que deve se seguir um hifen e por fim \\d{2} para indicar que a cadeia se encerra com dois dígitos.</p>\n" +
-                "\n" +
-                "<p>Depois disso é necessário compilar o padrão cpf_regex e testar com a cadeia recebida, eis o código do método, o seu retorno é um valor booleano para se a cadeia de entrada corresponde a expressão regular pedida:</p>\n" +
-                "\n" +
-                "<pre><code class=\"Java language-Java\">public static boolean validateCPF(String cpf) {\n" +
-                "        String cpf_regex = \"^\\\\d{3}\\\\.\\\\d{3}\\\\.\\\\d{3}\\\\-\\\\d{2}$\";\n" +
-                "        Pattern pattern = Pattern.compile(cpf_regex);\n" +
-                "        Matcher matcher = pattern.matcher(cpf);\n" +
-                "        return matcher.matches();\n" +
-                "}\n" + 
-               "</code></pre>\n" +
-                "\n" +
-                "<p>Teste com algumas cadeias:</p>\n" +
-                "\n" +
-                "<p align=\"center\">\n" +
-                " <img src='"+ getResource("/images/NewtonGraph.png", "/images/NewtonGraph.PNG") +"'><br>\n" +
-                "  Cadeia Aceita<br>\n </p>\n" +
-                "</div></html>");
+                "<blockquote>\n" +
+                "  <ul>\n" +
+                "  <li>JDK 1.8 ou superior</li>\n" +
+                "  \n" +
+                "  <li>JCM (Incluido neste repositório)</li>\n" +
+                "  \n" +
+                "  <li>Algum conhecimento sobre cálculo </li>\n" +
+                "  </ul>\n" +
+                "</blockquote></html>");
         }
     }
     
