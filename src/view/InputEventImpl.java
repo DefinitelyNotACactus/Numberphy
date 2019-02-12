@@ -64,7 +64,7 @@ public class InputEventImpl implements InputEvent {
     }
     
     public void ridders(ExpressionInput input, InputEventManager event, double xl, double xr, double tolmin, int nitr) {
-        double x; 
+        double x = 0; 
         double tolmax = 1;
         int itr = 0;
         
@@ -72,24 +72,42 @@ public class InputEventImpl implements InputEvent {
         Crosshair crossh = null;
         
         while (tolmax > tolmin && itr < nitr) {
-            double fl = new ValueImpl(xl).getVal();
-            double fr = new ValueImpl(xr).getVal();
-            double i = Math.abs(xl - xr);
+            
+            Value vxl = new ValueImpl(xl);
+            double fl = new ValueMath(f, vxl).getVal();
+            
+            Value vxr = new ValueImpl(xr);
+            double fr = new ValueMath(f, vxr).getVal();
+            
+            double i = Math.abs(fr - fl);
             x = xr - fr*(xl-xr)/(fl - fr);
+            
             Value vx = new ValueImpl(x);
             double fx = new ValueMath(f, vx).getVal();   
+            System.out.println(fx);
             
             double alfa = (fl - fx)/(fx - fr);
+//            System.out.println(alfa);
             double beta = (fl - fx)/(fl - alfa*fx);
+//            System.out.println(beta);
             double xa = alfa - 1;
+//            System.out.println(xa);
             double xb = beta - 1;
-            
-            double lnxa = alfa - alfa*alfa/2 + alfa*alfa*alfa/3;
-            double lnxb = beta - beta*beta/2 + beta*beta*beta/3;
-            double root = xl - i*lnxb/lnxa;
+//            System.out.println(xb);
+            double lnxa = xa - xa*xa/2 + xa*xa*xa/3;
+//            System.out.println(lnxa);
+            double lnxb = xb - xb*xb/2 + xb*xb*xb/3;
+                        System.out.println(lnxb);
+
+            double root = xl + i*lnxb/lnxa;
+                        System.out.println(root);
+
             Value vroot = new ValueImpl(root);
+                        System.out.println(vroot.getVal());
+
             double froot = new ValueMath(f, vroot).getVal();
-            
+                        System.out.println(froot);
+
             crossh = event.drawCrossHair(vroot, f);
             
             if(fl * fx < 0) {
