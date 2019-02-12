@@ -640,12 +640,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
      */
     public void performInputEvent() {
         try {
-        iterations = Integer.parseInt(iterationsTextField.getText());
-        x0 = Double.parseDouble(x0TextField.getText());
-        if(method == Methods.RIDDERS) {
-            xR = Double.parseDouble(xrTextField.getText());
-        }
-        tolerance = Double.parseDouble(toleranceTextField.getText());
+            iterations = Integer.parseInt(iterationsTextField.getText());
+            x0 = Double.parseDouble(x0TextField.getText());
+            if(method == Methods.RIDDERS) {
+                xR = Double.parseDouble(xrTextField.getText());
+            }
+            tolerance = Double.parseDouble(toleranceTextField.getText());
         } catch(NumberFormatException ex) {
             JOptionPane.showMessageDialog(getParent(), "Erro ao processar os parametros!");
         }

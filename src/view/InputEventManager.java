@@ -6,6 +6,7 @@ import edu.hws.jcm.data.Value;
 import edu.hws.jcm.draw.CoordinateRect;
 import edu.hws.jcm.draw.Crosshair;
 import edu.hws.jcm.draw.DisplayCanvas;
+import edu.hws.jcm.draw.DrawString;
 import edu.hws.jcm.draw.Drawable;
 import edu.hws.jcm.draw.Graph1D;
 import java.awt.Color;
@@ -126,10 +127,6 @@ public class InputEventManager {
         return ch;
     }
 
-    
-    
-    
-    
     /**
      * Desenha uma função
      *
@@ -157,10 +154,20 @@ public class InputEventManager {
         return drawFunction(f, Color.RED, false);
     }
 
-    
-    
-    
-    
+    /**
+     * Desenha uma caixa contendo uma String
+     * @param s A string da caixa
+     * @return Uma caixa coma String
+     */
+    public DrawString drawString(String s) {
+        DrawString ds = new DrawString(s);
+        ds.setColor(Color.BLACK);
+        ds.setBackgroundColor(Color.WHITE);
+        ds.setFrameWidth(1);
+        
+        draw(ds, false);
+        return ds;
+    }
     
     private static VariableInput newVar(double v) {
         return new VariableInput(null, String.valueOf(v));

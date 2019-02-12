@@ -23,14 +23,9 @@ public class Application extends JPanel {
     private ExpressionInput input;
     
     private Function function; //input function
-//    private Function firstDer; //first derivative
-//    private Function secondDer; //seconde derivative
     private Methods method; //method used
-    //private DrawString str;
     
     private Graph1D graph; //input graph
-//  private Graph1D firstDerGraph; //first derivative graph
-//    private Graph1D secondDerGraph; //second derivative graph
     
     private JCMPanel main;
     private Controller controller;
@@ -61,25 +56,12 @@ public class Application extends JPanel {
             limits.addCoords(getCanvas());
         }
         
-        input = new ExpressionInput(method, "x^2 - 2", parser, this);
+        input = new ExpressionInput(method, "x*sin(1/x)", parser, this);
         function = getExpressionInput().getFunction(getVariable());
-//        firstDer = function.derivative(1);
-//        secondDer = firstDer.derivative(1);
-
-
         
         graph = new Graph1D(function);
         graph.setColor(Color.black);
-//        firstDerGraph = new Graph1D(firstDer);
-//        firstDerGraph.setColor(Color.red);
-//        secondDerGraph = new Graph1D(secondDer);
-//        secondDerGraph.setColor(Color.green);
-        
-        //str = new DrawString("f(x) = " + input.getText());
-        //str.setColor(Color.black);
-        //str.setBackgroundColor(Color.white);
-        //str.setFrameWidth(1);
-        
+
         main = new JCMPanel();
         main.add(getCanvas(), BorderLayout.CENTER);
         main.add(getExpressionInput(), BorderLayout.SOUTH);
@@ -94,9 +76,6 @@ public class Application extends JPanel {
         
         getCanvas().add(new Axes());
         getCanvas().add(graph);
-//        getCanvas().add(firstDerGraph);
-//        getCanvas().add(secondDerGraph);
-        //canvas.add(str);
         
         controller = main.getController();
         controller.setErrorReporter(getCanvas());

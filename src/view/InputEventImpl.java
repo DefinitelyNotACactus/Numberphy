@@ -20,6 +20,7 @@ public class InputEventImpl implements InputEvent {
 
     @Override
     public void inputUpdate(ExpressionInput input, InputEventManager event) {
+        event.drawString("f(x)" + input.getFunctionString());
         switch(input.getMethod()) {
             case HALLEY:
                 halley(input, event, input.getx0(), input.getTolerance(), input.getIterations());
@@ -33,6 +34,14 @@ public class InputEventImpl implements InputEvent {
         }
     }
     
+    /**
+     * Calcula a raiz da funcao usando o metodo de Halley
+     * @param input
+     * @param event 
+     * @param x0 Estimativa do X inicial
+     * @param tolmin Tolerancia minima
+     * @param nitr Numero de iteracoes maxim@
+     */
     public void halley(ExpressionInput input, InputEventManager event, double x0, double tolmin, int nitr) {
         double xn = x0;
         double tolmax = tolmin + 1;
@@ -63,100 +72,73 @@ public class InputEventImpl implements InputEvent {
         }
     }
     
+    /**
+     * Calcula a raiz da funcao usando o metodo de ridders
+     * @param input
+     * @param event
+     * @param xl X da esquerda
+     * @param xr X da direita
+     * @param tolmin Tolerancia minima
+     * @param nitr Numero de iteracoes maxim@
+     */
     public void ridders(ExpressionInput input, InputEventManager event, double xl, double xr, double tolmin, int nitr) {
-        double x = 0; 
-        double tolmax = 1;
-        int itr = 0;
-        
         Function f = input.getFunction(input.getApplication().getVariable());
         Crosshair crossh = null;
         
-        while (tolmax > tolmin && itr < nitr) {
+        double x = 0.0;
+        int itr = 0;
+        double err = 1.0;
+        
+        while(err > tolmin && itr < nitr) {
+            double fr = new ValueMath(f, new ValueImpl(xr)).getVal();
+            double fl = new ValueMath(f, new ValueImpl(xl)).getVal();
+            double d0 = Math.abs(fr - fl);
+            x = xr - fr*(xl-xr)/(fl-fr);
+            double fx = new ValueMath(f, new ValueImpl(x)).getVal();
             
-            Value vxl = new ValueImpl(xl);
-            double fl = new ValueMath(f, vxl).getVal();
+            double a = (fl - fx)/(fx - fr);
+            double b = (fl - fx)/(fl - a*fx);
+            double beta = b - 1;
+            double alpha = a - 1;
+            double lnb = beta - beta*beta/2 + beta*beta*beta/3;
+            double lna = alpha - alpha*alpha/2 + alpha*alpha*alpha/3;
+            double root = xl + d0*lnb/lna;
+            double froot = new ValueMath(f, new ValueImpl(root)).getVal();
             
-            Value vxr = new ValueImpl(xr);
-            double fr = new ValueMath(f, vxr).getVal();
-            
-            double i = Math.abs(fr - fl);
-            x = xr - fr*(xl-xr)/(fl - fr);
-            
-            Value vx = new ValueImpl(x);
-            double fx = new ValueMath(f, vx).getVal();   
-            System.out.println(fx);
-            
-            double alfa = (fl - fx)/(fx - fr);
-//            System.out.println(alfa);
-            double beta = (fl - fx)/(fl - alfa*fx);
-//            System.out.println(beta);
-            double xa = alfa - 1;
-//            System.out.println(xa);
-            double xb = beta - 1;
-//            System.out.println(xb);
-            double lnxa = xa - xa*xa/2 + xa*xa*xa/3;
-//            System.out.println(lnxa);
-            double lnxb = xb - xb*xb/2 + xb*xb*xb/3;
-                        System.out.println(lnxb);
-
-            double root = xl + i*lnxb/lnxa;
-                        System.out.println(root);
-
-            Value vroot = new ValueImpl(root);
-                        System.out.println(vroot.getVal());
-
-            double froot = new ValueMath(f, vroot).getVal();
-                        System.out.println(froot);
-
-            crossh = event.drawCrossHair(vroot, f);
-            
-            if(fl * fx < 0) {
+            if(fl*fx < 0) {
                 if(xl < root && root < x) {
-                    if(fx * froot < 0) {
+                    if(fx*froot < 0) {
                         xl = root;
                         xr = x;
-                    }
-                    
-                    else {
+                    } else {
                         xr = root;
                     }
-                }
-                
-                else {
+                } else {
                     xr = x;
                 }
-            }
-            
-            else if (fl * fx > 0) {
+            } else if(fl*fx > 0) {
                 if(x < root && root < xr) {
-                    if(fx * froot < 0) {
+                    if(fx*froot < 0) {
                         xl = x;
                         xr = root;
-                    }
-                    
-                    else {
+                    } else {
                         xl = root;
                         fl = froot;
                     }
-                }
-                
-                else {
+                } else {
                     xl = x;
                     fl = fx;
                 }
-            }
-            
-            else {
+            } else {
                 if(fl == 0) {
                     x = xl;
                 }
                 break;
             }
-            
-            tolmax = Math.abs(xr - xl);
+            err = Math.abs(xr - xl);
             itr++;
+            crossh = event.drawCrossHair(new ValueImpl(x), f);
         }
-        
         if (crossh != null) {
             crossh.setColor(Color.red);
             crossh.setLineWidth(2);
