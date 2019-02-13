@@ -116,15 +116,38 @@ public class Description extends JPanel {
     public String getMethodDescription(Methods method) {
         switch(method){
             case HALLEY:
+                
+                String newtonGraphPath = getClass().getResource("/resources/newton/newton_graph.png").toString();
+                String newtonMathPath = getClass().getResource("/resources/newton/newton_math.png").toString();
+                
+                String halley1Path = getClass().getResource("/resources/halley/halley1.png").toString();
+                String halley2Path = getClass().getResource("/resources/halley/halley2.png").toString();
+                String halley3Path = getClass().getResource("/resources/halley/halley3.png").toString();
+                String halley4Path = getClass().getResource("/resources/halley/halley4.png").toString();
+                String halley5Path = getClass().getResource("/resources/halley/halley5.png").toString();
+                String halley6Path = getClass().getResource("/resources/halley/halley6.png").toString();
+                String halley7Path = getClass().getResource("/resources/halley/halley7.png").toString();
+                String halley8Path = getClass().getResource("/resources/halley/halley8.png").toString();
+                String halley9Path = getClass().getResource("/resources/halley/halley9.png").toString();
+                String halley10Path = getClass().getResource("/resources/halley/halley10.png").toString();
+                
+                
                 return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-1\">Introdução</h4>\n" +
                 "\n" +
                 "<p>O método de Halley é usado para busca de raizes de funções reais de uma variável que possuem primeira e segunda derivada contínuas, realizando iterativamente uma sequência de aproximações à raiz, tendo uma taxa de convergência cúbica. Inventado pelo fisíco Edmond Halley, o algoritmo consiste em aplicar o método de Newton-Raphson duas vezes. Esse segundo método, desenvolvido por Isaac Newton e Joseph Raphson, estima as raízes de uma função escolhendo-se uma aproximação inicial. Cria-se então um método iterativo, repetindo o processo de cálculo a reta tangente a partir da derivada da função no ponto e a intersecção dela com o eixo das abcissas. Abaixo é possível ver a representação gráfica e matemática do Método de Newton-Raphson.</p>\n" +
                 "<p>\n</p>" +
-                "<tr><p><td><img src=\"https://upload.wikimedia.org/wikipedia/commons/b/bb/Newton%E2%80%93Raphson_method.png\" alt=\"NewtonGraph\" height=\"250\" width=\"300\"></td>   <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>   <td><img src=\"https://calcworkshop.com/wp-content/uploads/newtons-method-formula.png\" alt=\"NewtonMath\" height=\"140\" width=\"240\"></td></p></tr>\n" +
-                "\n" +
+                "<table><tr><p>  <td><img src=" + newtonGraphPath +" alt=\"NewtonGraph\" height=\"250\" width=\"300\"></td>   <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>   <td><img src=" + newtonMathPath + " alt=\"NewtonMath\" height=\"140\" width=\"240\"></td></p></tr></table>\n" +
+                "<p><p>\n</p></p>" +
                 "<h4 id=\"desenvolvimento\">Desenvolvimento</h4>\n" +
                 "\n" +
-                "<p>(Inserir desenvolvimento aqui)</p>\n" +
+                "<table><tr>  <td>Considere a função de iteração:</td>  <img src=" + halley1Path + " alt=\"Halley1\" height=\"85\" width=\"210\"></td>  <td>, onde &nbsp&nbsp&nbsp&nbsp&nbsp</td>  <td><img src=" + halley2Path + " alt=\"Halley2\" height=\"90\" width=\"150\"></td>   <td>&nbsp&nbsp&nbsp&nbsp&nbsp e</td>    <td><img src=" + halley3Path + " alt=\"Halley3\" height=\"30\" width=\"25\"></td> <td>é um polinômio.</td></tr></table>" +
+                "<p>O Método de Halley diz que se Q for uma função linear, então é possível obter uma função de terceira ordem, obedecendo a forma do método de Newton-Raphson. Supondo uma função g tal que:</p>\n"+
+                "<table><p><tr><td><img src=" + halley4Path + " alt=\"Halley4\" height=\"125\" width=\"210\"></td>   <td> A função f é aquela cuja raiz tal que f(x)=0 queremos encontrar. Agora derivamos a função g, gerando a expressão:</td></p></tr></table>\n" +
+                "<table><p><tr><td><img src=" + halley5Path + " alt=\"Halley5\" height=\"130\" width=\"430\"> </td>   <td> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Simplificando: </td>  <td><img src=" + halley6Path + " alt=\"Halley6\" height=\"140\" width=\"430\"></td> </tr></p></table>\n" +
+                "<p>Agora usaremos a função de iteração do método de Newton-Raphson. Contudo, ao invés de utilizarmos a função f e a sua derivada na busca da raiz, usaremos as expressões derivadas de g, ou seja:</p>" +
+                "<table><p><tr><td><img src=" + halley7Path + " alt=\"Halley7\" height=\"150\" width=\"270\"></td>   <td> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  onde  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </td>   <td><img src=" + halley9Path + " alt=\"Halley9\" height=\"150\" width=\"430\"></td>  </tr></p></table>" +
+                "<p>Aplicando a equação encontrada anteriormente com a função de iteração obtemos a expressão usada pelo método de Halley:</p>" +
+                "<table><p><tr> <td><img src=" + halley10Path + " alt=\"Halley10\" height=\"150\" width=\"440\"></td> </tr></p></table>" +
                 "\n" +
                 "<h4 id=\"algoritmo\">Algoritmo</h4>\n" +
                 "\n" +
