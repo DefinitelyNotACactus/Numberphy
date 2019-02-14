@@ -148,22 +148,34 @@ public class Description extends JPanel {
                 "<table><p><tr><td><img src=" + halley7Path + " alt=\"Halley7\" height=\"150\" width=\"270\"></td>   <td> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  onde  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </td>   <td><img src=" + halley9Path + " alt=\"Halley9\" height=\"150\" width=\"430\"></td>  </tr></p></table>" +
                 "<p>Aplicando a equação encontrada anteriormente com a função de iteração obtemos a expressão usada pelo método de Halley:</p>" +
                 "<table><p><tr> <td><img src=" + halley10Path + " alt=\"Halley10\" height=\"150\" width=\"440\"></td> </tr></p></table>" +
-                "\n" +
-                "<h4 id=\"algoritmo\">Algoritmo</h4>\n" +
-                "\n" +
-                "<p>(Inserir pseudocodigo aqui)</p></html>");
+                "</html>");
             case RIDDERS:
+                
+                String fpGraphPath = getClass().getResource("/resources/fp/fp_graph.png").toString();
+                
                 return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-2\">Introdução</h4>\n" +
                 "\n" +
-                "<p>(Inserir introdução aqui)</p>\n" +
+                "<p>O método de Ridder é um algoritmo de localização de raízes baseado no Método da Falsa Posição e no uso de uma função exponencial para a aproximação da raíz da função contínua f(x). O Método da Falsa Posição é um método numérico usado para resolver equações lineares definidas em um intervalo [a, b], partindo do pressuposto de que haja uma solução em um subintervalo contido em [a, b]. E assim, diminuindo esse subintervalo em partes cada vez menores, a solução estará onde a função tem sinais opostos, segundo o Teorema do Valor Intermediário. Abaixo é possível ver uma representação do uso do Método da Falsa Posição.</p>\n" +
+                "<table><p><tr><td><img src=" + fpGraphPath + " alt=\"FPGraph\" height=\"197\" width=\"220\"></td>   </tr></p></table>" +
                 "\n" +
                 "<h4 id=\"desenvolvimento-1\">Desenvolvimento</h4>\n" +
                 "\n" +
-                "<p>(Inserir desenvolvimento aqui)</p>\n" +
-                "\n" +
+                "<p>Como queremos encontrar f(x)=0, vamos tomar f(x)=A+Be<sup>Cx</sup>.  Sejam três valores de x que estejam delimitando de alguma forma um intervalo que contenha a raiz tal que {x<sub>left</sub> , x<sub>predictor</sub> , x<sub>right</sub>} cuja amplitude seja d<sub>0</sub> = | x<sub>left</sub> - x<sub>right</sub> |. Podemos utilizar o Método da Falsa posição para obter uma aproximação da raiz a partir desses pontos neste intervalo:  x<sub>predictor</sub> = FalsaPosicao( x<sub>left</sub> , x<sub>right</sub> ).</p>\n" +
+                "<p>A proposição feita por Ridder é de realizar uma segunda aproximação a partir da fórmula: x<sub>corrector</sub> = x<sub>left</sub> - d<sub>0</sub>{ln(β) / ln(α)}, onde: </p>" +
+                "<p>α = ( f<sub>left</sub> - f<sub>predictor</sub> ) / ( f<sub>predictor</sub> - f<sub>right</sub> ) </p>" +
+                "<p>β = ( f<sub>left</sub> - f<sub>predictor</sub> ) / ( f<sub>predictor</sub> - α<sub>right</sub> ) </p>" +
+                "<p>f<sub>predictor</sub> = f( x<sub>predictor</sub> ) </p>" +
+                "<p>f<sub>right</sub> = f( x<sub>right</sub> )</p>" +
+                "<p>f<sub>left</sub> = f( x<sub>left</sub> )</p>" +
+                "<p>\n</p>" +
+                "<p>Da série logarítmica temos: &nbsp&nbsp  ln(x+1)  &nbsp&nbsp =  &nbsp&nbsp ∑<sup>∞</sup><sub>n=1</sub> ( (-1)<sup>n-1</sup>x<sup>n</sup> ) / n  &nbsp&nbsp =  &nbsp&nbsp x - (1/2)x<sup>2</sup> + (1/3)x<sup>3</sup></p>" +
+                "<p>Uma aproximação satisfatória para o caso pode ser obtida usando-se até o terceiro termo. Desta forma, para x = β - 1, temos:</p>" +
+                "<p>ln(1 + {β-1}) = β - 1 - (1/2)(β - 1)<sup>2</sup> + (1/3)(β - 1)<sup>3</sup> &nbsp&nbsp Portanto, ln(β) = β - 1 - (1/2)(β - 1)<sup>2</sup> + (1/3)(β - 1)<sup>3</sup> </p>" +
+                "<p>Para simplificarmos a notação, adotaremos  ϕ<sub>β</sub> = β - 1 &nbsp&nbsp e ϕ<sub>α</sub> = α -1. Desta forma, obtemos facilmente as expressões necessárias para aplicarmos ao método: </p>" +
+                "<p>ln(β) = ϕ<sub>β</sub> - (1/2)ϕ<sub>β</sub><sup>2</sup> + (1/3)ϕ<sub>β</sub><sup>3</sup>  </p>" + 
+                "<p>ln(α) = ϕ<sub>α</sub> - (1/2)ϕ<sub>α</sub><sup>2</sup> + (1/3)ϕ<sub>α</sub><sup>3</sup>  </p>" +
                 "<h4 id=\"algoritmo-1\">Algoritmo</h4>\n" +
-                "\n" +
-                "<p>(Inserir pseudocodigo aqui)</p></html>");
+                "</html>");
             case WELCOME:
             default:
                 return ("<html><div WIDTH="+getWidth()+"><h1 id=\"numberphy\">Numberphy</h1>\n" +
