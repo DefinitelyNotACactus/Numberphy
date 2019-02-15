@@ -56,7 +56,7 @@ public class Application extends JPanel {
             limits.addCoords(getCanvas());
         }
         
-        input = new ExpressionInput(method, "x*sin(1/x)", parser, this);
+        input = new ExpressionInput(method, "exp(cos(x) - sin(x)) - x", parser, this);
         function = getExpressionInput().getFunction(getVariable());
         
         graph = new Graph1D(function);

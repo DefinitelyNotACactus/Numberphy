@@ -1,5 +1,6 @@
 package view;
 
+import data.Constants;
 import edu.hws.jcm.awt.VariableInput;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.Value;
@@ -39,6 +40,7 @@ public class InputEventManager {
         if (event != null) {
             event.inputUpdate(input, this);
         }
+        getCoordRect().setLimits(Constants.LIMITS);
     }
 
     public void setInputEvent(InputEvent event) {
