@@ -10,5 +10,5 @@ package view;
  * @author vk
  */
 public interface InputEvent {
-    void inputUpdate(ExpressionInput input, InputEventManager event);
+    public double[] inputUpdate(ExpressionInput input, InputEventManager event);
 }

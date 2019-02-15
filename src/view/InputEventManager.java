@@ -11,7 +11,13 @@ import edu.hws.jcm.draw.DrawString;
 import edu.hws.jcm.draw.Drawable;
 import edu.hws.jcm.draw.Graph1D;
 import java.awt.Color;
+import java.awt.Container;
 import java.util.ArrayList;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -22,11 +28,13 @@ public class InputEventManager {
     private final ArrayList<Drawable> temporary_draws;
     private final ExpressionInput input;
     private InputEvent event;
+    private double[] points;
 
     public InputEventManager(ExpressionInput input) {
         this.temporary_draws = new ArrayList<>();
         this.input = input;
         this.event = new InputEventImpl();
+        this.points = null;
         
         getCoordRect();
     }
@@ -38,7 +46,7 @@ public class InputEventManager {
         });
         temporary_draws.clear();
         if (event != null) {
-            event.inputUpdate(input, this);
+            points = event.inputUpdate(input, this);
         }
         getCoordRect().setLimits(Constants.LIMITS);
     }
@@ -159,7 +167,7 @@ public class InputEventManager {
     /**
      * Desenha uma caixa contendo uma String
      * @param s A string da caixa
-     * @return Uma caixa coma String
+     * @return Uma caixa com a String
      */
     public DrawString drawString(String s) {
         DrawString ds = new DrawString(s);
@@ -181,5 +189,30 @@ public class InputEventManager {
 
     private CoordinateRect getCoordRect() {
         return getCanvas().getCoordinateRect(0);
+    }
+    
+    public void drawTable(double[] points) {
+        Container cont = new Container();
+        cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
+        int i = 0;
+        for(double d: points) {
+            i++;
+            if(d != 0) {
+                cont.add(new JLabel("X(" + i + ") = "+d));
+            }
+        }
+        cont.revalidate();
+        //JOptionPane.showMessageDialog(null, cont, "Pontos Encontrados", JOptionPane.PLAIN_MESSAGE);
+        JFrame frame = new JFrame();
+        JScrollPane pane = new JScrollPane();
+        pane.getViewport().setView(cont);
+        frame.add(pane);
+        frame.setBounds(900, 100, 250, 200);
+        frame.setResizable(false);
+        frame.setVisible(true);
+    }
+    
+    public double[] getPoints() {
+        return points;
     }
 }

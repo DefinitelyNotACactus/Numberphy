@@ -134,7 +134,7 @@ public class Description extends JPanel {
                 
                 return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-1\">Introdução</h4>\n" +
                 "\n" +
-                "<p>O método de Halley é usado para busca de raizes de funções reais de uma variável que possuem primeira e segunda derivada contínuas, realizando iterativamente uma sequência de aproximações à raiz, tendo uma taxa de convergência cúbica. Inventado pelo fisíco Edmond Halley, o algoritmo consiste em aplicar o método de Newton-Raphson duas vezes. Esse segundo método, desenvolvido por Isaac Newton e Joseph Raphson, estima as raízes de uma função escolhendo-se uma aproximação inicial. Cria-se então um método iterativo, repetindo o processo de cálculo a reta tangente a partir da derivada da função no ponto e a intersecção dela com o eixo das abcissas. Abaixo é possível ver a representação gráfica e matemática do Método de Newton-Raphson.</p>\n" +
+                "<p>O método de Halley é usado para busca de raizes de funções reais de uma variável que possuem primeira e segunda derivada contínuas, realizando iterativamente uma sequência de aproximações à raiz, tendo uma taxa de convergência cúbica. Criado pelo fisíco Edmond Halley, o algoritmo consiste em aplicar o método de Newton-Raphson duas vezes. Esse segundo método, desenvolvido por Isaac Newton e Joseph Raphson, estima as raízes de uma função escolhendo-se uma aproximação inicial. Cria-se então um método iterativo, repetindo o processo de cálculo da reta tangente a partir da derivada da função no ponto e a intersecção dela com o eixo das abcissas. Abaixo é possível ver a representação gráfica e matemática do Método de Newton-Raphson.</p>\n" +
                 "<p>\n</p>" +
                 "<table><tr><p>  <td><img src=" + newtonGraphPath +" alt=\"NewtonGraph\" height=\"250\" width=\"300\"></td>   <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>   <td><img src=" + newtonMathPath + " alt=\"NewtonMath\" height=\"140\" width=\"240\"></td></p></tr></table>\n" +
                 "<p><p>\n</p></p>" +
@@ -163,7 +163,7 @@ public class Description extends JPanel {
                 "<p>Como queremos encontrar f(x)=0, vamos tomar f(x)=A+Be<sup>Cx</sup>.  Sejam três valores de x que estejam delimitando de alguma forma um intervalo que contenha a raiz tal que {x<sub>left</sub> , x<sub>predictor</sub> , x<sub>right</sub>} cuja amplitude seja d<sub>0</sub> = | x<sub>left</sub> - x<sub>right</sub> |. Podemos utilizar o Método da Falsa posição para obter uma aproximação da raiz a partir desses pontos neste intervalo:  x<sub>predictor</sub> = FalsaPosicao( x<sub>left</sub> , x<sub>right</sub> ).</p>\n" +
                 "<p>A proposição feita por Ridder é de realizar uma segunda aproximação a partir da fórmula: x<sub>corrector</sub> = x<sub>left</sub> - d<sub>0</sub>{ln(β) / ln(α)}, onde: </p>" +
                 "<p>α = ( f<sub>left</sub> - f<sub>predictor</sub> ) / ( f<sub>predictor</sub> - f<sub>right</sub> ) </p>" +
-                "<p>β = ( f<sub>left</sub> - f<sub>predictor</sub> ) / ( f<sub>predictor</sub> - α<sub>right</sub> ) </p>" +
+                "<p>β = ( f<sub>left</sub> - f<sub>predictor</sub> ) / ( f<sub>predictor</sub> - αf<sub>right</sub> ) </p>" +
                 "<p>f<sub>predictor</sub> = f( x<sub>predictor</sub> ) </p>" +
                 "<p>f<sub>right</sub> = f( x<sub>right</sub> )</p>" +
                 "<p>f<sub>left</sub> = f( x<sub>left</sub> )</p>" +
@@ -174,7 +174,6 @@ public class Description extends JPanel {
                 "<p>Para simplificarmos a notação, adotaremos  ϕ<sub>β</sub> = β - 1 &nbsp&nbsp e ϕ<sub>α</sub> = α -1. Desta forma, obtemos facilmente as expressões necessárias para aplicarmos ao método: </p>" +
                 "<p>ln(β) = ϕ<sub>β</sub> - (1/2)ϕ<sub>β</sub><sup>2</sup> + (1/3)ϕ<sub>β</sub><sup>3</sup>  </p>" + 
                 "<p>ln(α) = ϕ<sub>α</sub> - (1/2)ϕ<sub>α</sub><sup>2</sup> + (1/3)ϕ<sub>α</sub><sup>3</sup>  </p>" +
-                "<h4 id=\"algoritmo-1\">Algoritmo</h4>\n" +
                 "</html>");
             case WELCOME:
             default:

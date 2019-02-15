@@ -51,7 +51,9 @@ import edu.hws.jcm.data.SimpleFunction;
 import java.awt.AWTEvent;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.awt.event.TextEvent;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -172,6 +174,13 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         inputPanel.add(iterationsLabel);
         inputPanel.add(iterationsTextField);
         setBackground(Color.lightGray);
+        JButton but = new JButton("Valores");
+        but.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                input_event.drawTable(input_event.getPoints());
+            }
+        });
+        inputPanel.add(but);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -269,7 +278,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * @param method
     * @param initialValue initial contents of ExpressionInputBox.
     * @param p if non-null, this parser will be used to parse contents of the ExpressionInputBox.
-     * @param app
+    * @param app
     */
    public ExpressionInput(Methods method, String initialValue, Parser p, Application app) {
         this.method = method;

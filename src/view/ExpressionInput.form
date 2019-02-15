@@ -95,7 +95,7 @@
   <SubComponents>
     <Container class="javax.swing.JPanel" name="inputPanel">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="if(method == Methods.RIDDERS) {&#xa;    x0Label.setText(&quot;xL&quot;);&#xa;    x0Label.setToolTipText(&quot;Limite da Esquerda&quot;);&#xa;}&#xa;inputPanel.add(x0Label);&#xa;inputPanel.add(x0TextField);&#xa;if(method == Methods.RIDDERS) {&#xa;    inputPanel.add(xrLabel);&#xa;    inputPanel.add(xrTextField);&#xa;}&#xa;inputPanel.add(toleranceLabel);&#xa;inputPanel.add(toleranceTextField);&#xa;inputPanel.add(iterationsLabel);&#xa;inputPanel.add(iterationsTextField);&#xa;setBackground(Color.lightGray);"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="if(method == Methods.RIDDERS) {&#xa;    x0Label.setText(&quot;xL&quot;);&#xa;    x0Label.setToolTipText(&quot;Limite da Esquerda&quot;);&#xa;}&#xa;inputPanel.add(x0Label);&#xa;inputPanel.add(x0TextField);&#xa;if(method == Methods.RIDDERS) {&#xa;    inputPanel.add(xrLabel);&#xa;    inputPanel.add(xrTextField);&#xa;}&#xa;inputPanel.add(toleranceLabel);&#xa;inputPanel.add(toleranceTextField);&#xa;inputPanel.add(iterationsLabel);&#xa;inputPanel.add(iterationsTextField);&#xa;setBackground(Color.lightGray);&#xa;JButton but = new JButton(&quot;Valores&quot;);&#xa;but.addActionListener(new ActionListener() {&#xa;        public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;input_event.drawTable(input_event.getPoints());&#xa;           }    &#xa;    });&#xa;inputPanel.add(but);"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>

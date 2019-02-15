@@ -41,16 +41,16 @@ public class Intro extends JFrame {
         gaussButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(800, 455));
-        setPreferredSize(new java.awt.Dimension(800, 455));
+        setMinimumSize(new java.awt.Dimension(900, 455));
+        setPreferredSize(new java.awt.Dimension(1000, 455));
         setSize(new java.awt.Dimension(800, 455));
 
         contentPanel.setBackground(new java.awt.Color(51, 51, 255));
         contentPanel.setLayout(new javax.swing.BoxLayout(contentPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        optionsPanel.setBackground(new java.awt.Color(51, 153, 0));
+        optionsPanel.setBackground(new java.awt.Color(115, 129, 212));
 
-        titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 28)); // NOI18N
+        titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("Numberphy");
         titleLabel.setMaximumSize(new java.awt.Dimension(159, 60));
@@ -59,7 +59,7 @@ public class Intro extends JFrame {
         optionsPanel.add(titleLabel);
         titleLabel.setVerticalTextPosition(SwingConstants.TOP);
 
-        halleyButton.setText("Metodo de Halley");
+        halleyButton.setText("Método de Halley");
         halleyButton.setMaximumSize(new java.awt.Dimension(160, 40));
         halleyButton.setMinimumSize(new java.awt.Dimension(160, 40));
         halleyButton.setPreferredSize(new java.awt.Dimension(160, 40));
@@ -70,7 +70,7 @@ public class Intro extends JFrame {
         });
         optionsPanel.add(halleyButton);
 
-        riddersButton.setText("Metodo de Ridders");
+        riddersButton.setText("Método de Ridders");
         riddersButton.setMaximumSize(new java.awt.Dimension(160, 40));
         riddersButton.setMinimumSize(new java.awt.Dimension(160, 40));
         riddersButton.setPreferredSize(new java.awt.Dimension(160, 40));

@@ -11,6 +11,11 @@ import edu.hws.jcm.data.Value;
 import edu.hws.jcm.data.ValueMath;
 import edu.hws.jcm.draw.Crosshair;
 import java.awt.Color;
+import java.awt.Container;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -19,19 +24,21 @@ import java.awt.Color;
 public class InputEventImpl implements InputEvent {
 
     @Override
-    public void inputUpdate(ExpressionInput input, InputEventManager event) {
-        event.drawString("f(x)" + input.getFunctionString());
+    public double[] inputUpdate(ExpressionInput input, InputEventManager event) {
+        event.drawString("f(x) = " + input.getFunctionString());
+        double points[] = null;
         switch(input.getMethod()) {
             case HALLEY:
-                halley(input, event, input.getx0(), input.getTolerance(), input.getIterations());
+                points = halley(input, event, input.getx0(), input.getTolerance(), input.getIterations());
                 break;
             case RIDDERS:
-                ridders(input, event, input.getx0(), input.getXr(), input.getTolerance(), input.getIterations());
+                points = ridders(input, event, input.getx0(), input.getXr(), input.getTolerance(), input.getIterations());
                 break;
             default:
                 //do nothing
                 break;
         }
+        return points;
     }
     
     /**
@@ -42,7 +49,8 @@ public class InputEventImpl implements InputEvent {
      * @param tolmin Tolerancia minima
      * @param nitr Numero de iteracoes maxim@
      */
-    public void halley(ExpressionInput input, InputEventManager event, double x0, double tolmin, int nitr) {
+    public double[] halley(ExpressionInput input, InputEventManager event, double x0, double tolmin, int nitr) {
+        double[] points = new double[nitr];
         double xn = x0;
         double tolmax = tolmin + 1;
         int itr = 0;
@@ -60,16 +68,18 @@ public class InputEventImpl implements InputEvent {
             
             xn = xn - (2 * fx * d1) / (2 * d1 * d1 - fx * d2);
             crossh = event.drawCrossHair(v, f);
-
+            points[itr] = xn;
             itr++;
             if (xn != 0) {
                 tolmax = Math.abs((xn - x0) / xn);
             }
+            
         }
         if (crossh != null) {
             crossh.setColor(Color.red);
             crossh.setLineWidth(2);
         }
+        return points;
     }
     
     /**
@@ -81,7 +91,8 @@ public class InputEventImpl implements InputEvent {
      * @param tolmin Tolerancia minima
      * @param nitr Numero de iteracoes maxim@
      */
-    public void ridders(ExpressionInput input, InputEventManager event, double xl, double xr, double tolmin, int nitr) {
+    public double[] ridders(ExpressionInput input, InputEventManager event, double xl, double xr, double tolmin, int nitr) {
+        double[] points = new double[nitr];
         Function f = input.getFunction(input.getApplication().getVariable());
         Crosshair crossh = null;
         
@@ -93,13 +104,13 @@ public class InputEventImpl implements InputEvent {
             double fr = new ValueMath(f, new ValueImpl(xr)).getVal();
             double fl = new ValueMath(f, new ValueImpl(xl)).getVal();
             double d0 = Math.abs(fr - fl);
-            x = xr - fr*(xl-xr)/(fl-fr);
+            x = (xr*fl - xl*fr)/(fl - fr);
             double fx = new ValueMath(f, new ValueImpl(x)).getVal();
             
             double a = (fl - fx)/(fx - fr);
-            double b = (fl - fx)/(fl - a*fx);
-            double beta = b - 1;
-            double alpha = a - 1;
+            double b = (fl - fx)/(fx - a*fr);
+            double beta = b - 1.0;
+            double alpha = a - 1.0;
             double lnb = beta - beta*beta/2 + beta*beta*beta/3;
             double lna = alpha - alpha*alpha/2 + alpha*alpha*alpha/3;
             double root = xl + d0*lnb/lna;
@@ -136,6 +147,7 @@ public class InputEventImpl implements InputEvent {
                 break;
             }
             err = Math.abs(xr - xl);
+            points[itr] = x;
             itr++;
             crossh = event.drawCrossHair(new ValueImpl(x), f);
         }
@@ -143,5 +155,6 @@ public class InputEventImpl implements InputEvent {
             crossh.setColor(Color.red);
             crossh.setLineWidth(2);
         }
+        return points;
     }
 }
