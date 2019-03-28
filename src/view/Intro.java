@@ -5,9 +5,11 @@
  */
 package view;
 
-import java.awt.Color;
+import data.MethodsEnum;
 import javax.swing.JFrame;
 import javax.swing.SwingConstants;
+import data.Constants;
+import java.awt.Component;
 
 /**
  *
@@ -18,8 +20,13 @@ public class Intro extends JFrame {
     /**
      * Creates new form Intro
      */
+    private Description description;
+    
     public Intro() {
         initComponents();
+        
+        description = new Description(MethodsEnum.WELCOME);
+        upperPanel.add(description);
     }
 
     /**
@@ -31,160 +38,209 @@ public class Intro extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        contentPanel = new javax.swing.JPanel();
-        optionsPanel = new javax.swing.JPanel();
+        upperPanel = new javax.swing.JPanel();
+        lowerPanel = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
-        halleyButton = new javax.swing.JButton();
-        riddersButton = new javax.swing.JButton();
-        hermiteButton = new javax.swing.JButton();
-        splinesButton = new javax.swing.JButton();
-        gaussButton = new javax.swing.JButton();
+        btHalley = new javax.swing.JButton();
+        btRidders = new javax.swing.JButton();
+        btHermite = new javax.swing.JButton();
+        btSplines = new javax.swing.JButton();
+        btGauss = new javax.swing.JButton();
+        btExtra = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(900, 455));
-        setPreferredSize(new java.awt.Dimension(1000, 455));
-        setSize(new java.awt.Dimension(800, 455));
+        setBackground(new java.awt.Color(255, 255, 255));
+        setBounds(new java.awt.Rectangle(64, 64, 1280, 720));
+        setMinimumSize(new java.awt.Dimension(1280, 720));
+        setSize(new java.awt.Dimension(1280, 720));
 
-        contentPanel.setBackground(new java.awt.Color(51, 51, 255));
-        contentPanel.setLayout(new javax.swing.BoxLayout(contentPanel, javax.swing.BoxLayout.LINE_AXIS));
+        upperPanel.setBackground(Constants.WHITE);
+        upperPanel.setLayout(new javax.swing.BoxLayout(upperPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        optionsPanel.setBackground(new java.awt.Color(115, 129, 212));
+        lowerPanel.setBackground(Constants.WHITE);
+        lowerPanel.setMinimumSize(new java.awt.Dimension(1280, 40));
+        lowerPanel.setPreferredSize(new java.awt.Dimension(1280, 40));
+        lowerPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
 
         titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("Numberphy");
         titleLabel.setMaximumSize(new java.awt.Dimension(159, 60));
         titleLabel.setMinimumSize(new java.awt.Dimension(159, 60));
-        titleLabel.setPreferredSize(new java.awt.Dimension(159, 60));
-        optionsPanel.add(titleLabel);
+        titleLabel.setPreferredSize(new java.awt.Dimension(159, 40));
+        lowerPanel.add(titleLabel);
         titleLabel.setVerticalTextPosition(SwingConstants.TOP);
 
-        halleyButton.setText("Método de Halley");
-        halleyButton.setMaximumSize(new java.awt.Dimension(160, 40));
-        halleyButton.setMinimumSize(new java.awt.Dimension(160, 40));
-        halleyButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        halleyButton.addActionListener(new java.awt.event.ActionListener() {
+        btHalley.setBackground(Constants.WHITE);
+        btHalley.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btHalley.setForeground(Constants.BLUE);
+        btHalley.setText("Halley");
+        btHalley.setMaximumSize(new java.awt.Dimension(160, 40));
+        btHalley.setMinimumSize(new java.awt.Dimension(160, 40));
+        btHalley.setPreferredSize(new java.awt.Dimension(160, 40));
+        btHalley.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                halleyButtonActionPerformed(evt);
+                btHalleyActionPerformed(evt);
             }
         });
-        optionsPanel.add(halleyButton);
+        lowerPanel.add(btHalley);
 
-        riddersButton.setText("Método de Ridders");
-        riddersButton.setMaximumSize(new java.awt.Dimension(160, 40));
-        riddersButton.setMinimumSize(new java.awt.Dimension(160, 40));
-        riddersButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        riddersButton.addActionListener(new java.awt.event.ActionListener() {
+        btRidders.setBackground(Constants.WHITE);
+        btRidders.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btRidders.setForeground(Constants.BLUE);
+        btRidders.setText("Ridders");
+        btRidders.setMaximumSize(new java.awt.Dimension(160, 40));
+        btRidders.setMinimumSize(new java.awt.Dimension(160, 40));
+        btRidders.setPreferredSize(new java.awt.Dimension(160, 40));
+        btRidders.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                riddersButtonActionPerformed(evt);
+                btRiddersActionPerformed(evt);
             }
         });
-        optionsPanel.add(riddersButton);
+        lowerPanel.add(btRidders);
 
-        hermiteButton.setFont(new java.awt.Font("Lucida Grande", 0, 11)); // NOI18N
-        hermiteButton.setText("Interpolacao de Hermite");
-        hermiteButton.setEnabled(false);
-        hermiteButton.setMaximumSize(new java.awt.Dimension(160, 40));
-        hermiteButton.setMinimumSize(new java.awt.Dimension(160, 40));
-        hermiteButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        hermiteButton.addActionListener(new java.awt.event.ActionListener() {
+        btHermite.setBackground(Constants.WHITE);
+        btHermite.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btHermite.setForeground(Constants.BLUE);
+        btHermite.setText("Hermite");
+        btHermite.setMaximumSize(new java.awt.Dimension(160, 40));
+        btHermite.setMinimumSize(new java.awt.Dimension(160, 40));
+        btHermite.setPreferredSize(new java.awt.Dimension(160, 40));
+        btHermite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hermiteButtonActionPerformed(evt);
+                btHermiteActionPerformed(evt);
             }
         });
-        optionsPanel.add(hermiteButton);
+        lowerPanel.add(btHermite);
 
-        splinesButton.setText("Splines");
-        splinesButton.setEnabled(false);
-        splinesButton.setMaximumSize(new java.awt.Dimension(160, 40));
-        splinesButton.setMinimumSize(new java.awt.Dimension(160, 40));
-        splinesButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        splinesButton.addActionListener(new java.awt.event.ActionListener() {
+        btSplines.setBackground(Constants.WHITE);
+        btSplines.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btSplines.setForeground(Constants.BLUE);
+        btSplines.setText("Splines");
+        btSplines.setMaximumSize(new java.awt.Dimension(160, 40));
+        btSplines.setMinimumSize(new java.awt.Dimension(160, 40));
+        btSplines.setPreferredSize(new java.awt.Dimension(160, 40));
+        btSplines.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                splinesButtonActionPerformed(evt);
+                btSplinesActionPerformed(evt);
             }
         });
-        optionsPanel.add(splinesButton);
+        lowerPanel.add(btSplines);
 
-        gaussButton.setText("Quadratura de Gauss");
-        gaussButton.setEnabled(false);
-        gaussButton.setMaximumSize(new java.awt.Dimension(160, 40));
-        gaussButton.setMinimumSize(new java.awt.Dimension(160, 40));
-        gaussButton.setPreferredSize(new java.awt.Dimension(160, 40));
-        gaussButton.addActionListener(new java.awt.event.ActionListener() {
+        btGauss.setBackground(Constants.WHITE);
+        btGauss.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btGauss.setForeground(Constants.BLUE);
+        btGauss.setText("Gauss");
+        btGauss.setMaximumSize(new java.awt.Dimension(160, 40));
+        btGauss.setMinimumSize(new java.awt.Dimension(160, 40));
+        btGauss.setPreferredSize(new java.awt.Dimension(160, 40));
+        btGauss.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                gaussButtonActionPerformed(evt);
+                btGaussActionPerformed(evt);
             }
         });
-        optionsPanel.add(gaussButton);
+        lowerPanel.add(btGauss);
+
+        btExtra.setBackground(Constants.WHITE);
+        btExtra.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btExtra.setForeground(Constants.BLUE);
+        btExtra.setText("Extras");
+        btExtra.setMaximumSize(new java.awt.Dimension(160, 40));
+        btExtra.setMinimumSize(new java.awt.Dimension(160, 40));
+        btExtra.setPreferredSize(new java.awt.Dimension(160, 40));
+        btExtra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExtraActionPerformed(evt);
+            }
+        });
+        lowerPanel.add(btExtra);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(optionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(lowerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(upperPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(contentPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(upperPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 680, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(lowerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        contentPanel.add(new Description(Methods.WELCOME));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void halleyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_halleyButtonActionPerformed
-        update(Methods.HALLEY);
-    }//GEN-LAST:event_halleyButtonActionPerformed
+    private void btRiddersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRiddersActionPerformed
+        update(MethodsEnum.RIDDERS);
+    }//GEN-LAST:event_btRiddersActionPerformed
 
-    private void riddersButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_riddersButtonActionPerformed
-        update(Methods.RIDDERS);
-    }//GEN-LAST:event_riddersButtonActionPerformed
+    private void btHermiteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHermiteActionPerformed
+        update(MethodsEnum.HERMITE);
+    }//GEN-LAST:event_btHermiteActionPerformed
 
-    private void hermiteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hermiteButtonActionPerformed
-        update(Methods.HERMITE);
-    }//GEN-LAST:event_hermiteButtonActionPerformed
+    private void btSplinesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSplinesActionPerformed
+        update(MethodsEnum.SPLINES);
+    }//GEN-LAST:event_btSplinesActionPerformed
 
-    private void splinesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_splinesButtonActionPerformed
-        update(Methods.SPLINES);
-    }//GEN-LAST:event_splinesButtonActionPerformed
+    private void btGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGaussActionPerformed
+        update(MethodsEnum.GAUSS);
+    }//GEN-LAST:event_btGaussActionPerformed
 
-    private void gaussButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gaussButtonActionPerformed
-        update(Methods.GAUSS);
-    }//GEN-LAST:event_gaussButtonActionPerformed
+    private void btExtraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExtraActionPerformed
+        update(MethodsEnum.EXTRA);
+    }//GEN-LAST:event_btExtraActionPerformed
 
-    private void update(Methods method) {
-        Color d = new Color(238, 238, 238);
-        gaussButton.setBackground(d);
-        halleyButton.setBackground(d);
-        hermiteButton.setBackground(d);
-        riddersButton.setBackground(d);
-        splinesButton.setBackground(d);
+    private void btHalleyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btHalleyActionPerformed
+        update(MethodsEnum.HALLEY);
+    }//GEN-LAST:event_btHalleyActionPerformed
+
+    private void update(MethodsEnum method) {
+        btRidders.setBackground(Constants.WHITE);
+        btRidders.setForeground(Constants.BLUE);
+        btHalley.setBackground(Constants.WHITE);
+        btHalley.setForeground(Constants.BLUE);
+        btHermite.setBackground(Constants.WHITE);
+        btHermite.setForeground(Constants.BLUE);
+        btRidders.setBackground(Constants.WHITE);
+        btRidders.setForeground(Constants.BLUE);
+        btSplines.setBackground(Constants.WHITE);
+        btSplines.setForeground(Constants.BLUE);
+        btGauss.setBackground(Constants.WHITE);
+        btGauss.setForeground(Constants.BLUE);
+        btExtra.setBackground(Constants.WHITE);
+        btExtra.setForeground(Constants.BLUE);
+        
         switch (method) {
             case HALLEY:
-                halleyButton.setBackground(Color.YELLOW);
+                btHalley.setBackground(Constants.BLUE);
+                btHalley.setForeground(Constants.WHITE);
                 break;
             case RIDDERS:
-                riddersButton.setBackground(Color.YELLOW);
+                btRidders.setBackground(Constants.BLUE);
+                btRidders.setForeground(Constants.WHITE);
                 break;
             case HERMITE:
-                hermiteButton.setBackground(Color.YELLOW);
+                btHermite.setBackground(Constants.BLUE);
+                btHermite.setForeground(Constants.WHITE);
                 break;
             case SPLINES:
-                splinesButton.setBackground(Color.YELLOW);
+                btSplines.setBackground(Constants.BLUE);
+                btSplines.setForeground(Constants.WHITE);
                 break;
             case GAUSS:
-                gaussButton.setBackground(Color.YELLOW);
+                btGauss.setBackground(Constants.BLUE);
+                btGauss.setForeground(Constants.WHITE);
+                break;
+            case EXTRA:
+                btExtra.setBackground(Constants.BLUE);
+                btExtra.setForeground(Constants.WHITE);
                 break;
         }
-        contentPanel.removeAll();
-        contentPanel.add(new Description(method));
-        contentPanel.revalidate();
+        description.setMethod(method);
+        setVisibleContent(description);
     }
 
     /**
@@ -220,21 +276,21 @@ public class Intro extends JFrame {
         });
     }
     
-    public void setVisibleContent(java.awt.Component c)
-    {
-        contentPanel.removeAll();
-        contentPanel.add(c);
-        contentPanel.revalidate();
+    public void setVisibleContent(Component c) {
+        upperPanel.removeAll();
+        upperPanel.add(c);
+        upperPanel.revalidate();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel contentPanel;
-    private javax.swing.JButton gaussButton;
-    private javax.swing.JButton halleyButton;
-    private javax.swing.JButton hermiteButton;
-    private javax.swing.JPanel optionsPanel;
-    private javax.swing.JButton riddersButton;
-    private javax.swing.JButton splinesButton;
+    private javax.swing.JButton btExtra;
+    private javax.swing.JButton btGauss;
+    private javax.swing.JButton btHalley;
+    private javax.swing.JButton btHermite;
+    private javax.swing.JButton btRidders;
+    private javax.swing.JButton btSplines;
+    private javax.swing.JPanel lowerPanel;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JPanel upperPanel;
     // End of variables declaration//GEN-END:variables
 }

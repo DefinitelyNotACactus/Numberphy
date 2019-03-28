@@ -11,11 +11,6 @@ import edu.hws.jcm.data.Value;
 import edu.hws.jcm.data.ValueMath;
 import edu.hws.jcm.draw.Crosshair;
 import java.awt.Color;
-import java.awt.Container;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
  *

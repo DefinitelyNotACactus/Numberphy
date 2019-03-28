@@ -5,10 +5,28 @@
  */
 package data;
 
+import java.awt.Color;
+
 /**
  *
- * @author david
+ * @author hardcoder
  */
 public class Constants {
+    //default limits
+    public static final String VERSION = "2.0.0 MacColors Edition";
+    
     public static double LIMITS[] = {-5.0, 5.0, -5.0, 5.0};
+    
+    //macOS system colors
+    public static final Color BLUE = new Color(0, 122, 255);
+    public static final Color BROWN = new Color(162, 132, 94);
+    public static final Color GRAY = new Color(142, 142, 147);
+    public static final Color GREEN = new Color(40, 205, 65);
+    public static final Color ORANGE = new Color(255, 149, 0);
+    public static final Color PINK = new Color(255, 45, 85);
+    public static final Color PURPLE = new Color(175, 82, 222);
+    public static final Color RED = new Color(255, 59, 48);
+    public static final Color YELLOW = new Color(255, 204, 0);
+    public static final Color WHITE = new Color(255, 255, 255);
+
 }

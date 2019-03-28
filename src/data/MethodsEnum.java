@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package data;
 
 /**
  *
  * @author Lazy person
  */
-public enum Methods {
-    HALLEY, RIDDERS, HERMITE, SPLINES, GAUSS, WELCOME
+public enum MethodsEnum {
+    HALLEY, RIDDERS, HERMITE, SPLINES, GAUSS, WELCOME, EXTRA
 }

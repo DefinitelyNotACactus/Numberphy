@@ -1,5 +1,6 @@
 package view;
 
+import data.MethodsEnum;
 import edu.hws.jcm.awt.Controller;
 import edu.hws.jcm.awt.JCMPanel;
 import edu.hws.jcm.data.Function;
@@ -23,20 +24,20 @@ public class Application extends JPanel {
     private ExpressionInput input;
     
     private Function function; //input function
-    private Methods method; //method used
+    private MethodsEnum method; //method used
     
     private Graph1D graph; //input graph
     
     private JCMPanel main;
     private Controller controller;
     
-    public Application(Methods method) {
+    public Application(MethodsEnum method) {
         this.method = method;
         limitsEnabled = false;
         initComponents();
     }
     
-    public Application(Methods method, boolean limits) {
+    public Application(MethodsEnum method, boolean limits) {
         this.method = method;
         limitsEnabled = limits;
         initComponents();

@@ -36,6 +36,7 @@
 // (this also lets illegal characters into the input box)
 package view;
 
+import data.MethodsEnum;
 import edu.hws.jcm.awt.Controller;
 import edu.hws.jcm.awt.InputObject;
 import edu.hws.jcm.awt.JCMError;
@@ -159,13 +160,13 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         });
         inputPanel.add(functionTextField);
 
-        if(method == Methods.RIDDERS) {
+        if(method == MethodsEnum.RIDDERS) {
             x0Label.setText("xL");
             x0Label.setToolTipText("Limite da Esquerda");
         }
         inputPanel.add(x0Label);
         inputPanel.add(x0TextField);
-        if(method == Methods.RIDDERS) {
+        if(method == MethodsEnum.RIDDERS) {
             inputPanel.add(xrLabel);
             inputPanel.add(xrTextField);
         }
@@ -262,7 +263,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
                                       //   is called and finds a change in the
                                       //   user's input;
    
-   private Methods method;
+   private MethodsEnum method;
    private final Application app;
    private double x0; //xL for Ridders
    private double xR;
@@ -280,7 +281,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * @param p if non-null, this parser will be used to parse contents of the ExpressionInputBox.
     * @param app
     */
-   public ExpressionInput(Methods method, String initialValue, Parser p, Application app) {
+   public ExpressionInput(MethodsEnum method, String initialValue, Parser p, Application app) {
         this.method = method;
         this.app = app;
         initComponents();
@@ -608,7 +609,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     /** 
     * @return the method 
     */
-    public Methods getMethod() {
+    public MethodsEnum getMethod() {
         return method;
     }
     
@@ -651,7 +652,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         try {
             iterations = Integer.parseInt(iterationsTextField.getText());
             x0 = Double.parseDouble(x0TextField.getText());
-            if(method == Methods.RIDDERS) {
+            if(method == MethodsEnum.RIDDERS) {
                 xR = Double.parseDouble(xrTextField.getText());
             }
             tolerance = Double.parseDouble(toleranceTextField.getText());
