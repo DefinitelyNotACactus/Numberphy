@@ -37,6 +37,8 @@
 package view;
 
 import data.MethodsEnum;
+import data.Constants;
+
 import edu.hws.jcm.awt.Controller;
 import edu.hws.jcm.awt.InputObject;
 import edu.hws.jcm.awt.JCMError;
@@ -51,10 +53,7 @@ import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.SimpleFunction;
 import java.awt.AWTEvent;
 
-import java.awt.Color;
-import java.awt.event.ActionListener;
 import java.awt.event.TextEvent;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -99,6 +98,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         toleranceTextField = new javax.swing.JTextField();
         iterationsLabel = new javax.swing.JLabel();
         iterationsTextField = new javax.swing.JTextField();
+        btAnalysis = new javax.swing.JButton();
         inputPanel = new javax.swing.JPanel();
         functionLabel = new javax.swing.JLabel();
         functionTextField = new javax.swing.JTextField();
@@ -147,7 +147,17 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
             }
         });
 
-        setBackground(Color.lightGray);
+        btAnalysis.setBackground(Constants.WHITE);
+        btAnalysis.setText("Análise");
+        btAnalysis.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btAnalysisActionPerformed(evt);
+            }
+        });
+
+        setBackground(Constants.GRAY);
+
+        inputPanel.setBackground(Constants.GRAY);
 
         functionLabel.setText("f(x)");
         inputPanel.add(functionLabel);
@@ -174,14 +184,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         inputPanel.add(toleranceTextField);
         inputPanel.add(iterationsLabel);
         inputPanel.add(iterationsTextField);
-        setBackground(Color.lightGray);
-        JButton but = new JButton("Valores");
-        but.addActionListener(new ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                input_event.drawTable(input_event.getPoints());
-            }
-        });
-        inputPanel.add(but);
+        inputPanel.add(btAnalysis);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -199,8 +202,13 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         performInputEvent();
     }//GEN-LAST:event_textFieldActionPerformed
 
+    private void btAnalysisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAnalysisActionPerformed
+        input_event.drawTable(input_event.getPoints());
+    }//GEN-LAST:event_btAnalysisActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAnalysis;
     private javax.swing.JLabel functionLabel;
     private javax.swing.JTextField functionTextField;
     private javax.swing.JPanel inputPanel;
@@ -338,6 +346,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * such as the variable associated with a SliderVariable.)
     *
     * @param v The function that is returned in a function of this variable.
+     * @return 
     */    
    public Function getFunction(Variable v) {
       return new SimpleFunction(expr,v);
@@ -353,6 +362,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * when the function is evaluated.
     *
     * @param v The function that is returned is a function of the variables in this array.
+     * @return 
     */
    public Function getFunction(Variable[] v) {
       return new SimpleFunction(expr,v);
@@ -370,6 +380,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * Return the current value of the expression associated with
     * this ExpressionInput.
     */
+    @Override
    public double getVal() {
       return expr.getVal();
    }
@@ -377,6 +388,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
    /**   
     * If the parameter c is non-null, then its compute method will be called whenever
     * the user presses the return key while typing in this text-input box.
+     * @param c
     */
    public void setOnUserAction(Controller c) {
       onUserAction = c;
@@ -386,6 +398,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
    /**   
     * Return the Controller, if any, that is notified when the user 
     * presses return in this text-input box.
+     * @return 
     */
    public Controller getOnUserAction() {
       return onUserAction;
@@ -393,19 +406,22 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
 
    /**
     * Method required by InputObject interface; in this class, it simply calls
-    * setOnUserAction(c).  This is meant to be called by JCMPanel.gatherInputs().
+    * setOnUserAction(c).This is meant to be called by JCMPanel.gatherInputs().
+     * @param c
     */
+    @Override
     public void notifyControllerOnChange(Controller c) {
        setOnUserAction(c);
     }
 
    /**   
     * If the parameter, c, is non-null, then its compute method will be called whenever
-    * the text in this input box changes.  Furthermore, the throwErrors
-    * property will be set to false, to avoid throwing multiple errors
-    * while the user is typing.  (You can change it back to true if
-    * you want by calling setThrowErrors(true).)  It would only rarely make sense to
-    * use this feature.
+    * the text in this input box changes.Furthermore, the throwErrors
+ property will be set to false, to avoid throwing multiple errors
+ while the user is typing.  (You can change it back to true if
+ you want by calling setThrowErrors(true).)  It would only rarely make sense to
+ use this feature.
+     * @param c
     */
    public void setOnTextChange(Controller c) {
       onTextChange = c;
@@ -417,16 +433,17 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
    /**
     * Return the Controller, if any, that is notified whenever the text
     * in this input box changes
+     * @return 
     */
    public Controller getOnTextChange() {
       return onTextChange;
    }
 
    /**   
-    * Set the throwErrors property.  When this is true, a JCMError can be thrown
-    * when checkInput() is called an a parse error is found in the contents of the input box.
-    * If throwErrors is false, no error is thrown.  Instead,
-    * the expression is set to a constant expression with value Double.NaN.
+    * Set the throwErrors property.When this is true, a JCMError can be thrown
+ when checkInput() is called an a parse error is found in the contents of the input box.  If throwErrors is false, no error is thrown.  Instead,
+ the expression is set to a constant expression with value Double.NaN.
+     * @param throwErrors
     */
    public void setThrowErrors(boolean throwErrors) {
       this.throwErrors = throwErrors;
@@ -435,14 +452,15 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
    /**
     * Return the value of the throwErrors property, which determines whether errors
     * can be thrown when checkInput() is called.
+     * @return 
     */
    public boolean getThrowErrors() {
       return throwErrors;
    }
 
    /**   
-    * Get error message from previous call to checkInput().
-    * Returns null if and only if there was no error.
+    * Get error message from previous call to checkInput().Returns null if and only if there was no error.
+     * @return
     */
    public String getErrorMessage() {
       return errorMessage;
@@ -457,6 +475,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * The expression associated with this ExpressionInput can only change when this
     * method is called; it DOES NOT change continuously as the user types.
     */
+    @Override
    public void checkInput() {
       boolean hasChanged = previousContents == null || !previousContents.equals(functionTextField.getText());
       if (!hasChanged) {
@@ -491,9 +510,10 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
    }
    
    /**   
-    * Set the text displayed in this input box.  This overrides TextField.setText 
-    * to make sure that the expression will be recomputed the next time
-    * checkInput() is called.   
+    * Set the text displayed in this input box.This overrides TextField.setText 
+ to make sure that the expression will be recomputed the next time
+ checkInput() is called.   
+     * @param str
     */
    public void setText(String str) {
       functionTextField.setText(str);
@@ -502,8 +522,8 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
    }
     
    /**  
-    * Overridden to call onUserAction.compute() if onUserAction is non-null.
-    * This is not meant to be called directly.
+    * Overridden to call onUserAction.compute() if onUserAction is non-null.This is not meant to be called directly.
+     * @param evt
     */
    public void processTextEvent(TextEvent evt) {
       if (onTextChange != null) {
@@ -559,6 +579,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
           serialNumber = -1; // Forces exp to be computed the first time it is needed.
       }
       
+      @Override
       public double getVal() {
          checkForChanges();
          if (exp == null)
@@ -566,6 +587,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
          return exp.getVal();
       }
       
+      @Override
       public double getValueWithCases(Cases c) {
          checkForChanges();
          if (exp == null)
@@ -573,6 +595,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
          return exp.getValueWithCases(c);
       }
       
+      @Override
       public String toString() {
          checkForChanges();
          if (exp == null)
@@ -580,6 +603,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
          return exp.toString();
       }
       
+      @Override
       public Expression derivative(Variable wrt) {
          EI deriv = new EI();
          deriv.derivativeOf = this;
@@ -587,6 +611,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
          return deriv;
       }
       
+      @Override
       public boolean dependsOn(Variable x) {
          checkForChanges();
          return exp.dependsOn(x);

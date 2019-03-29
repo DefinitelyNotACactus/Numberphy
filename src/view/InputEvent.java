@@ -5,10 +5,12 @@
  */
 package view;
 
+import data.Iteration;
+
 /**
  * Interface do evento de atualização da entrada do usuário.
  * @author vk
  */
 public interface InputEvent {
-    public double[] inputUpdate(ExpressionInput input, InputEventManager event);
+    public Iteration[] inputUpdate(ExpressionInput input, InputEventManager event);
 }

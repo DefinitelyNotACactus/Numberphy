@@ -5,6 +5,7 @@
  */
 package view;
 
+import data.Iteration;
 import data.ValueImpl;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.Value;
@@ -19,9 +20,9 @@ import java.awt.Color;
 public class InputEventImpl implements InputEvent {
 
     @Override
-    public double[] inputUpdate(ExpressionInput input, InputEventManager event) {
+    public Iteration[] inputUpdate(ExpressionInput input, InputEventManager event) {
         event.drawString("f(x) = " + input.getFunctionString());
-        double points[] = null;
+        Iteration points[] = null;
         switch(input.getMethod()) {
             case HALLEY:
                 points = halley(input, event, input.getx0(), input.getTolerance(), input.getIterations());
@@ -43,12 +44,14 @@ public class InputEventImpl implements InputEvent {
      * @param x0 Estimativa do X inicial
      * @param tolmin Tolerancia minima
      * @param nitr Numero de iteracoes maxim@
+     * @return Um array com cada iteracao
      */
-    public double[] halley(ExpressionInput input, InputEventManager event, double x0, double tolmin, int nitr) {
-        double[] points = new double[nitr];
+    public Iteration[] halley(ExpressionInput input, InputEventManager event, double x0, double tolmin, int nitr) {
+        Iteration[] iterations = new Iteration[nitr+1];
         double xn = x0;
         double tolmax = tolmin + 1;
         int itr = 0;
+        iterations[0] = new Iteration(xn, 1);
         Function f = input.getFunction(input.getApplication().getVariable());
         Function dev1 = f.derivative(1);
         Function dev2 = dev1.derivative(1);
@@ -62,19 +65,18 @@ public class InputEventImpl implements InputEvent {
             double d2 = new ValueMath(dev2, v).getVal();
             
             xn = xn - (2 * fx * d1) / (2 * d1 * d1 - fx * d2);
-            crossh = event.drawCrossHair(v, f);
-            points[itr] = xn;
-            itr++;
+            crossh = event.drawCrossHair(v, f);           
             if (xn != 0) {
                 tolmax = Math.abs((xn - x0) / xn);
             }
-            
+            itr++;
+            iterations[itr] = new Iteration(xn, tolmax);
         }
         if (crossh != null) {
             crossh.setColor(Color.red);
             crossh.setLineWidth(2);
         }
-        return points;
+        return iterations;
     }
     
     /**
@@ -85,17 +87,20 @@ public class InputEventImpl implements InputEvent {
      * @param xr X da direita
      * @param tolmin Tolerancia minima
      * @param nitr Numero de iteracoes maxim@
+     * @return Um array com cada iteracao
      */
-    public double[] ridders(ExpressionInput input, InputEventManager event, double xl, double xr, double tolmin, int nitr) {
-        double[] points = new double[nitr];
+    public Iteration[] ridders(ExpressionInput input, InputEventManager event, double xl, double xr, double tolmin, int nitr) {
+        Iteration[] iterations = new Iteration[nitr];
         Function f = input.getFunction(input.getApplication().getVariable());
         Crosshair crossh = null;
         
         double x = 0.0;
+        double x_old;
         int itr = 0;
         double err = 1.0;
         
         while(err > tolmin && itr < nitr) {
+            x_old = x;
             double fr = new ValueMath(f, new ValueImpl(xr)).getVal();
             double fl = new ValueMath(f, new ValueImpl(xl)).getVal();
             double d0 = Math.abs(fr - fl);
@@ -142,14 +147,14 @@ public class InputEventImpl implements InputEvent {
                 break;
             }
             err = Math.abs(xr - xl);
-            points[itr] = x;
-            itr++;
+            iterations[itr] = new Iteration(x, Math.abs(x-x_old)/x);            
+            itr++;        
             crossh = event.drawCrossHair(new ValueImpl(x), f);
         }
         if (crossh != null) {
             crossh.setColor(Color.red);
             crossh.setLineWidth(2);
         }
-        return points;
+        return iterations;
     }
 }

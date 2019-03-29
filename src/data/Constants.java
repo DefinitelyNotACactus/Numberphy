@@ -6,6 +6,7 @@
 package data;
 
 import java.awt.Color;
+import java.awt.Font;
 
 /**
  *
@@ -29,4 +30,6 @@ public class Constants {
     public static final Color YELLOW = new Color(255, 204, 0);
     public static final Color WHITE = new Color(255, 255, 255);
 
+    //macOS font
+    public static final Font HELVETICA = new Font("Helvetica Neue", 0, 14);
 }

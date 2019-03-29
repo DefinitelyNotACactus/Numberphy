@@ -62,10 +62,21 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldActionPerformed"/>
       </Events>
     </Component>
+    <Component class="javax.swing.JButton" name="btAnalysis">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.WHITE" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="An&#xe1;lise"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btAnalysisActionPerformed"/>
+      </Events>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-      <Connection code="Color.lightGray" type="code"/>
+      <Connection code="Constants.GRAY" type="code"/>
     </Property>
   </Properties>
   <AuxValues>
@@ -94,8 +105,13 @@
   </Layout>
   <SubComponents>
     <Container class="javax.swing.JPanel" name="inputPanel">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.GRAY" type="code"/>
+        </Property>
+      </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="if(method == view.MethodsEnum.RIDDERS) {&#xa;    x0Label.setText(&quot;xL&quot;);&#xa;    x0Label.setToolTipText(&quot;Limite da Esquerda&quot;);&#xa;}&#xa;inputPanel.add(x0Label);&#xa;inputPanel.add(x0TextField);&#xa;if(method == view.MethodsEnum.RIDDERS) {&#xa;    inputPanel.add(xrLabel);&#xa;    inputPanel.add(xrTextField);&#xa;}&#xa;inputPanel.add(toleranceLabel);&#xa;inputPanel.add(toleranceTextField);&#xa;inputPanel.add(iterationsLabel);&#xa;inputPanel.add(iterationsTextField);&#xa;setBackground(Color.lightGray);&#xa;JButton but = new JButton(&quot;Valores&quot;);&#xa;but.addActionListener(new ActionListener() {&#xa;        public void actionPerformed(java.awt.event.ActionEvent evt) {&#xa;input_event.drawTable(input_event.getPoints());&#xa;           }    &#xa;    });&#xa;inputPanel.add(but);"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="if(method == MethodsEnum.RIDDERS) {&#xa;    x0Label.setText(&quot;xL&quot;);&#xa;    x0Label.setToolTipText(&quot;Limite da Esquerda&quot;);&#xa;}&#xa;inputPanel.add(x0Label);&#xa;inputPanel.add(x0TextField);&#xa;if(method == MethodsEnum.RIDDERS) {&#xa;    inputPanel.add(xrLabel);&#xa;    inputPanel.add(xrTextField);&#xa;}&#xa;inputPanel.add(toleranceLabel);&#xa;inputPanel.add(toleranceTextField);&#xa;inputPanel.add(iterationsLabel);&#xa;inputPanel.add(iterationsTextField);&#xa;inputPanel.add(btAnalysis);"/>
       </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout"/>

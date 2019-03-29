@@ -40,7 +40,7 @@ public class Description extends JScrollPane {
             btApplication.setVisible(false);
         }
         btApplication.addActionListener(this::btApplicationActionPerformed);
-        btApplication.setText("Aplicacao");
+        btApplication.setText("Aplicação");
         btApplication.setBackground(Constants.WHITE);
         btApplication.setForeground(Constants.BLUE);
         

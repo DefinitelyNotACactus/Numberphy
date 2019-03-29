@@ -1,5 +1,6 @@
 package view;
 
+import data.Constants;
 import data.MethodsEnum;
 import edu.hws.jcm.awt.Controller;
 import edu.hws.jcm.awt.JCMPanel;
@@ -73,7 +74,7 @@ public class Application extends JPanel {
         
         setLayout(new BorderLayout());
         add(main, BorderLayout.CENTER);
-        setBackground(Color.lightGray);
+        setBackground(Constants.GRAY);
         
         getCanvas().add(new Axes());
         getCanvas().add(graph);
@@ -129,5 +130,13 @@ public class Application extends JPanel {
      */
     public void setVariable(Variable variable) {
         this.variable = variable;
+    }
+    
+    /**
+     * 
+     * @return the jcm panel
+     */
+    public JCMPanel getJCMPanel() {
+        return main;
     }
 }
