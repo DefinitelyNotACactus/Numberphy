@@ -12,7 +12,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -190,7 +190,7 @@ public class Description extends JScrollPane {
                 "</html>");
             case WELCOME:
             default:
-                reader = new InputStreamReader(getResourceFile("resources/assets/README.md"), StandardCharsets.UTF_8);
+                reader = new InputStreamReader(getResourceFile("resources/assets/README.md"));
                 document = parser.parseReader(reader);
                 return "<html><div WIDTH="+getWidth()+">" + renderer.render(document) + "</html>";
         }
@@ -227,8 +227,8 @@ public class Description extends JScrollPane {
         return defaultItem;
     }
     
-    private static FileInputStream getResourceFile(String path) throws FileNotFoundException {
+    private static InputStream getResourceFile(String path) throws FileNotFoundException {
 	ClassLoader classLoader = Description.class.getClassLoader();
-	return new FileInputStream(classLoader.getResource(path).getFile());
+	return classLoader.getResourceAsStream(path);
     }
 }
