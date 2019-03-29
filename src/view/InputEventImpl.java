@@ -5,13 +5,13 @@
  */
 package view;
 
+import data.Constants;
 import data.Iteration;
 import data.ValueImpl;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.Value;
 import edu.hws.jcm.data.ValueMath;
 import edu.hws.jcm.draw.Crosshair;
-import java.awt.Color;
 
 /**
  *
@@ -73,7 +73,7 @@ public class InputEventImpl implements InputEvent {
             iterations[itr] = new Iteration(xn, tolmax);
         }
         if (crossh != null) {
-            crossh.setColor(Color.red);
+            crossh.setColor(Constants.RED);
             crossh.setLineWidth(2);
         }
         return iterations;
@@ -152,7 +152,7 @@ public class InputEventImpl implements InputEvent {
             crossh = event.drawCrossHair(new ValueImpl(x), f);
         }
         if (crossh != null) {
-            crossh.setColor(Color.red);
+            crossh.setColor(Constants.RED);
             crossh.setLineWidth(2);
         }
         return iterations;

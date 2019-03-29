@@ -165,7 +165,7 @@ public class InputEventManager {
      * @return O Desenho
      */
     public Graph1D drawFunction(Function f) {
-        return drawFunction(f, Color.RED, false);
+        return drawFunction(f, Constants.RED, false);
     }
 
     /**
@@ -176,7 +176,9 @@ public class InputEventManager {
     public DrawString drawString(String s) {
         DrawString ds = new DrawString(s);
         ds.setColor(Color.BLACK);
-        ds.setBackgroundColor(Color.WHITE);
+        ds.setFont(Constants.HELVETICA);
+        ds.setBackgroundColor(Constants.WHITE);
+        ds.setFrameColor(Color.BLACK);
         ds.setFrameWidth(1);
         
         draw(ds, false);

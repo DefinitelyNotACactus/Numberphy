@@ -65,6 +65,7 @@ public class Intro extends JFrame {
         titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("Numberphy");
+        titleLabel.setToolTipText(Constants.VERSION);
         titleLabel.setMaximumSize(new java.awt.Dimension(159, 60));
         titleLabel.setMinimumSize(new java.awt.Dimension(159, 60));
         titleLabel.setPreferredSize(new java.awt.Dimension(159, 40));

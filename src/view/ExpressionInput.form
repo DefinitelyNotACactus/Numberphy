@@ -4,6 +4,9 @@
   <NonVisualComponents>
     <Component class="javax.swing.JLabel" name="x0Label">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="X0"/>
         <Property name="toolTipText" type="java.lang.String" value="X inicial"/>
       </Properties>
@@ -11,6 +14,9 @@
     <Component class="javax.swing.JTextField" name="x0TextField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="1"/>
       </Properties>
       <Events>
@@ -19,13 +25,19 @@
     </Component>
     <Component class="javax.swing.JLabel" name="xrLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Xr"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="xR"/>
         <Property name="toolTipText" type="java.lang.String" value="X da direita"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="xrTextField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="5"/>
       </Properties>
       <Events>
@@ -34,6 +46,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="toleranceLabel">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Tol."/>
         <Property name="toolTipText" type="java.lang.String" value="Tolerancia"/>
       </Properties>
@@ -41,6 +56,9 @@
     <Component class="javax.swing.JTextField" name="toleranceTextField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="0.001"/>
       </Properties>
       <Events>
@@ -49,6 +67,9 @@
     </Component>
     <Component class="javax.swing.JLabel" name="iterationsLabel">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Iter."/>
         <Property name="toolTipText" type="java.lang.String" value="Iteracoes"/>
       </Properties>
@@ -56,6 +77,9 @@
     <Component class="javax.swing.JTextField" name="iterationsTextField">
       <Properties>
         <Property name="columns" type="int" value="4"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="10"/>
       </Properties>
       <Events>
@@ -66,6 +90,9 @@
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="Constants.WHITE" type="code"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Constants.HELVETICA" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="An&#xe1;lise"/>
       </Properties>
@@ -118,12 +145,18 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="functionLabel">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="Constants.HELVETICA" type="code"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="f(x)"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="functionTextField">
           <Properties>
             <Property name="columns" type="int" value="15"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="Constants.HELVETICA" type="code"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="textFieldActionPerformed"/>

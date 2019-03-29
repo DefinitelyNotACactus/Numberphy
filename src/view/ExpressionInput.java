@@ -103,10 +103,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         functionLabel = new javax.swing.JLabel();
         functionTextField = new javax.swing.JTextField();
 
+        x0Label.setFont(Constants.HELVETICA);
         x0Label.setText("X0");
         x0Label.setToolTipText("X inicial");
 
         x0TextField.setColumns(4);
+        x0TextField.setFont(Constants.HELVETICA);
         x0TextField.setText("1");
         x0TextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,10 +116,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
             }
         });
 
-        xrLabel.setText("Xr");
+        xrLabel.setFont(Constants.HELVETICA);
+        xrLabel.setText("xR");
         xrLabel.setToolTipText("X da direita");
 
         xrTextField.setColumns(4);
+        xrTextField.setFont(Constants.HELVETICA);
         xrTextField.setText("5");
         xrTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,10 +129,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
             }
         });
 
+        toleranceLabel.setFont(Constants.HELVETICA);
         toleranceLabel.setText("Tol.");
         toleranceLabel.setToolTipText("Tolerancia");
 
         toleranceTextField.setColumns(4);
+        toleranceTextField.setFont(Constants.HELVETICA);
         toleranceTextField.setText("0.001");
         toleranceTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -136,10 +142,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
             }
         });
 
+        iterationsLabel.setFont(Constants.HELVETICA);
         iterationsLabel.setText("Iter.");
         iterationsLabel.setToolTipText("Iteracoes");
 
         iterationsTextField.setColumns(4);
+        iterationsTextField.setFont(Constants.HELVETICA);
         iterationsTextField.setText("10");
         iterationsTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -148,6 +156,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         });
 
         btAnalysis.setBackground(Constants.WHITE);
+        btAnalysis.setFont(Constants.HELVETICA);
         btAnalysis.setText("Análise");
         btAnalysis.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -159,10 +168,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
 
         inputPanel.setBackground(Constants.GRAY);
 
+        functionLabel.setFont(Constants.HELVETICA);
         functionLabel.setText("f(x)");
         inputPanel.add(functionLabel);
 
         functionTextField.setColumns(15);
+        functionTextField.setFont(Constants.HELVETICA);
         functionTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 textFieldActionPerformed(evt);

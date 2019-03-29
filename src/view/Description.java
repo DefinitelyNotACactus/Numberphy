@@ -12,10 +12,19 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 
 /**
  *
@@ -29,8 +38,16 @@ public class Description extends JScrollPane {
     private Container container;
     private static final Dimension SIZE = new Dimension(1280, 680);
     
+    private Parser parser;
+    private HtmlRenderer renderer;
+    private InputStreamReader reader;
+    private Node document;
+    
     public Description(MethodsEnum method) {
         this.method = method;
+        parser = Parser.builder().build();
+        renderer = HtmlRenderer.builder().build();
+        
         initComponents();
     }
     
@@ -48,10 +65,18 @@ public class Description extends JScrollPane {
         descriptionLabel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent evt) {
-                descriptionLabel.setText(getMethodDescription(method));
+                try {
+                    descriptionLabel.setText(getMethodDescription(method));
+                } catch(IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao abrir o arquivo de descrição", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-        descriptionLabel.setText(getMethodDescription(method));
+        try {
+            descriptionLabel.setText(getMethodDescription(method));
+        } catch(IOException ex) {
+                    JOptionPane.showMessageDialog(null, "Erro ao abrir o arquivo de descrição", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
         descriptionLabel.setOpaque(true);
         descriptionLabel.setBackground(Constants.WHITE);
         
@@ -76,7 +101,11 @@ public class Description extends JScrollPane {
         } else {
             btApplication.setVisible(false);
         }
-        descriptionLabel.setText(getMethodDescription(method));
+        try {
+            descriptionLabel.setText(getMethodDescription(method));
+        } catch(IOException ex) {
+            JOptionPane.showMessageDialog(null, "Erro ao abrir o arquivo de descrição", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
         container.revalidate();
     }
     
@@ -95,7 +124,8 @@ public class Description extends JScrollPane {
         getParent().remove(this);
     }
     
-    public String getMethodDescription(MethodsEnum method) {
+    public String getMethodDescription(MethodsEnum method) throws FileNotFoundException, IOException {
+        InputStreamReader reader;
         switch(method){
             case HALLEY:
                 
@@ -159,25 +189,9 @@ public class Description extends JScrollPane {
                 "</html>");
             case WELCOME:
             default:
-                return ("<html><div WIDTH="+getWidth()+"><h1 id=\"numberphy\">Numberphy</h1>\n" +
-                "\n" +
-                "<p>Projecto de Cálculo Numérico, Numberphy, essa é uma distribuição do grupo de desenvolvimento Pales.</p>\n" +
-                "\n" +
-                "<h3 id=\"introduo\">Introdução</h3>\n" +
-                "\n" +
-                "<p>O projecto Numberphy consiste em um programa desenvolvido usando Java/Swing junto à biblioteca JCM (Java Components for Math Project), usando os conhecimentos adquiridos na aula de Calculo Numérico para apresentar uma interface gráfica para explicação e aplicaçao de alguns métodos.</p>\n" +
-                "\n" +
-                "<h4 id=\"requerimentos\">Requerimentos</h4>\n" +
-                "\n" +
-                "<blockquote>\n" +
-                "  <ul>\n" +
-                "  <li>JDK 1.8 ou superior</li>\n" +
-                "  \n" +
-                "  <li>JCM (Incluido neste repositório)</li>\n" +
-                "  \n" +
-                "  <li>Algum conhecimento sobre cálculo </li>\n" +
-                "  </ul>\n" +
-                "</blockquote></html>");
+                reader = new InputStreamReader(new FileInputStream("readme.md"), StandardCharsets.UTF_8);
+                document = parser.parseReader(reader);
+                return "<html><div WIDTH="+getWidth()+">" + renderer.render(document) + "</html>";
         }
     }
     
