@@ -22,6 +22,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import jdk.internal.module.Resources;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -129,19 +130,19 @@ public class Description extends JScrollPane {
         switch(method){
             case HALLEY:
                 
-                String newtonGraphPath = getClass().getResource("/resources/newton/newton_graph.png").toString();
-                String newtonMathPath = getClass().getResource("/resources/newton/newton_math.png").toString();
+                String newtonGraphPath = getResource("/resources/newton/newton_graph.png");
+                String newtonMathPath = getResource("/resources/newton/newton_math.png");
                 
-                String halley1Path = getClass().getResource("/resources/halley/halley1.png").toString();
-                String halley2Path = getClass().getResource("/resources/halley/halley2.png").toString();
-                String halley3Path = getClass().getResource("/resources/halley/halley3.png").toString();
-                String halley4Path = getClass().getResource("/resources/halley/halley4.png").toString();
-                String halley5Path = getClass().getResource("/resources/halley/halley5.png").toString();
-                String halley6Path = getClass().getResource("/resources/halley/halley6.png").toString();
-                String halley7Path = getClass().getResource("/resources/halley/halley7.png").toString();
-                String halley8Path = getClass().getResource("/resources/halley/halley8.png").toString();
-                String halley9Path = getClass().getResource("/resources/halley/halley9.png").toString();
-                String halley10Path = getClass().getResource("/resources/halley/halley10.png").toString();
+                String halley1Path = getResource("/resources/halley/halley1.png");
+                String halley2Path = getResource("/resources/halley/halley2.png");
+                String halley3Path = getResource("/resources/halley/halley3.png");
+                String halley4Path = getResource("/resources/halley/halley4.png");
+                String halley5Path = getResource("/resources/halley/halley5.png");
+                String halley6Path = getResource("/resources/halley/halley6.png");
+                String halley7Path = getResource("/resources/halley/halley7.png");
+                String halley8Path = getResource("/resources/halley/halley8.png");
+                String halley9Path = getResource("/resources/halley/halley9.png");
+                String halley10Path = getResource("/resources/halley/halley10.png");
                 
                 
                 return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-1\">Introdução</h4>\n" +
@@ -163,7 +164,7 @@ public class Description extends JScrollPane {
                 "</html>");
             case RIDDERS:
                 
-                String fpGraphPath = getClass().getResource("/resources/fp/fp_graph.png").toString();
+                String fpGraphPath = getResource("/resources/fp/fp_graph.png");
                 
                 return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-2\">Introdução</h4>\n" +
                 "\n" +
@@ -189,7 +190,7 @@ public class Description extends JScrollPane {
                 "</html>");
             case WELCOME:
             default:
-                reader = new InputStreamReader(new FileInputStream("readme.md"), StandardCharsets.UTF_8);
+                reader = new InputStreamReader(getResourceFile("resources/assets/README.md"), StandardCharsets.UTF_8);
                 document = parser.parseReader(reader);
                 return "<html><div WIDTH="+getWidth()+">" + renderer.render(document) + "</html>";
         }
@@ -202,7 +203,6 @@ public class Description extends JScrollPane {
      * @param list Lista de recursos
      * @return URI do item ou null
      */
-    @Deprecated
     private static String getResource(String... list) {
         return getResourceOrDefault(null, list);
     }
@@ -215,7 +215,6 @@ public class Description extends JScrollPane {
      * @param list Lista de recursos
      * @return URI do item ou defaultItem
      */
-    @Deprecated
     private static String getResourceOrDefault(String defaultItem, String... list) {
         for (String s : list) {
             try {
@@ -226,5 +225,10 @@ public class Description extends JScrollPane {
             }
         }
         return defaultItem;
+    }
+    
+    private static FileInputStream getResourceFile(String path) throws FileNotFoundException {
+	ClassLoader classLoader = Description.class.getClassLoader();
+	return new FileInputStream(classLoader.getResource(path).getFile());
     }
 }
