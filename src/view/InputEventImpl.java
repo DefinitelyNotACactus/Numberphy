@@ -19,6 +19,13 @@ import edu.hws.jcm.draw.Crosshair;
  */
 public class InputEventImpl implements InputEvent {
 
+    /**
+     * Occurs every time the user hits the Enter key while inserting an expression.
+     * The expected behavior of this implementation is to check if the input is valid and update the GUI.
+     * @param input The input control GUI
+     * @param event The input manager, with some facilities.
+     * @return Points of every iteration.
+     */
     @Override
     public Iteration[] inputUpdate(ExpressionInput input, InputEventManager event) {
         event.drawString("f(x) = " + input.getFunctionString());
@@ -35,6 +42,19 @@ public class InputEventImpl implements InputEvent {
                 break;
         }
         return points;
+    }
+
+    
+    /**
+     * Occurs every time the user clicks on the graph while pressing Alt key.
+     * @param input The input control GUI
+     * @param event The input manager, with some facilities.
+     * @param x X point coordinate
+     * @param y Y point coordinate
+     */
+    @Override
+    public void pointClickedEvent(ExpressionInput input, InputEventManager event, double x, double y) {
+        System.out.println(x + ", " + y);
     }
     
     /**
