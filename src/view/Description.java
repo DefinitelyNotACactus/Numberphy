@@ -22,7 +22,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import jdk.internal.module.Resources;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -130,67 +129,83 @@ public class Description extends JScrollPane {
         switch(method){
             case HALLEY:
                 
-                String newtonGraphPath = getResource("/resources/newton/newton_graph.png");
-                String newtonMathPath = getResource("/resources/newton/newton_math.png");
+                String newtonGraphMathPath = getResource("/resources/newton/newton_graph_math.png");
                 
-                String halley1Path = getResource("/resources/halley/halley1.png");
-                String halley2Path = getResource("/resources/halley/halley2.png");
-                String halley3Path = getResource("/resources/halley/halley3.png");
-                String halley4Path = getResource("/resources/halley/halley4.png");
-                String halley5Path = getResource("/resources/halley/halley5.png");
-                String halley6Path = getResource("/resources/halley/halley6.png");
-                String halley7Path = getResource("/resources/halley/halley7.png");
-                String halley8Path = getResource("/resources/halley/halley8.png");
-                String halley9Path = getResource("/resources/halley/halley9.png");
-                String halley10Path = getResource("/resources/halley/halley10.png");
-                
+                String halley1Path = getResource("/resources/halley/halley1_.png");
+                String halley2Path = getResource("/resources/halley/halley2_.png");
+                String halley4Path = getResource("/resources/halley/halley4__.png");
+                String halley5Path = getResource("/resources/halley/halley5_.png");
+                String halley6Path = getResource("/resources/halley/halley6_.png");
+                String halley7Path = getResource("/resources/halley/halley7_.png");
+                String halley8Path = getResource("/resources/halley/halley8_.png");
+                String halley9Path = getResource("/resources/halley/halley9_.png");
+                String halley10Path = getResource("/resources/halley/halley10_.png");
                 
                 return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-1\">Introdução</h4>\n" +
                 "\n" +
                 "<p>O método de Halley é usado para busca de raizes de funções reais de uma variável que possuem primeira e segunda derivada contínuas, realizando iterativamente uma sequência de aproximações à raiz, tendo uma taxa de convergência cúbica. Criado pelo fisíco Edmond Halley, o algoritmo consiste em aplicar o método de Newton-Raphson duas vezes. Esse segundo método, desenvolvido por Isaac Newton e Joseph Raphson, estima as raízes de uma função escolhendo-se uma aproximação inicial. Cria-se então um método iterativo, repetindo o processo de cálculo da reta tangente a partir da derivada da função no ponto e a intersecção dela com o eixo das abcissas. Abaixo é possível ver a representação gráfica e matemática do Método de Newton-Raphson.</p>\n" +
                 "<p>\n</p>" +
-                "<table><tr><p>  <td><img src=" + newtonGraphPath +" alt=\"NewtonGraph\" height=\"250\" width=\"300\"></td>   <td>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</td>   <td><img src=" + newtonMathPath + " alt=\"NewtonMath\" height=\"140\" width=\"240\"></td></p></tr></table>\n" +
+                "<table><tr><p>  <td><img src=" + newtonGraphMathPath +" alt=\"NewtonGraphMath\"></td></p></tr></table>\n" +
                 "<p><p>\n</p></p>" +
                 "<h4 id=\"desenvolvimento\">Desenvolvimento</h4>\n" +
                 "\n" +
-                "<table><tr>  <td>Considere a função de iteração:</td>  <img src=" + halley1Path + " alt=\"Halley1\" height=\"85\" width=\"210\"></td>  <td>, onde &nbsp&nbsp&nbsp&nbsp&nbsp</td>  <td><img src=" + halley2Path + " alt=\"Halley2\" height=\"90\" width=\"150\"></td>   <td>&nbsp&nbsp&nbsp&nbsp&nbsp e</td>    <td><img src=" + halley3Path + " alt=\"Halley3\" height=\"30\" width=\"25\"></td> <td>é um polinômio.</td></tr></table>" +
+                "<table><tr>  <td>Considere a função de iteração:</td>  <img src=" + halley1Path + " alt=\"Halley1\" ></td>  <td>, onde &nbsp&nbsp&nbsp&nbsp&nbsp</td>  <td><img src=" + halley2Path + " alt=\"Halley2\"></td>   <td>&nbsp&nbsp&nbsp&nbsp&nbsp e</td>    <td> Q é um polinômio.</td></tr></table>" +
                 "<p>O Método de Halley diz que se Q for uma função linear, então é possível obter uma função de terceira ordem, obedecendo a forma do método de Newton-Raphson. Supondo uma função g tal que:</p>\n"+
-                "<table><p><tr><td><img src=" + halley4Path + " alt=\"Halley4\" height=\"125\" width=\"210\"></td>   <td> A função f é aquela cuja raiz tal que f(x)=0 queremos encontrar. Agora derivamos a função g, gerando a expressão:</td></p></tr></table>\n" +
-                "<table><p><tr><td><img src=" + halley5Path + " alt=\"Halley5\" height=\"130\" width=\"430\"> </td>   <td> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Simplificando: </td>  <td><img src=" + halley6Path + " alt=\"Halley6\" height=\"140\" width=\"430\"></td> </tr></p></table>\n" +
+                "<table><p><tr><td><img src=" + halley4Path + " alt=\"Halley4\" ></td>   <td> A função f é aquela cuja raiz tal que f(x)=0 queremos encontrar. Agora derivamos a função g, gerando a expressão:</td></p></tr></table>\n" +
+                "<table><p><tr><td><img src=" + halley5Path + " alt=\"Halley5\" > </td>   <td> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  Simplificando: </td>  <td><img src=" + halley6Path + " alt=\"Halley6\" ></td> </tr></p></table>\n" +
                 "<p>Agora usaremos a função de iteração do método de Newton-Raphson. Contudo, ao invés de utilizarmos a função f e a sua derivada na busca da raiz, usaremos as expressões derivadas de g, ou seja:</p>" +
-                "<table><p><tr><td><img src=" + halley7Path + " alt=\"Halley7\" height=\"150\" width=\"270\"></td>   <td> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  onde  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </td>   <td><img src=" + halley9Path + " alt=\"Halley9\" height=\"150\" width=\"430\"></td>  </tr></p></table>" +
+                "<table><p><tr><td><img src=" + halley7Path + " alt=\"Halley7\" ></td>   <td> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  onde  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </td>   <td><img src=" + halley9Path + " alt=\"Halley9\"></td>  </tr></p></table>" +
                 "<p>Aplicando a equação encontrada anteriormente com a função de iteração obtemos a expressão usada pelo método de Halley:</p>" +
-                "<table><p><tr> <td><img src=" + halley10Path + " alt=\"Halley10\" height=\"150\" width=\"440\"></td> </tr></p></table>" +
+                "<table><p><tr> <td><img src=" + halley10Path + " alt=\"Halley10\" ></td> </tr></p></table>" +
                 "</html>");
             case RIDDERS:
                 
                 String fpGraphPath = getResource("/resources/fp/fp_graph.png");
                 
+                String ridder1Path = getResource("/resources/fp/ridder1.png");
+                String ridder2Path = getResource("/resources/fp/ridder2.png");
+                String ridder3Path = getResource("/resources/fp/ridder3.png");
+                String ridder4Path = getResource("/resources/fp/ridder4.png");
+                String ridder5Path = getResource("/resources/fp/ridder5.png");
+                String ridder6Path = getResource("/resources/fp/ridder6.png");
+                String ridder7Path = getResource("/resources/fp/ridder7.png");
+                String ridder8Path = getResource("/resources/fp/ridder8.png");
+                String ridder9Path = getResource("/resources/fp/ridder9.png");
+                String ridder10Path = getResource("/resources/fp/ridder10.png");
+                String ridder11Path = getResource("/resources/fp/ridder11.png");
+                String ridder12Path = getResource("/resources/fp/ridder12.png");
+                String ridder13Path = getResource("/resources/fp/ridder13.png");
+                String ridder14Path = getResource("/resources/fp/ridder14.png");
+                String ridder15Path = getResource("/resources/fp/ridder15.png");
+                String ridder16Path = getResource("/resources/fp/ridder16.png");
+                String ridder17Path = getResource("/resources/fp/ridder17.png");
+                
                 return ("<html><div WIDTH="+getWidth()+"><h4 id=\"introduo-2\">Introdução</h4>\n" +
                 "\n" +
                 "<p>O método de Ridder é um algoritmo de localização de raízes baseado no Método da Falsa Posição e no uso de uma função exponencial para a aproximação da raíz da função contínua f(x). O Método da Falsa Posição é um método numérico usado para resolver equações lineares definidas em um intervalo [a, b], partindo do pressuposto de que haja uma solução em um subintervalo contido em [a, b]. E assim, diminuindo esse subintervalo em partes cada vez menores, a solução estará onde a função tem sinais opostos, segundo o Teorema do Valor Intermediário. Abaixo é possível ver uma representação do uso do Método da Falsa Posição.</p>\n" +
-                "<table><p><tr><td><img src=" + fpGraphPath + " alt=\"FPGraph\" height=\"197\" width=\"220\"></td>   </tr></p></table>" +
+                "<table><p><tr><td><img src=" + fpGraphPath + " alt=\"FPGraph\" ></td>   </tr></p></table>" +
                 "\n" +
                 "<h4 id=\"desenvolvimento-1\">Desenvolvimento</h4>\n" +
                 "\n" +
-                "<p>Como queremos encontrar f(x)=0, vamos tomar f(x)=A+Be<sup>Cx</sup>.  Sejam três valores de x que estejam delimitando de alguma forma um intervalo que contenha a raiz tal que {x<sub>left</sub> , x<sub>predictor</sub> , x<sub>right</sub>} cuja amplitude seja d<sub>0</sub> = | x<sub>left</sub> - x<sub>right</sub> |. Podemos utilizar o Método da Falsa posição para obter uma aproximação da raiz a partir desses pontos neste intervalo:  x<sub>predictor</sub> = FalsaPosicao( x<sub>left</sub> , x<sub>right</sub> ).</p>\n" +
-                "<p>A proposição feita por Ridder é de realizar uma segunda aproximação a partir da fórmula: x<sub>corrector</sub> = x<sub>left</sub> - d<sub>0</sub>{ln(β) / ln(α)}, onde: </p>" +
-                "<p>α = ( f<sub>left</sub> - f<sub>predictor</sub> ) / ( f<sub>predictor</sub> - f<sub>right</sub> ) </p>" +
-                "<p>β = ( f<sub>left</sub> - f<sub>predictor</sub> ) / ( f<sub>predictor</sub> - αf<sub>right</sub> ) </p>" +
-                "<p>f<sub>predictor</sub> = f( x<sub>predictor</sub> ) </p>" +
-                "<p>f<sub>right</sub> = f( x<sub>right</sub> )</p>" +
-                "<p>f<sub>left</sub> = f( x<sub>left</sub> )</p>" +
+                "<table><p><tr><td>Como queremos encontrar f(x)=0, vamos tomar</td> <td><img src=" + ridder9Path + " alt=\"FPGraph\" ></td> <td>. Sejam três valores de x delimitando de alguma forma um intervalo que contenha a raiz tal que</td> <td><img src=" + ridder10Path + " alt=\"FPGraph\" ></td> <td>cuja amplitude seja</td> <td><img src=" + ridder11Path + " alt=\"FPGraph\" ></td></tr></p></table>" +
+                "<table><p><tr><td>Podemos utilizar o Método da Falsa posição para obter uma aproximação da raiz a partir desses pontos neste intervalo:</td> <td><img src=" + ridder12Path + " alt=\"FPGraph\" ></td> </tr></p></table>\n" +
+                "<table><p><tr><td>A proposição feita por Ridder é de realizar uma segunda aproximação a partir da fórmula:</td> <td><img src=" + ridder6Path + " alt=\"FPGraph\" ></td> <td>, onde: </td></tr></p></table>" +
+                "<p><img src=" + ridder13Path + " alt=\"FPGraph\" ></p>" +
+                "<p><img src=" + ridder14Path + " alt=\"FPGraph\" ></p>" +
+                "<p><img src=" + ridder15Path + " alt=\"FPGraph\" ></p>" +
+                "<p><img src=" + ridder16Path + " alt=\"FPGraph\" ></p>" +
+                "<p><img src=" + ridder17Path + " alt=\"FPGraph\" ></p>" +
                 "<p>\n</p>" +
-                "<p>Da série logarítmica temos: &nbsp&nbsp  ln(x+1)  &nbsp&nbsp =  &nbsp&nbsp ∑<sup>∞</sup><sub>n=1</sub> ( (-1)<sup>n-1</sup>x<sup>n</sup> ) / n  &nbsp&nbsp =  &nbsp&nbsp x - (1/2)x<sup>2</sup> + (1/3)x<sup>3</sup></p>" +
+                "<table><p><tr><td>Da série logarítmica temos:</td> <td><img src=" + ridder1Path + " alt=\"FPGraph\" ></td></tr></p></table>" +
                 "<p>Uma aproximação satisfatória para o caso pode ser obtida usando-se até o terceiro termo. Desta forma, para x = β - 1, temos:</p>" +
-                "<p>ln(1 + {β-1}) = β - 1 - (1/2)(β - 1)<sup>2</sup> + (1/3)(β - 1)<sup>3</sup> &nbsp&nbsp Portanto, ln(β) = β - 1 - (1/2)(β - 1)<sup>2</sup> + (1/3)(β - 1)<sup>3</sup> </p>" +
-                "<p>Para simplificarmos a notação, adotaremos  ϕ<sub>β</sub> = β - 1 &nbsp&nbsp e ϕ<sub>α</sub> = α -1. Desta forma, obtemos facilmente as expressões necessárias para aplicarmos ao método: </p>" +
-                "<p>ln(β) = ϕ<sub>β</sub> - (1/2)ϕ<sub>β</sub><sup>2</sup> + (1/3)ϕ<sub>β</sub><sup>3</sup>  </p>" + 
-                "<p>ln(α) = ϕ<sub>α</sub> - (1/2)ϕ<sub>α</sub><sup>2</sup> + (1/3)ϕ<sub>α</sub><sup>3</sup>  </p>" +
+                "<table><p><tr><td><img src=" + ridder2Path + " alt=\"FPGraph\" ></td> <td>Portanto,</td> <td><img src=" + ridder3Path + " alt=\"FPGraph\" ></td></tr></p></table>" +
+                "<table><p><tr><td>Para simplificarmos a notação, adotaremos</td> <td><img src=" + ridder7Path + " alt=\"FPGraph\" ></td>  <td>e</td> <td><img src=" + ridder8Path + " alt=\"FPGraph\" ></td> <td>. Desta forma, obtemos facilmente as expressões necessárias para aplicarmos ao método:</td> </tr></p></table>" +
+                "<p><img src=" + ridder4Path + " alt=\"FPGraph\" ></p>" + 
+                "<p><img src=" + ridder5Path + " alt=\"FPGraph\" ></p>" +
                 "</html>");
             case WELCOME:
             default:
-                reader = new InputStreamReader(getResourceFile("resources/assets/README.md"));
+                reader = new InputStreamReader(getResourceFile("resources/assets/Welcome.md"));
                 document = parser.parseReader(reader);
                 return "<html><div WIDTH="+getWidth()+">" + renderer.render(document) + "</html>";
         }
