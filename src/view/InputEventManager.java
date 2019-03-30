@@ -43,7 +43,7 @@ public class InputEventManager {
         getCoordRect();
     }
 
-    public void invokeEvent() {
+    public void invokeInputUpdate() {
         temporary_draws.forEach((d) -> {
             d.setVisible(false);
             getCoordRect().remove(d);
@@ -53,6 +53,10 @@ public class InputEventManager {
             points = event.inputUpdate(input, this);
         }
         getCoordRect().setLimits(Constants.LIMITS);
+    }
+    
+    public void invokePointClickedEvent(double x, double y) {
+        event.pointClickedEvent(input, this, x, y);
     }
 
     public void setInputEvent(InputEvent event) {

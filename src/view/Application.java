@@ -8,11 +8,13 @@ import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.Parser;
 import edu.hws.jcm.data.Variable;
 import edu.hws.jcm.draw.Axes;
+import edu.hws.jcm.draw.CoordinateRect;
 import edu.hws.jcm.draw.DisplayCanvas;
 import edu.hws.jcm.draw.Graph1D;
 import edu.hws.jcm.draw.LimitControlPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
 
 public class Application extends JPanel {
@@ -49,7 +51,20 @@ public class Application extends JPanel {
         setVariable(new Variable("x"));
         parser.add(getVariable());
         
-        canvas = new DisplayCanvas();
+        canvas = new DisplayCanvas() {
+            @Override
+            public void processMouseEvent(MouseEvent evt) {
+                if (evt.getID() == MouseEvent.MOUSE_PRESSED && evt.isAltDown()) {
+                    CoordinateRect rect = getCanvas().getCoordinateRect();
+                    double dx = rect.getXmax() - rect.getXmin();
+                    double dy = rect.getYmax() - rect.getYmin();
+                    double x = rect.getXmin() + dx*evt.getX()/(double)rect.getWidth();
+                    double y = rect.getYmin() + dy*(1 - evt.getY()/(double)rect.getHeight());
+                    input.performPointClickedEvent(x, y);
+                }
+                super.processMouseEvent(evt);
+            }
+        };
         getCanvas().setUseOffscreenCanvas(false);
         getCanvas().setHandleMouseZooms(true);
         

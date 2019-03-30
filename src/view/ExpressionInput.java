@@ -698,6 +698,13 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         if (onUserAction != null) {
             onUserAction.compute();
         }
-        input_event.invokeEvent();
+        input_event.invokeInputUpdate();
+    }
+    
+    /**
+     * Invocado quando o usuário clica em algum ponto do gráfico.
+     */
+    public void performPointClickedEvent(double x, double y) {
+        input_event.invokePointClickedEvent(x, y);
     }
 }
