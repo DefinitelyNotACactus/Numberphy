@@ -9,7 +9,7 @@ import static java.lang.Math.pow;
 
 public class Spline {
 
-    public double[] calH(double[] X) {
+    private double[] calH(double[] X) {
         double[] h = new double[X.length];
 
         for (int i = 1; i < X.length; i++) {
@@ -19,9 +19,9 @@ public class Spline {
         return h;
     }
 
-    public double[] CalMu(double[] H) {
+    private double[] CalMu(double[] H) {
         double[] mu = new double[H.length];
-        
+
         mu[H.length - 1] = 1;
         for (int i = 0; i < H.length - 1; i++) {
             mu[i] = H[i] / (H[i] + H[i + 1]);
@@ -30,7 +30,7 @@ public class Spline {
         return mu;
     }
 
-    public double[] calLambda(double[] MU) {
+    private double[] calLambda(double[] MU) {
         double[] lambda = new double[MU.length];
 
         //lambda[0] = 0;
@@ -41,7 +41,7 @@ public class Spline {
         return lambda;
     }
 
-    public double[] calDD(double[] X, double[] Y, double d0, double dn) {
+    private double[] calDD(double[] X, double[] Y, double d0, double dn) {
         double[] dd = new double[X.length];
 
         dd[0] = ((Y[1] - Y[0]) / (X[1] - X[0]) - d0) / (X[1] - X[0]);
@@ -53,7 +53,7 @@ public class Spline {
         return dd;
     }
 
-    public double[][] montarSistema(double[] lambda, double[] mu) {
+    private double[][] montarSistema(double[] lambda, double[] mu) {
         double[][] sistema = new double[mu.length][mu.length];
 
         for (int i = 0; i < mu.length; i++) {
@@ -70,14 +70,14 @@ public class Spline {
         return sistema;
     }
 
-    public double[] calM(double[][] sistema, double[] dd) {
-        double[] M = lsolve(sistema, dd);  
+    private double[] calM(double[][] sistema, double[] dd) {
+        double[] M = lsolve(sistema, dd);
         return M;
     }
 
-    public Poli[] montarPolinomios(double[] X, double[] Y, double[] H, double[] M) {
+    private Poli[] montarPolinomios(double[] X, double[] Y, double[] H, double[] M) {
         Poli[] Ci = new Poli[X.length];
-        
+
         for (int i = 1; i < X.length; i++) {
             final double Mi_1 = M[i - 1];
             final double Mi = M[i];
@@ -86,12 +86,69 @@ public class Spline {
             final double Yi_1 = Y[i - 1];
             final double Yi = Y[i];
             final double Hi = H[i];
-            Ci[i] = (double x) -> (Mi_1 * pow((Xi - x), 3)) / (6 * Hi) + 
-                                  (Mi * pow((x - Xi), 3)) / (6 * Hi) + 
-                                  (Yi_1 - (Mi - 1 * Hi * Hi) / 6) * ((Xi - x) / Hi) + 
-                                  (Yi - (Mi * Hi * Hi) / 6) * ((x - Xi_1) / Hi);
+            Ci[i] = (double x) -> (Mi_1 * pow((Xi - x), 3)) / (6 * Hi)
+                    + (Mi * pow((x - Xi), 3)) / (6 * Hi)
+                    + (Yi_1 - (Mi - 1 * Hi * Hi) / 6) * ((Xi - x) / Hi)
+                    + (Yi - (Mi * Hi * Hi) / 6) * ((x - Xi_1) / Hi);
         }
 
+        return Ci;
+    }
+
+    public Poli[] Intepolate(double[] X, double[] Y, double d0, double dn) {
+        System.out.println("X:");
+        for (int i = 0; i < X.length; i++) {
+            System.out.println("" + X[i]);
+        }
+        
+        double[] H = calH(X);
+        System.out.println("H:");
+        for (int i = 0; i < H.length; i++) {
+            System.out.println("" + H[i]);
+        }
+        
+        double[] MU = CalMu(H);
+        System.out.println("MU:");
+        for (int i = 0; i < MU.length; i++) {
+            System.out.println("" + MU[i]);
+        }
+        
+        double[] LAMBDA = calLambda(MU);
+        System.out.println("Lambda:");
+        for (int i = 0; i < LAMBDA.length; i++) {
+            System.out.println("" + LAMBDA[i]);
+        }
+        
+        double[] DD = calDD(X, Y, d0, dn);
+        System.out.println("DD:");
+        for (int i = 0; i < DD.length; i++) {
+            System.out.println("" + DD[i]);
+        }
+        
+        double[][] sistema = montarSistema(LAMBDA, MU);
+        System.out.println("Sistema:");
+        for (int i = 0; i < sistema.length; i++) {
+            for (int j = 0; j < sistema[0].length; j++) {
+                System.out.print("" + sistema[i][j] + " | ");
+            }
+            System.out.println("");
+        }
+        
+        double[] M = calM(sistema, DD);
+        System.out.println("M:");
+        for (int i = 0; i < M.length; i++) {
+            System.out.println("" + M[i]);
+        }
+        
+        Poli[] Ci = montarPolinomios(X, Y, H, M);
+        System.out.println("Resultados");
+        System.out.println("c1 x0: " + Ci[1].poli(X[0]));
+        System.out.println("c1 x1: " + Ci[1].poli(X[1]));
+        System.out.println("c2 x1: " + Ci[2].poli(X[1]));
+        System.out.println("c2 x2: " + Ci[2].poli(X[2]));
+        System.out.println("c3 x2: " + Ci[3].poli(X[2]));
+        System.out.println("c3 x3: " + Ci[3].poli(X[3]));
+        
         return Ci;
     }
 
