@@ -22,7 +22,7 @@ public class Spline {
     public double[] CalMu(double[] H) {
         double[] mu = new double[H.length];
         
-        mu[H.length - 1] = 0;
+        mu[H.length - 1] = 1;
         for (int i = 0; i < H.length - 1; i++) {
             mu[i] = H[i] / (H[i] + H[i + 1]);
         }
@@ -33,8 +33,8 @@ public class Spline {
     public double[] calLambda(double[] MU) {
         double[] lambda = new double[MU.length];
 
-        lambda[0] = 0;
-        for (int i = 1; i < MU.length; i++) {
+        //lambda[0] = 0;
+        for (int i = 0; i < MU.length; i++) {
             lambda[i] = 1 - MU[i];
         }
 

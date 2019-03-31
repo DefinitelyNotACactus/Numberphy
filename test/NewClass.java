@@ -64,12 +64,12 @@ public class NewClass {
 
         Poli[] ci = t.montarPolinomios(X, Y, H, M);
         System.out.println("Resultados");
-        System.out.println("c1 x0" + ci[1].poli(X[0]));
-        System.out.println("c1 x1" + ci[1].poli(X[1]));
-        System.out.println("c2 x1" + ci[2].poli(X[1]));
-        System.out.println("c2 x2" + ci[2].poli(X[2]));
-        System.out.println("c3 x2" + ci[3].poli(X[2]));
-        System.out.println("c3 x3" + ci[3].poli(X[3]));
+        System.out.println("c1 x0: " + ci[1].poli(X[0]));
+        System.out.println("c1 x1: " + ci[1].poli(X[1]));
+        System.out.println("c2 x1: " + ci[2].poli(X[1]));
+        System.out.println("c2 x2: " + ci[2].poli(X[2]));
+        System.out.println("c3 x2: " + ci[3].poli(X[2]));
+        System.out.println("c3 x3: " + ci[3].poli(X[3]));
 
     }
 }
