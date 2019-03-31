@@ -71,12 +71,11 @@ public class Spline {
     }
 
     public double[] calM(double[][] sistema, double[] dd) {
-        double[] M = lsolve(sistema, dd);
-        
+        double[] M = lsolve(sistema, dd);  
         return M;
     }
 
-    public Poli[] montarPolinomios(final double[] X, final double[] Y, final double[] H, final double[] M) {
+    public Poli[] montarPolinomios(double[] X, double[] Y, double[] H, double[] M) {
         Poli[] Ci = new Poli[X.length];
         
         for (int i = 1; i < X.length; i++) {
@@ -87,7 +86,10 @@ public class Spline {
             final double Yi_1 = Y[i - 1];
             final double Yi = Y[i];
             final double Hi = H[i];
-            Ci[i] = (double x) -> (Mi_1 * pow((Xi - x), 3)) / (6 * Hi) + (Mi * pow((x - Xi), 3)) / (6 * Hi) + (Yi_1 - (Mi - 1 * Hi * Hi) / 6) * ((Xi - x) / Hi) + (Yi - (Mi * Hi * Hi) / 6) * ((x - Xi_1) / Hi);
+            Ci[i] = (double x) -> (Mi_1 * pow((Xi - x), 3)) / (6 * Hi) + 
+                                  (Mi * pow((x - Xi), 3)) / (6 * Hi) + 
+                                  (Yi_1 - (Mi - 1 * Hi * Hi) / 6) * ((Xi - x) / Hi) + 
+                                  (Yi - (Mi * Hi * Hi) / 6) * ((x - Xi_1) / Hi);
         }
 
         return Ci;
