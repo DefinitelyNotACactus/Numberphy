@@ -71,6 +71,10 @@ public class Spline {
     }
 
     private double[] calM(double[][] sistema, double[] dd) {
+        for (int i = 0; i < dd.length; i++) {
+            dd[i] = dd[i] * 6;
+        }
+        
         double[] M = lsolve(sistema, dd);
         return M;
     }
@@ -87,9 +91,9 @@ public class Spline {
             final double Yi = Y[i];
             final double Hi = H[i];
             Ci[i] = (double x) -> (Mi_1 * pow((Xi - x), 3)) / (6 * Hi)
-                    + (Mi * pow((x - Xi), 3)) / (6 * Hi)
-                    + (Yi_1 - (Mi - 1 * Hi * Hi) / 6) * ((Xi - x) / Hi)
-                    + (Yi - (Mi * Hi * Hi) / 6) * ((x - Xi_1) / Hi);
+                    + (Mi * pow((x - Xi_1), 3)) / (6 * Hi)
+                    + (Yi_1 - (Mi_1 * Hi * Hi)/6 ) * ((Xi - x) / Hi)
+                    + (Yi - (Mi * Hi * Hi)/6) * ((x - Xi_1) / Hi);
         }
 
         return Ci;
