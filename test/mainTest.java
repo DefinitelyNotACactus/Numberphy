@@ -11,7 +11,7 @@ import data.Poli;
  *
  * @author Pablo Suria
  */
-public class NewClass {
+public class mainTest {
 
     public static void main(String args[]) {
         double[] X = {0, 1, 2, 3};
