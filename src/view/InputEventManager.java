@@ -18,10 +18,8 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
 
 /**
  *
@@ -31,13 +29,13 @@ public class InputEventManager {
 
     private final ArrayList<Drawable> temporary_draws;
     private final ExpressionInput input;
-    private InputEvent event;
+    private MethodImplementation event;
     private Iteration[] points;
 
     public InputEventManager(ExpressionInput input) {
         this.temporary_draws = new ArrayList<>();
         this.input = input;
-        this.event = new InputEventImpl();
+        this.event = input.getMethod().getInstance();
         this.points = null;
         
         getCoordRect();
@@ -50,6 +48,7 @@ public class InputEventManager {
         });
         temporary_draws.clear();
         if (event != null) {
+            drawString("f(x) = " + input.getFunctionString());
             points = event.inputUpdate(input, this);
         }
         getCoordRect().setLimits(Constants.LIMITS);
@@ -59,7 +58,7 @@ public class InputEventManager {
         event.pointClickedEvent(input, this, x, y);
     }
 
-    public void setInputEvent(InputEvent event) {
+    public void setInputEvent(MethodImplementation event) {
         this.event = event;
     }
 
@@ -201,6 +200,7 @@ public class InputEventManager {
         return getCanvas().getCoordinateRect(0);
     }
     
+    
     public void drawTable(Iteration[] points) {
         Container cont = new Container();
         cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
@@ -209,9 +209,9 @@ public class InputEventManager {
         Color color;
         Dimension dim = new Dimension(500, 20);
         line.setLayout(layout);
-        line.add(InputEvent.createLabel("k", Constants.BLUE));
-        line.add(InputEvent.createLabel("X(k)", Constants.BLUE));
-        line.add(InputEvent.createLabel("ER", Constants.BLUE));
+        line.add(ExpressionInput.createLabel("k", Constants.BLUE));
+        line.add(ExpressionInput.createLabel("X(k)", Constants.BLUE));
+        line.add(ExpressionInput.createLabel("ER", Constants.BLUE));
         line.setMaximumSize(dim);
         cont.add(line);
         int i = 0;
@@ -224,9 +224,9 @@ public class InputEventManager {
             if(it != null) {
                 line = new JPanel();
                 line.setLayout(layout);
-                line.add(InputEvent.createLabel("" + i, color));
-                line.add(InputEvent.createLabel(String.format("%.10f", it.getX()), color));
-                line.add(InputEvent.createLabel(String.format("%.10f", it.getRelativeError()), color));
+                line.add(ExpressionInput.createLabel("" + i, color));
+                line.add(ExpressionInput.createLabel(String.format("%.10f", it.getX()), color));
+                line.add(ExpressionInput.createLabel(String.format("%.10f", it.getRelativeError()), color));
                 line.setMaximumSize(dim);
                 line.setBackground(color);
                 cont.add(line);

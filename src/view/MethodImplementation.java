@@ -5,17 +5,13 @@
  */
 package view;
 
-import data.Constants;
 import data.Iteration;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 /**
  * Interface do evento de atualização da entrada do usuário.
  * @author vk
  */
-public interface InputEvent {
+public interface MethodImplementation {
     
     /**
      * Occurs every time the user hits the Enter key while inserting an expression.
@@ -35,22 +31,4 @@ public interface InputEvent {
      */
     public void pointClickedEvent(ExpressionInput input, InputEventManager event, double x, double y);
     
-    /**
-     * Creates a new JLabel using properties from the Constants class.
-     * @param text The JLabel text
-     * @param background Color background (Preferably from the Constants)
-     * @return A JLabel with the properties and parameters.
-     */
-    public static JLabel createLabel(String text, Color background) {
-        JLabel label = new JLabel();
-        label.setFont(Constants.HELVETICA);
-        label.setText(text);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setBackground(background);
-        label.setOpaque(true);
-        if(label.getBackground() == Constants.BLUE) {
-            label.setForeground(Constants.WHITE);
-        }
-        return label;
-    }
 }

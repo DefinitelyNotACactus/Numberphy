@@ -133,7 +133,7 @@ public class Application extends JPanel {
      * Event called when the user updates the input.
      * @param event Event
      */
-    public void setInputEvent(InputEvent event) {
+    public void setInputEvent(MethodImplementation event) {
         getExpressionInput().setInputEvent(event);
     }
 
