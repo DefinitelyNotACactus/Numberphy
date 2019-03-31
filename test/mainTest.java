@@ -5,7 +5,6 @@
  */
 
 import data.Spline;
-import data.Poli;
 
 /**
  *
@@ -18,7 +17,7 @@ public class mainTest {
         double[] Y = {0, 0.5, 2, 1.5};
         
         Spline spline = new Spline();
-        Poli[] ci = spline.Intepolate(X, Y, 0.2, -1.0);
+        String[] ci = spline.Intepolate(X, Y, 0.2, -1.0);
     }
     
 }

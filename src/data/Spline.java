@@ -5,7 +5,6 @@
  */
 package data;
 
-import static java.lang.Math.pow;
 
 public class Spline {
 
@@ -79,27 +78,21 @@ public class Spline {
         return M;
     }
 
-    private Poli[] montarPolinomios(double[] X, double[] Y, double[] H, double[] M) {
-        Poli[] Ci = new Poli[X.length];
+    private String[] montarPolinomios(double[] X, double[] Y, double[] H, double[] M) {
+        String[] Ci = new String[X.length];
 
         for (int i = 1; i < X.length; i++) {
-            final double Mi_1 = M[i - 1];
-            final double Mi = M[i];
-            final double Xi_1 = X[i - 1];
-            final double Xi = X[i];
-            final double Yi_1 = Y[i - 1];
-            final double Yi = Y[i];
-            final double Hi = H[i];
-            Ci[i] = (double x) -> (Mi_1 * pow((Xi - x), 3)) / (6 * Hi)
-                    + (Mi * pow((x - Xi_1), 3)) / (6 * Hi)
-                    + (Yi_1 - (Mi_1 * Hi * Hi)/6 ) * ((Xi - x) / Hi)
-                    + (Yi - (Mi * Hi * Hi)/6) * ((x - Xi_1) / Hi);
+            Ci[i] =  "(" + M[i-1] + "* (" + X[i] + " - x)^3) /" + (6 * H[i]) + "+" 
+                   + "(" + M[i] + " *(x -" + X[i-1]+ ")^ 3) /" + (6 * H[i]) + "+" 
+                   +  (Y[i-1] - (M[i-1] * H[i] * H[i])/6 ) +"* ((" + X[i] + " - x) / "+H[i]+") +" 
+                   +  (Y[i] - (M[i] * H[i] * H[i])/6)   +"* ((x - " + X[i-1] + "  ) /  +" + H[i] + ")";
+
         }
 
         return Ci;
     }
 
-    public Poli[] Intepolate(double[] X, double[] Y, double d0, double dn) {
+    public String[] Intepolate(double[] X, double[] Y, double d0, double dn) {
         System.out.println("X:");
         for (int i = 0; i < X.length; i++) {
             System.out.println("" + X[i]);
@@ -144,14 +137,10 @@ public class Spline {
             System.out.println("" + M[i]);
         }
         
-        Poli[] Ci = montarPolinomios(X, Y, H, M);
-        System.out.println("Resultados");
-        System.out.println("c1 x0: " + Ci[1].poli(X[0]));
-        System.out.println("c1 x1: " + Ci[1].poli(X[1]));
-        System.out.println("c2 x1: " + Ci[2].poli(X[1]));
-        System.out.println("c2 x2: " + Ci[2].poli(X[2]));
-        System.out.println("c3 x2: " + Ci[3].poli(X[2]));
-        System.out.println("c3 x3: " + Ci[3].poli(X[3]));
+        String[] Ci = montarPolinomios(X, Y, H, M);
+        for (int i = 1; i < M.length; i++) {
+            System.out.println("" + Ci[i]);
+        }
         
         return Ci;
     }
