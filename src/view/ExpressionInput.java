@@ -63,6 +63,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
@@ -304,6 +305,9 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     private JPanel table;
     private List<TableInput> tableLines;
     private JPanel bottomLine;
+    private JPanel searchLine;
+    private JTextField searchTextField;
+    private JLabel searchYLabel;
     
     private final InputEventManager input_event;
    
@@ -373,7 +377,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
          btRemove.setForeground(Constants.BLUE);
          btRemove.setFont(Constants.HELVETICA);
          btRemove.addActionListener(this::btRemoveActionPerformed);
-         btRemove.setEnabled(false);
+         btRemove.setEnabled((method != MethodsEnum.SPLINES));
          bottomLine.add(btRemove);
 
          btCompute = new JButton();
@@ -385,28 +389,51 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
          bottomLine.add(btCompute);
 
          table.add(bottomLine);
-
+         
+         searchLine = new JPanel();
+         searchLine.setLayout(TableInput.GRID);
+         searchTextField = new JTextField(10);
+         //searchTextField.setToolTipText("X desejado");
+         searchTextField.addActionListener(this::searchTextFieldActionPerformed);
+         searchLine.add(searchTextField);
+         searchYLabel = createLabel("", Constants.GREEN);
+         searchLine.add(searchYLabel);
+         searchLine.setBackground(Constants.GREEN);
+         
          inputPanel.removeAll();
          inputPanel.add(table);
      }
 
       private void reloadInputTable(boolean remove) {
+          table.remove(searchLine);
+          int modifier;
+          if(method == MethodsEnum.HERMITE) {
+              modifier = 1;
+          } else {
+              modifier = 4;
+          }
           if(remove) {  
-              for(int i = tableLines.size()-1, j = tableLines.size()-5; i > j; i--) {
+              for(int i = tableLines.size()-1, j = tableLines.size()-(modifier+1); i > j; i--) {
                   table.remove(tableLines.remove(i));
               }
-              if(tableLines.size() <= 4) {
+              if(tableLines.size() <= 4 && method == MethodsEnum.SPLINES || tableLines.size() <= 2 && method == MethodsEnum.HERMITE) {
                   btRemove.setEnabled(false);
+              }
+              if(!btAdd.isEnabled()) {
+                  btAdd.setEnabled(true);
               }
           } else {
               table.remove(bottomLine);
-              for(int i = 0, s = tableLines.size(); i < 4; i++) {
+              for(int i = 0, s = tableLines.size(); i < modifier; i++) {
                   tableLines.add(new TableInput());
                   table.add(tableLines.get(s + i));
               }
               table.add(bottomLine);
-              if(tableLines.size() > 4) {
+              if(tableLines.size() > 4 || tableLines.size() > 2 && method == MethodsEnum.HERMITE) {
                   btRemove.setEnabled(true);
+                  if(tableLines.size() == 16) {
+                      btAdd.setEnabled(false);
+                  }
               }
           }
           table.revalidate();
@@ -421,8 +448,22 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
       }
 
       private void btComputeActionPerformed(ActionEvent evt) {
-         //TODO: handle the input and compute
+         searchTextField.setText("");
+         searchYLabel.setText("Procurar f(x)");
+         table.add(searchLine);
+         table.revalidate();
+         tableLines.forEach((i) -> {
+             try {
+                 System.out.println("X: " + i.parseX() + "Y: " + i.parseY());
+             } catch(NumberFormatException ex) {
+                 //TODO: handle the exception
+             }
+        }); //TODO: handle the input and compute
      }
+      
+      private void searchTextFieldActionPerformed(ActionEvent evt) {
+          //TODO: handle it
+      }
       
    /**   
     * Set the parser that is used to parse the user's input strings.
@@ -773,6 +814,10 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         return iterations;
     }
     
+    public List<TableInput> getTable() {
+        return tableLines;
+    }
+    
     /**
      * @return the app
      */
@@ -811,6 +856,8 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     
     /**
      * Invocado quando o usuário clica em algum ponto do gráfico.
+     * @param x
+     * @param y
      */
     public void performPointClickedEvent(double x, double y) {
         input_event.invokePointClickedEvent(x, y);

@@ -48,4 +48,12 @@ public class TableInput extends JPanel {
     public String getYInput() {
         return yField.getText();
     }
+    
+    public double parseX() throws NumberFormatException {
+        return Double.parseDouble(getXInput());
+    }
+    
+    public double parseY() throws NumberFormatException {
+        return Double.parseDouble(getYInput());
+    }
 }
