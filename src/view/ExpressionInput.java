@@ -52,10 +52,18 @@ import edu.hws.jcm.data.ParseError;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.SimpleFunction;
 import java.awt.AWTEvent;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 
 import java.awt.event.TextEvent;
+import java.util.LinkedList;
+import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * An ExpressionInput is an input box that allows the user
@@ -282,14 +290,22 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
                                       //   is called and finds a change in the
                                       //   user's input;
    
-   private MethodsEnum method;
-   private final Application app;
-   private double x0; //xL for Ridders
-   private double xR;
-   private int iterations;
-   private double tolerance;
-   
-   private final InputEventManager input_event;
+    private MethodsEnum method;
+    private final Application app;
+    private double x0; //xL for Ridders
+    private double xR;
+    private int iterations;
+    private double tolerance;
+    //Interpolation fields
+    private JButton btCompute;
+    private JButton btAdd;
+    private JButton btRemove;
+    private JPanel topLine;
+    private JPanel table;
+    private List<TableInput> tableLines;
+    private JPanel bottomLine;
+    
+    private final InputEventManager input_event;
    
    /**
     * Create an ExpressionInputBox with initial contents given by initialValue.(If initialValue is null, the empty string is used.)  If p is not null,
@@ -300,7 +316,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     * @param p if non-null, this parser will be used to parse contents of the ExpressionInputBox.
     * @param app
     */
-   public ExpressionInput(MethodsEnum method, String initialValue, Parser p, Application app) {
+    public ExpressionInput(MethodsEnum method, String initialValue, Parser p, Application app) {
         this.method = method;
         this.app = app;
         initComponents();
@@ -308,14 +324,106 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         if (initialValue == null) {
             initialValue = "";
         }
-        functionTextField.setText(initialValue);
+        
+        if(method == MethodsEnum.HERMITE || method == MethodsEnum.SPLINES) {
+             initInputTable();
+        } else {
+            functionTextField.setText(initialValue);
+        }
+        
         setParser(p);  // (Sets previousContents to null, so checkInput() will actually check the input.)
         checkInput();  // Won't throw an error, since throwErrors is false.
         throwErrors = true;
         input_event = new InputEventManager(this);
         performInputEvent();
-   }
+    }
    
+    private void initInputTable() {
+         table = new JPanel();
+         table.setLayout(new BoxLayout(table, BoxLayout.Y_AXIS));
+         
+         topLine = new JPanel();
+         topLine.setLayout(TableInput.GRID);
+         topLine.setBackground(Constants.BLUE);
+         topLine.add(InputEvent.createLabel("X", Constants.BLUE));
+         topLine.add(InputEvent.createLabel("Y", Constants.BLUE));
+         table.add(topLine);
+         
+         tableLines = new LinkedList<>();
+         for(int i = 0; i < 4; i++) {
+              tableLines.add(new TableInput());
+              table.add(tableLines.get(i));
+         }
+
+         bottomLine = new JPanel();
+         bottomLine.setLayout(new GridLayout(0, 3));
+         bottomLine.setBackground(Constants.BLUE);
+
+         btAdd = new JButton();
+         btAdd.setText("+");
+         btAdd.setBackground(Constants.WHITE);
+         btAdd.setForeground(Constants.BLUE);
+         btAdd.setFont(Constants.HELVETICA);
+         btAdd.addActionListener(this::btAddActionPerformed);
+         bottomLine.add(btAdd);
+
+         btRemove = new JButton();
+         btRemove.setText("-");
+         btRemove.setBackground(Constants.WHITE);
+         btRemove.setForeground(Constants.BLUE);
+         btRemove.setFont(Constants.HELVETICA);
+         btRemove.addActionListener(this::btRemoveActionPerformed);
+         btRemove.setEnabled(false);
+         bottomLine.add(btRemove);
+
+         btCompute = new JButton();
+         btCompute.setText("Computar");
+         btCompute.setBackground(Constants.WHITE);
+         btCompute.setForeground(Constants.BLUE);
+         btCompute.setFont(Constants.HELVETICA);
+         btCompute.addActionListener(this::btComputeActionPerformed);
+         bottomLine.add(btCompute);
+
+         table.add(bottomLine);
+
+         inputPanel.removeAll();
+         inputPanel.add(table);
+     }
+
+      private void reloadInputTable(boolean remove) {
+          if(remove) {  
+              for(int i = tableLines.size()-1, j = tableLines.size()-5; i > j; i--) {
+                  table.remove(tableLines.remove(i));
+              }
+              if(tableLines.size() <= 4) {
+                  btRemove.setEnabled(false);
+              }
+          } else {
+              table.remove(bottomLine);
+              for(int i = 0, s = tableLines.size(); i < 4; i++) {
+                  tableLines.add(new TableInput());
+                  table.add(tableLines.get(s + i));
+              }
+              table.add(bottomLine);
+              if(tableLines.size() > 4) {
+                  btRemove.setEnabled(true);
+              }
+          }
+          table.revalidate();
+      }
+
+      private void btAddActionPerformed(ActionEvent evt) {
+         reloadInputTable(false);
+      }
+
+      private void btRemoveActionPerformed(ActionEvent evt) {
+         reloadInputTable(true);
+      }
+
+      private void btComputeActionPerformed(ActionEvent evt) {
+         //TODO: handle the input and compute
+     }
+      
    /**   
     * Set the parser that is used to parse the user's input strings.
     * If this is null, then a default parser is used that will

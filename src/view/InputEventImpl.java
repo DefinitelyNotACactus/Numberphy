@@ -28,13 +28,14 @@ public class InputEventImpl implements InputEvent {
      */
     @Override
     public Iteration[] inputUpdate(ExpressionInput input, InputEventManager event) {
-        event.drawString("f(x) = " + input.getFunctionString());
         Iteration points[] = null;
         switch(input.getMethod()) {
             case HALLEY:
+                event.drawString("f(x) = " + input.getFunctionString());
                 points = halley(input, event, input.getx0(), input.getTolerance(), input.getIterations());
                 break;
             case RIDDERS:
+                event.drawString("f(x) = " + input.getFunctionString());
                 points = ridders(input, event, input.getx0(), input.getXr(), input.getTolerance(), input.getIterations());
                 break;
             default:

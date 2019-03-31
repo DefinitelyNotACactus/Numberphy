@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -62,6 +61,7 @@ public class Description extends JScrollPane {
         btApplication.setForeground(Constants.BLUE);
         
         descriptionLabel = new JLabel();
+        descriptionLabel.setFont(Constants.HELVETICA);
         descriptionLabel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent evt) {
@@ -96,7 +96,7 @@ public class Description extends JScrollPane {
     }
     
     private void reloadContainer() {
-        if(method == MethodsEnum.HALLEY || method == MethodsEnum.RIDDERS) {
+        if(method == MethodsEnum.HALLEY || method == MethodsEnum.RIDDERS || method == MethodsEnum.HERMITE || method == MethodsEnum.SPLINES) {
             btApplication.setVisible(true);
         } else {
             btApplication.setVisible(false);
@@ -125,7 +125,6 @@ public class Description extends JScrollPane {
     }
     
     public String getMethodDescription(MethodsEnum method) throws FileNotFoundException, IOException {
-        InputStreamReader reader;
         switch(method){
             case HALLEY:
                 
@@ -207,7 +206,7 @@ public class Description extends JScrollPane {
             default:
                 reader = new InputStreamReader(getResourceFile("resources/assets/Welcome.md"));
                 document = parser.parseReader(reader);
-                return "<html><div WIDTH="+getWidth()+">" + renderer.render(document) + "</html>";
+                return "<html><div WIDTH="+getWidth()+">" + renderer.render(document) + "<br></html>";
         }
     }
     

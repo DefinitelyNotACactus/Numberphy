@@ -81,7 +81,11 @@ public class Application extends JPanel {
 
         main = new JCMPanel();
         main.add(getCanvas(), BorderLayout.CENTER);
-        main.add(getExpressionInput(), BorderLayout.SOUTH);
+        if(method == MethodsEnum.HALLEY || method == MethodsEnum.RIDDERS) {
+            main.add(getExpressionInput(), BorderLayout.SOUTH);
+        } else {
+            main.add(getExpressionInput(), BorderLayout.WEST);
+        }
         if(limitsEnabled) {
             main.add(limits, BorderLayout.EAST);
         }

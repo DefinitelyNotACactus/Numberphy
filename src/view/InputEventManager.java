@@ -209,9 +209,9 @@ public class InputEventManager {
         Color color;
         Dimension dim = new Dimension(500, 20);
         line.setLayout(layout);
-        line.add(new TableLabel("k", Constants.BLUE));
-        line.add(new TableLabel("X(k)", Constants.BLUE));
-        line.add(new TableLabel("ER", Constants.BLUE));
+        line.add(InputEvent.createLabel("k", Constants.BLUE));
+        line.add(InputEvent.createLabel("X(k)", Constants.BLUE));
+        line.add(InputEvent.createLabel("ER", Constants.BLUE));
         line.setMaximumSize(dim);
         cont.add(line);
         int i = 0;
@@ -224,9 +224,9 @@ public class InputEventManager {
             if(it != null) {
                 line = new JPanel();
                 line.setLayout(layout);
-                line.add(new TableLabel("" + i, color));
-                line.add(new TableLabel(String.format("%.10f", it.getX()), color));
-                line.add(new TableLabel(String.format("%.10f", it.getRelativeError()), color));
+                line.add(InputEvent.createLabel("" + i, color));
+                line.add(InputEvent.createLabel(String.format("%.10f", it.getX()), color));
+                line.add(InputEvent.createLabel(String.format("%.10f", it.getRelativeError()), color));
                 line.setMaximumSize(dim);
                 line.setBackground(color);
                 cont.add(line);
@@ -253,18 +253,5 @@ public class InputEventManager {
     
     public Iteration[] getPoints() {
         return points;
-    }
-    
-    private class TableLabel extends JLabel {
-        private TableLabel(String text, Color background) {
-            super.setFont(Constants.HELVETICA);
-            super.setText(text);
-            super.setHorizontalAlignment(SwingConstants.CENTER);
-            super.setBackground(background);
-            super.setOpaque(true);
-            if(super.getBackground() == Constants.BLUE) {
-                super.setForeground(Constants.WHITE);
-            }
-        }
     }
 }
