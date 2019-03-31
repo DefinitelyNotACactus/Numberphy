@@ -5,10 +5,8 @@
  */
 package data;
 
-/**
- *
- * @author Pablo Suria
- */
+import static java.lang.Math.pow;
+
 public class Spline {
 
     public double[] calH(double[] X) {
@@ -23,9 +21,9 @@ public class Spline {
 
     public double[] CalMu(double[] H) {
         double[] mu = new double[H.length];
-        mu[0] = 0;
-        mu[H.length - 1] = 1;
-        for (int i = 1; i < H.length - 1; i++) {
+        
+        mu[H.length - 1] = 0;
+        for (int i = 0; i < H.length - 1; i++) {
             mu[i] = H[i] / (H[i] + H[i + 1]);
         }
 
@@ -48,7 +46,6 @@ public class Spline {
 
         dd[0] = ((Y[1] - Y[0]) / (X[1] - X[0]) - d0) / (X[1] - X[0]);
         dd[X.length - 1] = (dn - (Y[X.length - 1] - Y[X.length - 2]) / (X[X.length - 1] - X[X.length - 2])) / (X[X.length - 1] - X[X.length - 2]);
-
         for (int i = 1; i < X.length - 1; i++) {
             dd[i] = ((Y[i + 1] - Y[i]) / (X[i + 1] - X[i]) - (Y[i] - Y[i - 1]) / (X[i] - X[i - 1])) / (X[i + 1] - X[i - 1]);
         }
@@ -56,13 +53,44 @@ public class Spline {
         return dd;
     }
 
-    public double[] calM(double[] mu, double[] lambda, double[] dd) {
-        double[] m = new double[mu.length];
+    public double[][] montarSistema(double[] lambda, double[] mu) {
+        double[][] sistema = new double[mu.length][mu.length];
 
-        m[0] = (dd[0] * 6) / 2;
-        m[mu.length - 1] = (dd[mu.length - 1] * 6) / 2;
-        System.out.println("as" + m[0] + " " + m[mu.length - 1]);
-        return m;
+        for (int i = 0; i < mu.length; i++) {
+            sistema[i][i] = 2;
+
+            if (i + 1 < mu.length) {
+                sistema[i][i + 1] = lambda[i];
+            }
+            if (i - 1 >= 0) {
+                sistema[i][i - 1] = mu[i];
+            }
+        }
+
+        return sistema;
+    }
+
+    public double[] calM(double[][] sistema, double[] dd) {
+        double[] M = lsolve(sistema, dd);
+        
+        return M;
+    }
+
+    public Poli[] montarPolinomios(final double[] X, final double[] Y, final double[] H, final double[] M) {
+        Poli[] Ci = new Poli[X.length];
+        
+        for (int i = 1; i < X.length; i++) {
+            final double Mi_1 = M[i - 1];
+            final double Mi = M[i];
+            final double Xi_1 = X[i - 1];
+            final double Xi = X[i];
+            final double Yi_1 = Y[i - 1];
+            final double Yi = Y[i];
+            final double Hi = H[i];
+            Ci[i] = (double x) -> (Mi_1 * pow((Xi - x), 3)) / (6 * Hi) + (Mi * pow((x - Xi), 3)) / (6 * Hi) + (Yi_1 - (Mi - 1 * Hi * Hi) / 6) * ((Xi - x) / Hi) + (Yi - (Mi * Hi * Hi) / 6) * ((x - Xi_1) / Hi);
+        }
+
+        return Ci;
     }
 
     /**
@@ -123,4 +151,5 @@ public class Spline {
 
         return x;
     }
+
 }
