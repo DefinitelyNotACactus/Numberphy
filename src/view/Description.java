@@ -254,15 +254,24 @@ public class Description extends JScrollPane {
                         "<img src=" + splines8Path + " alt=\"FPGraph\" >" +
                         "<p><img src=" + splines9Path + " alt=\"FPGraph\" ></p>" +
                         "<table><p><tr><td>Onde, </td> <td><img src=" + splines10Path + " alt=\"FPGraph\" ></td></tr></p></table>" +
-                        "<table><tr><td>Portanto, temos </td> <td><img src=" + splines11Path + " alt=\"FPGraph\" ></td> <td>, onde </td> <td><img src=" + splines12Path + " alt=\"FPGraph\" ></td> <td>.O sistema que precisamos resolver é:</td></tr></table>" +
-                        "<img src=" + splines13Path + " alt=\"FPGraph\" >" +
+                        "<table><tr><td>Portanto, temos </td> <td><img src=" + splines11Path + " alt=\"FPGraph\" ></td> <td>, onde </td> <td><img src=" + splines12Path + " alt=\"FPGraph\" ></td> <td> e f[ x<sub>i-1</sub> , x<sub>i</sub> , x<sub>i+1</sub> ] é uma diferença dividida.</td></tr></table>" +
+                        "O sistema que precisamos resolver é:" +
+                        "<p><img src=" + splines13Path + " alt=\"FPGraph\" ></p>" +
                         "<p><p><table><tr><td>Para a condição de limite do tipo II , recebemos</td> <td><img src=" + splines14Path + " alt=\"FPGraph\" ></td> <td> diretamente, então temos</td> <td><img src=" + splines15Path + " alt=\"FPGraph\" ></td> <td> e precisamos resolver o sistema de equações como vimos acima.</td></tr></table></p></p>" +
                         "</html>");
             case WELCOME:
             default:
-                reader = new InputStreamReader(getResourceFile("resources/assets/Welcome.md"));
-                document = parser.parseReader(reader);
-                return "<html><div WIDTH="+getWidth()+">" + renderer.render(document) + "<br></html>";
+                return("<html><div WIDTH="+getWidth()+"><h1 id=\"Numberphy\">Numberphy</h2>\n" +
+                        "<p>Projecto de Cálculo Numérico, Numberphy, essa é uma distribuição do grupo de desenvolvimento Pales.</p>" +
+                        "<p><p></p></p>" +
+                        "<h2 id=\"Introdução\">Introdução</h2>" +
+                        "<p>O projecto Numberphy consiste em um programa desenvolvido usando Java/Swing junto à biblioteca JCM (Java Components for Math Project), usando os conhecimentos adquiridos na aula de Calculo Numérico para apresentar uma interface gráfica para explicação e aplicaçao de alguns métodos.</p>" +
+                        "<p></p>" +
+                        "<h2 id=\"Requerimentos\">Requerimentos</h2>" +
+                        "<ul><li>JDK 1.8 ou superior</li>" +
+                        "<li>JCM (Incluido neste repositório)</li>" +
+                        "<li>Algum conhecimento sobre cálculo</li></ul>" +
+                        "</html>");
         }
     }
     
