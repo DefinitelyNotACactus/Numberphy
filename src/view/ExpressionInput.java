@@ -52,7 +52,6 @@ import edu.hws.jcm.data.Parser;
 import edu.hws.jcm.data.ParseError;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.SimpleFunction;
-import edu.hws.jcm.draw.Graph1D;
 import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -366,7 +365,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         table.add(topLine);
 
         tableLines = new LinkedList<>();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 2; i++) {
             tableLines.add(new TableInput(method == MethodsEnum.HERMITE));
             table.add(tableLines.get(i));
         }
@@ -389,7 +388,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         btRemove.setForeground(Constants.BLUE);
         btRemove.setFont(Constants.HELVETICA);
         btRemove.addActionListener(this::btRemoveActionPerformed);
-        btRemove.setEnabled((method != MethodsEnum.SPLINES));
+        btRemove.setEnabled(false);
         bottomLine.add(btRemove);
 
         btCompute = new JButton();
@@ -427,7 +426,6 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         searchLine = new JPanel();
         searchLine.setLayout(TableInput.GRID_2);
         searchTextField = new JTextField(10);
-        //searchTextField.setToolTipText("X desejado");
         searchTextField.setFont(Constants.HELVETICA);
         searchTextField.setBackground(Constants.WHITE);
         searchTextField.addActionListener(this::searchTextFieldActionPerformed);
@@ -442,17 +440,11 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
 
     private void reloadInputTable(boolean remove) {
         table.remove(searchLine);
-        int modifier;
-        if (method == MethodsEnum.HERMITE) {
-            modifier = 1;
-        } else {
-            modifier = 4;
-        }
         if (remove) {
-            for (int i = tableLines.size() - 1, j = tableLines.size() - (modifier + 1); i > j; i--) {
+            for (int i = tableLines.size() - 1, j = tableLines.size() - 2; i > j; i--) {
                 table.remove(tableLines.remove(i));
             }
-            if (tableLines.size() <= 4 && method == MethodsEnum.SPLINES || tableLines.size() <= 2 && method == MethodsEnum.HERMITE) {
+            if (tableLines.size() <= 2) {
                 btRemove.setEnabled(false);
             }
             if (!btAdd.isEnabled()) {
@@ -460,10 +452,8 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
             }
         } else {
             table.remove(bottomLine);
-            for (int i = 0, s = tableLines.size(); i < modifier; i++) {
-                tableLines.add(new TableInput(method == MethodsEnum.HERMITE));
-                table.add(tableLines.get(s + i));
-            }
+            tableLines.add(new TableInput(method == MethodsEnum.HERMITE));
+            table.add(tableLines.get(tableLines.size()-1));
             if (method == MethodsEnum.SPLINES) {
                 table.add(dHeaderLine);
                 dNTextField.setText("");
@@ -471,7 +461,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
                 table.add(dLine);
             }
             table.add(bottomLine);
-            if (tableLines.size() > 4 || tableLines.size() > 2 && method == MethodsEnum.HERMITE) {
+            if (tableLines.size() > 2) {
                 btRemove.setEnabled(true);
                 if (tableLines.size() == 16) {
                     btAdd.setEnabled(false);
@@ -514,7 +504,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
                         expressions[n] = new EI();
                         expressions[n].serialNumber++;
                         expressions[n].exp = getParser().parse(p);
-
+                        
                         xi = tableLines.get(ip).parseX();
                         xf = tableLines.get(ip + 1).parseX();
                         f = new SimpleFunctionEI(expressions[n], getApplication().getVariable(), xi, xf);
@@ -524,8 +514,6 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
                             ifc.stackFunction(f, xi);
                         }
                         input_event.drawFunction(f, Constants.GREEN, false);
-                        
-                        
                         n++;
                     }
                     break;
@@ -560,9 +548,13 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     private void searchTextFieldActionPerformed(ActionEvent evt) {
         try {
             double X = Double.parseDouble(searchTextField.getText());
-            double Y = ifc.eval(X);
-            searchYLabel.setText(String.format("%.10f", Y));
-            input_event.drawCrossHair(X, Y, Constants.BLUE);
+            if(X > limits[0] && X < limits[1]) {
+                double Y = ifc.eval(X);
+                searchYLabel.setText(String.format("%.10f", Y));
+                input_event.drawCrossHair(X, Y, Constants.BLUE);
+            } else {
+                searchYLabel.setText("X fora do intervalo");
+            }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
