@@ -200,6 +200,9 @@ public class InputEventManager {
         return getCanvas().getCoordinateRect(0);
     }
     
+    public void setLimits(double[] limits) {
+        getCoordRect().setLimits(limits);
+    }
     
     public void drawTable(Iteration[] points) {
         Container cont = new Container();

@@ -7,7 +7,7 @@ package data;
 
 
 public class Spline {
-
+    
     private double[] calH(double[] X) {
         double[] h = new double[X.length];
 
@@ -79,13 +79,13 @@ public class Spline {
     }
 
     private String[] montarPolinomios(double[] X, double[] Y, double[] H, double[] M) {
-        String[] Ci = new String[X.length];
+        String[] Ci = new String[X.length - 1];
 
         for (int i = 1; i < X.length; i++) {
-            Ci[i] =  "(" + M[i-1] + "* (" + X[i] + " - x)^3) /" + (6 * H[i]) + "+" 
+            Ci[i - 1] =  "(" + M[i-1] + "* (" + X[i] + " - x)^3) /" + (6 * H[i]) + "+" 
                    + "(" + M[i] + " *(x -" + X[i-1]+ ")^ 3) /" + (6 * H[i]) + "+" 
                    +  (Y[i-1] - (M[i-1] * H[i] * H[i])/6 ) +"* ((" + X[i] + " - x) / "+H[i]+") +" 
-                   +  (Y[i] - (M[i] * H[i] * H[i])/6)   +"* ((x - " + X[i-1] + "  ) /  +" + H[i] + ")";
+                   +  (Y[i] - (M[i] * H[i] * H[i])/6)   +"* ((x - " + X[i-1] + "  ) /  " + H[i] + ")";
 
         }
 
@@ -138,7 +138,7 @@ public class Spline {
         }
         
         String[] Ci = montarPolinomios(X, Y, H, M);
-        for (int i = 1; i < M.length; i++) {
+        for (int i = 0; i < Ci.length; i++) {
             System.out.println("" + Ci[i]);
         }
         
@@ -203,5 +203,6 @@ public class Spline {
 
         return x;
     }
-
+    
+    
 }
