@@ -312,7 +312,8 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     private EI[] expressions;
     private IntervalFunctionComposition ifc;
     private final InputEventManager input_event;
-
+    private double[] limits;
+    
     /**
      * Create an ExpressionInputBox with initial contents given by
      * initialValue.(If initialValue is null, the empty string is used.) If p is
@@ -347,6 +348,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     }
 
     private void initInputTable() {
+        limits = new double[4];
         table = new JPanel();
         table.setLayout(new BoxLayout(table, BoxLayout.Y_AXIS));
 
@@ -505,21 +507,32 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
                         expressions[n].serialNumber++;
                         expressions[n].exp = getParser().parse(p);
 
-                        double xi = ip == 0 ? Double.NEGATIVE_INFINITY : tableLines.get(ip).parseX();
-                        double xf = ip == pol.length - 1 ? Double.POSITIVE_INFINITY : tableLines.get(ip + 1).parseX();
+                        double xi = tableLines.get(ip).parseX();
+                        double xf = tableLines.get(ip + 1).parseX();
                         f = new SimpleFunctionEI(expressions[n], getApplication().getVariable(), xi, xf);
-                        if (ip == 0)
+                        if (ip == 0) {
                             ifc = new IntervalFunctionComposition(f);
-                        else
+                        } else {
                             ifc.stackFunction(f, xi);
-                        
+                        }
                         input_event.drawFunction(f, Constants.GREEN, false);
+                        
+                        
                         n++;
                     }
 
                     for (int i = 0; i < tableLines.size(); i++) {
-                        input_event.drawCrossHair(x[i], y[i], Constants.RED);
+                        input_event.drawCrossHair(x[i], y[i], Constants.PURPLE);
                     }
+                    for(int i = 0; i < 4; i++) {
+                        if(i%2 != 0) {
+                            limits[i] += 1;
+                        } else {
+                            limits[i] -= 1;
+                        }
+                    }
+
+                    input_event.setLimits(limits);
                     break;
             }
         } else {
@@ -528,7 +541,14 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     }
 
     private void searchTextFieldActionPerformed(ActionEvent evt) {
-        System.out.println(ifc.eval(Double.valueOf(searchTextField.getText())));
+        try {
+            double X = Double.parseDouble(searchTextField.getText());
+            double Y = ifc.eval(X);
+            searchYLabel.setText(String.format("%.10f", Y));
+            input_event.drawCrossHair(X, Y, Constants.BLUE);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private boolean parseTable() {
@@ -537,12 +557,27 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         y = new double[tableLines.size()];
         for (TableInput t : tableLines) {
             try {
+                x[i] = t.parseX();
+                y[i] = t.parseY();
                 if (i == 0) {
                     d0 = Double.parseDouble(d0TextField.getText());
                     dN = Double.parseDouble(dNTextField.getText());
-                }
-                x[i] = t.parseX();
-                y[i] = t.parseY();
+                    limits[0] = x[i];
+                    limits[1] = x[i];
+                    limits[2] = y[i];
+                    limits[3] = y[i];
+                } else {
+                    if(x[i] > limits[1]) {
+                        limits[1] = x[i];
+                    } else if(x[i] < limits[0]) {
+                        limits[0] = x[i];
+                    }
+                    if(y[i] > limits[3]) {
+                        limits[3] = y[i];
+                    } else if(y[i] < limits[2]) {
+                        limits[2] = y[i];
+                    }
+                }     
                 i++;
             } catch (NumberFormatException ex) {
                 return false;
