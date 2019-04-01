@@ -17,16 +17,20 @@ import javax.swing.JTextField;
 public class TableInput extends JPanel {
     private JTextField xField;
     private JTextField yField;
+    private JTextField dxField;
+    private boolean triplet;
     
-    public static final GridLayout GRID = new GridLayout(0, 2);
+    public static final GridLayout GRID_2 = new GridLayout(0, 2);
+    public static final GridLayout GRID_3 = new GridLayout(0, 3);
     
-    public TableInput() {
+    public TableInput(boolean triplet) {
+        this.triplet = triplet;
         initComponents();
     }
     
     private void initComponents() {
         setBackground(Constants.WHITE);
-        setLayout(GRID);
+        setLayout(triplet? GRID_3 : GRID_2);
         
         xField = new JTextField(10);
         xField.setFont(Constants.HELVETICA);
@@ -38,6 +42,12 @@ public class TableInput extends JPanel {
         yField.setBackground(Constants.WHITE);
         add(yField);
         
+        if(triplet) {
+            dxField = new JTextField(10);
+            dxField.setFont(Constants.HELVETICA);
+            dxField.setBackground(Constants.WHITE);
+            add(dxField);
+        }
         setVisible(true);
     }
     
@@ -49,11 +59,19 @@ public class TableInput extends JPanel {
         return yField.getText();
     }
     
+    public String getDxInput() {
+        return dxField.getText();
+    }
+    
     public double parseX() throws NumberFormatException {
         return Double.parseDouble(getXInput());
     }
     
     public double parseY() throws NumberFormatException {
         return Double.parseDouble(getYInput());
+    }
+    
+    public double parseDx() throws NumberFormatException {
+        return Double.parseDouble(getXInput());
     }
 }

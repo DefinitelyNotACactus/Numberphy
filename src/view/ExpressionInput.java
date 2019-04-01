@@ -37,6 +37,7 @@ package view;
 
 import data.MethodsEnum;
 import data.Constants;
+import data.Hermite;
 import data.Spline;
 
 import edu.hws.jcm.awt.Controller;
@@ -302,6 +303,8 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     private JLabel searchYLabel;
     private double[] x;
     private double[] y;
+    //Hermite Fields
+    private double[] dx;
     //Splines fields
     private JPanel dHeaderLine;
     private JPanel dLine;
@@ -353,15 +356,18 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         table.setLayout(new BoxLayout(table, BoxLayout.Y_AXIS));
 
         topLine = new JPanel();
-        topLine.setLayout(TableInput.GRID);
+        topLine.setLayout(method == MethodsEnum.HERMITE ? TableInput.GRID_3 : TableInput.GRID_2);
         topLine.setBackground(Constants.BLUE);
         topLine.add(createLabel("X", Constants.BLUE));
         topLine.add(createLabel("Y", Constants.BLUE));
+        if(method == MethodsEnum.HERMITE) {
+            topLine.add(createLabel("dX", Constants.BLUE));
+        }
         table.add(topLine);
 
         tableLines = new LinkedList<>();
         for (int i = 0; i < 4; i++) {
-            tableLines.add(new TableInput());
+            tableLines.add(new TableInput(method == MethodsEnum.HERMITE));
             table.add(tableLines.get(i));
         }
 
@@ -396,14 +402,14 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
 
         if (method == MethodsEnum.SPLINES) {
             dHeaderLine = new JPanel();
-            dHeaderLine.setLayout(TableInput.GRID);
+            dHeaderLine.setLayout(TableInput.GRID_2);
             dHeaderLine.setBackground(Constants.BLUE);
             dHeaderLine.add(createLabel("d0", Constants.BLUE));
             dHeaderLine.add(createLabel("dN", Constants.BLUE));
             table.add(dHeaderLine);
 
             dLine = new JPanel();
-            dLine.setLayout(TableInput.GRID);
+            dLine.setLayout(TableInput.GRID_2);
             dLine.setBackground(Constants.BLUE);
 
             d0TextField = new JTextField(10);
@@ -419,7 +425,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         table.add(bottomLine);
 
         searchLine = new JPanel();
-        searchLine.setLayout(TableInput.GRID);
+        searchLine.setLayout(TableInput.GRID_2);
         searchTextField = new JTextField(10);
         //searchTextField.setToolTipText("X desejado");
         searchTextField.setFont(Constants.HELVETICA);
@@ -455,7 +461,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         } else {
             table.remove(bottomLine);
             for (int i = 0, s = tableLines.size(); i < modifier; i++) {
-                tableLines.add(new TableInput());
+                tableLines.add(new TableInput(method == MethodsEnum.HERMITE));
                 table.add(tableLines.get(s + i));
             }
             if (method == MethodsEnum.SPLINES) {
@@ -490,25 +496,27 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
             expressions = new EI[tableLines.size()];
             table.add(searchLine);
             table.revalidate();
+            input_event.invokeInputUpdate();
+            Function f;
+            String p;
+            double xi, xf;
             switch (method) {
                 case SPLINES:
                     Spline s = new Spline();
                     String[] pol = s.Intepolate(x, y, d0, dN);
                     int n = 0;
-                    Function f;
-                    input_event.invokeInputUpdate();
                     for (int ip = 0; ip < pol.length; ip++) {
-                        String p = pol[ip];
+                        p = pol[ip];
                         if (p == null) {
                             continue;
                         }
-
+                        System.out.println(p);
                         expressions[n] = new EI();
                         expressions[n].serialNumber++;
                         expressions[n].exp = getParser().parse(p);
 
-                        double xi = tableLines.get(ip).parseX();
-                        double xf = tableLines.get(ip + 1).parseX();
+                        xi = tableLines.get(ip).parseX();
+                        xf = tableLines.get(ip + 1).parseX();
                         f = new SimpleFunctionEI(expressions[n], getApplication().getVariable(), xi, xf);
                         if (ip == 0) {
                             ifc = new IntervalFunctionComposition(f);
@@ -520,21 +528,30 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
                         
                         n++;
                     }
-
-                    for (int i = 0; i < tableLines.size(); i++) {
-                        input_event.drawCrossHair(x[i], y[i], Constants.PURPLE);
-                    }
-                    for(int i = 0; i < 4; i++) {
-                        if(i%2 != 0) {
-                            limits[i] += 1;
-                        } else {
-                            limits[i] -= 1;
-                        }
-                    }
-
-                    input_event.setLimits(limits);
+                    break;
+                case HERMITE:
+                    p = Hermite.interpolate(x, y, dx);
+                    System.out.println(p);
+                    expressions[0] = new EI();
+                    expressions[0].serialNumber++;
+                    expressions[0].exp = getParser().parse(p);
+                    xi = limits[0];
+                    xf = limits[1];
+                    f = new SimpleFunctionEI(expressions[0], getApplication().getVariable(), xi, xf);
+                    input_event.drawFunction(f, Constants.GREEN, false);
                     break;
             }
+            for (int i = 0; i < tableLines.size(); i++) {
+                input_event.drawCrossHair(x[i], y[i], Constants.PURPLE);
+            }
+            for(int i = 0; i < 4; i++) {
+                if(i%2 != 0) {
+                    limits[i] += 1;
+                } else {
+                    limits[i] -= 1;
+                }
+            }
+            input_event.setLimits(limits);
         } else {
             JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -553,15 +570,24 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
 
     private boolean parseTable() {
         int i = 0;
+        boolean hermite = (method == MethodsEnum.HERMITE);
         x = new double[tableLines.size()];
         y = new double[tableLines.size()];
+        if(hermite) {
+            dx = new double[tableLines.size()];
+        }
         for (TableInput t : tableLines) {
             try {
                 x[i] = t.parseX();
                 y[i] = t.parseY();
+                if(hermite) {
+                    dx[i] = t.parseDx();
+                }
                 if (i == 0) {
-                    d0 = Double.parseDouble(d0TextField.getText());
-                    dN = Double.parseDouble(dNTextField.getText());
+                    if(!hermite) {
+                        d0 = Double.parseDouble(d0TextField.getText());
+                        dN = Double.parseDouble(dNTextField.getText());
+                    }
                     limits[0] = x[i];
                     limits[1] = x[i];
                     limits[2] = y[i];
