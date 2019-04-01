@@ -7,7 +7,6 @@ package view;
 
 import data.MethodsEnum;
 import javax.swing.JFrame;
-import javax.swing.SwingConstants;
 import data.Constants;
 import java.awt.Component;
 
@@ -38,15 +37,29 @@ public class Intro extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btExtra = new javax.swing.JButton();
         upperPanel = new javax.swing.JPanel();
         lowerPanel = new javax.swing.JPanel();
+        logoLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
         btHalley = new javax.swing.JButton();
         btRidders = new javax.swing.JButton();
         btHermite = new javax.swing.JButton();
         btSplines = new javax.swing.JButton();
         btGauss = new javax.swing.JButton();
-        btExtra = new javax.swing.JButton();
+
+        btExtra.setBackground(Constants.WHITE);
+        btExtra.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
+        btExtra.setForeground(Constants.BLUE);
+        btExtra.setText("Extras");
+        btExtra.setMaximumSize(new java.awt.Dimension(160, 40));
+        btExtra.setMinimumSize(new java.awt.Dimension(160, 40));
+        btExtra.setPreferredSize(new java.awt.Dimension(160, 40));
+        btExtra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btExtraActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -62,6 +75,14 @@ public class Intro extends JFrame {
         lowerPanel.setPreferredSize(new java.awt.Dimension(1280, 40));
         lowerPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
 
+        logoLabel.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/logo.png"))); // NOI18N
+        logoLabel.setMaximumSize(new java.awt.Dimension(159, 60));
+        logoLabel.setMinimumSize(new java.awt.Dimension(159, 60));
+        logoLabel.setPreferredSize(new java.awt.Dimension(40, 40));
+        lowerPanel.add(logoLabel);
+
         titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
         titleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLabel.setText("Numberphy");
@@ -70,7 +91,6 @@ public class Intro extends JFrame {
         titleLabel.setMinimumSize(new java.awt.Dimension(159, 60));
         titleLabel.setPreferredSize(new java.awt.Dimension(159, 40));
         lowerPanel.add(titleLabel);
-        titleLabel.setVerticalTextPosition(SwingConstants.TOP);
 
         btHalley.setBackground(Constants.WHITE);
         btHalley.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
@@ -141,20 +161,6 @@ public class Intro extends JFrame {
             }
         });
         lowerPanel.add(btGauss);
-
-        btExtra.setBackground(Constants.WHITE);
-        btExtra.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
-        btExtra.setForeground(Constants.BLUE);
-        btExtra.setText("Extras");
-        btExtra.setMaximumSize(new java.awt.Dimension(160, 40));
-        btExtra.setMinimumSize(new java.awt.Dimension(160, 40));
-        btExtra.setPreferredSize(new java.awt.Dimension(160, 40));
-        btExtra.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btExtraActionPerformed(evt);
-            }
-        });
-        lowerPanel.add(btExtra);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -290,6 +296,7 @@ public class Intro extends JFrame {
     private javax.swing.JButton btHermite;
     private javax.swing.JButton btRidders;
     private javax.swing.JButton btSplines;
+    private javax.swing.JLabel logoLabel;
     private javax.swing.JPanel lowerPanel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel upperPanel;
