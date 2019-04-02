@@ -259,6 +259,40 @@ public class Description extends JScrollPane {
                         "<p><img src=" + splines13Path + " alt=\"FPGraph\" ></p>" +
                         "<p><p><table><tr><td>Para a condição de limite do tipo II , recebemos</td> <td><img src=" + splines14Path + " alt=\"FPGraph\" ></td> <td> diretamente, então temos</td> <td><img src=" + splines15Path + " alt=\"FPGraph\" ></td> <td> e precisamos resolver o sistema de equações como vimos acima.</td></tr></table></p></p>" +
                         "</html>");
+            case HERMITE:
+                
+                String hermite1Path = getResource("/resources/hermite/hermite1.png");
+                String hermite2Path = getResource("/resources/hermite/hermite2.png");
+                String hermite3Path = getResource("/resources/hermite/hermite3.png");
+                String hermite4Path = getResource("/resources/hermite/hermite4.png");
+                String hermite5Path = getResource("/resources/hermite/hermite5.png");
+                String hermite6Path = getResource("/resources/hermite/hermite6.png");
+                String hermite7Path = getResource("/resources/hermite/hermite7.png");
+                String hermite8Path = getResource("/resources/hermite/hermite8.png");
+                String hermite9Path = getResource("/resources/hermite/hermite9.png");
+                String hermite10Path = getResource("/resources/hermite/hermite10.png");
+                String hermite11Path = getResource("/resources/hermite/hermite11.png");
+                String hermite12Path = getResource("/resources/hermite/hermite12.png");
+                String hermite13Path = getResource("/resources/hermite/hermite13.png");
+                
+                return("<html><div WIDTH="+getWidth()+"><h2 id=\"introduo-4\">Introdução</h2>\n" +
+                        "<p>Em 1878 Charles Hermite procurou mostrar que par f &isin D<sup>&alpha</sup>(I) existe um único polinômio de grau maior que n, que indica (H<sub>n</sub>f)(x<sub>0</sub><sup>r0</sup> , x<sub>1</sub><sup>r1</sup> , ... , x<sub>m</sub><sup>rm</sup>)(x) na qual chamou-se a Interpolação Polinomial de Hermite. Os polinômios de Hermite estão entre os polinômios de Taylor e os polinômios de Lagrange, na qual adaptam-se os valores dos dados em vários pontos (como os polinômios de Lagrange) e tomam em conta os valores das derivadas (como os polinômios de Taylor). O objetivo da nterpolação de Hermite é o de apresentar uma função f por um polinômio que seja interpolador de f em alguns pontos do seu domínio, e que sua derivada seja interpolador da derivada de f nesses mesmos pontos. Supondo f diferenciável, existe um único polinômio de grau menor ou igual a 2n+1 em que: p(x<sub>i</sub>) = f(x<sub>i</sub>) e p'(x<sub>i</sub>) = f '(x<sub>i</sub>), i=0,...,n. Abaixo é possível ver a função f(x) = sen(x) + cos(x) e a interpolação do polinômio variando em relação a função f(x), sendo calculado com base no intervalo [1,4].</p>" +
+                        "<img src=" + hermite1Path + " alt=\"hermite1\" >" +  
+                        "<h2 id=\"desenvolvimento\">Desenvolvimento</h2>" +
+                        "<table><p><tr><td>A fórmula geral da interpolação: </td> <td><img src=" + hermite2Path + " alt=\"hermite2\" ></td> <td>, consideramos m<sub>j</sub>=1 para j=1,...,r, isto é, supomos que a primeira derivada também é uma função conhecida em r dos n pontos.</td></tr></p></table>" +
+                        "<table><p><tr><td>Ou seja, a fórmula acima, quando desenvolvida até a primeira derivada será: </td> <td><img src=" + hermite3Path + " alt=\"hermite3\" ></td> <td>, desprezando o erro da aproximação, temos y(x) interpolada por:</td></tr></p></table>" +
+                        "<table><p><tr><td><img src=" + hermite4Path + " alt=\"hermite4\" ></td> <td>onde h<sub>j&alpha</sub>(x) e h<sub>j&beta</sub>(x) são polinômios.</td></tr></p></table>" +
+                        "<p>Novamente, usando o critério da aproximação exata, queremos minimizar o erro E(x) tal que E(a<sub>j</sub>) = 0. Utilizando a interpolação de Lagrange, podemos utilizar as seguintes condições que satisfazem h<sub>j&alpha</sub>(x) e h<sub>j&beta</sub>(x):</p>" +
+                        "<img src=" + hermite5Path + " alt=\"hermite5\" >" +
+                        "<p>Nessas condições, temos que h<sub>j</sub>(x) é:</p>" +
+                        "<img src=" + hermite6Path + " alt=\"hermite6\" >" +
+                        "<table><p><tr><td>Onde t<sub>j</sub>(x) é um polinômio de primeiro grau tal que h<sub>j&alpha</sub>(x) é de grau n+r-1. Para satisfazer as condições de convergência, precisamos ter: </td> <td><img src=" + hermite7Path + " alt=\"hermite7\" ></td></tr></p></table>" +
+                        "<table><p><tr><td>De maneira semelhante, fazemos para h<sub>j&beta</sub>(x): </td> <td><img src=" + hermite8Path + " alt=\"hermite8\" ></td> <td> onde s<sub>j</sub>(x) é um polinômio de primeiro grau com s<sub>j</sub>(a<sub>j</sub>) = 0 e s'<sub>j</sub>(a<sub>j</sub>) = 1.</td></tr></p></table>" +
+                        "<table><p><tr><td>Tomando </td> <td><img src=" + hermite9Path + " alt=\"hermite9\" ></td> <td>, temos que:</td></tr></p></table>" +
+                        "<table><p><tr><td><img src=" + hermite10Path + " alt=\"hermite10\" ></td> <td> &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp e &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp </td> <td><img src=" + hermite11Path + " alt=\"hermite11\" ></td></tr></p></table>" +
+                        "Ou seja, a Fórmula Interpoladora de Hermite é:" +
+                        "<table><p><tr><td><img src=" + hermite12Path + " alt=\"hermite12\" ></td> <td>&nbsp&nbsp&nbsp com &nbsp&nbsp&nbsp</td> <td><img src=" + hermite13Path + " alt=\"hermite13\" ></td></tr></p></table>" +
+                        "</html>");
             case WELCOME:
             default:
                 return("<html><div WIDTH="+getWidth()+"><h1 id=\"Numberphy\">Numberphy</h2>\n" +

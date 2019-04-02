@@ -53,6 +53,10 @@ public class Hermite extends IrregularFunction {
         return p;
     }
 
+    public static String interpolate(double[] x, double[] y, double[] dx) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     @Override
     public double eval(double x) {
         
