@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import data.Hermite;
 import data.Spline;
 
 /**
@@ -13,11 +14,13 @@ import data.Spline;
 public class mainTest {
 
     public static void main(String args[]) {
-        double[] X = {0, 1, 2, 3};
-        double[] Y = {0, 0.5, 2, 1.5};
+        double[] X = {-1, 0, 1};
+        double[] Y = {2, 1, 2};
+        double[] dif = {-8,0,8};
+        double[] dif2 = {56, 0 ,56};
         
-        Spline spline = new Spline();
-        String[] ci = spline.Intepolate(X, Y, 0.2, -1.0);
+        Hermite.interpolate(X, Y, dif,dif2);
+       
     }
     
 }
