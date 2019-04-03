@@ -60,7 +60,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.TextEvent;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -316,6 +315,7 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     private IntervalFunctionComposition ifc;
     private final InputEventManager input_event;
     private double[] limits;
+    private boolean searched;
     
     /**
      * Create an ExpressionInputBox with initial contents given by
@@ -474,10 +474,12 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
 
     private void btAddActionPerformed(ActionEvent evt) {
         reloadInputTable(false);
+        searched = false;
     }
 
     private void btRemoveActionPerformed(ActionEvent evt) {
         reloadInputTable(true);
+        searched = false;
     }
 
     private void btComputeActionPerformed(ActionEvent evt) {
@@ -552,6 +554,11 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
             if(X > limits[0] && X < limits[1]) {
                 double Y = ifc.eval(X);
                 searchYLabel.setText(String.format("%.10f", Y));
+                if(!searched) {
+                    searched = true;
+                } else {
+                    input_event.removeLastDrawable();
+                }
                 input_event.drawCrossHair(X, Y, Constants.BLUE);
             } else {
                 searchYLabel.setText("X fora do intervalo");

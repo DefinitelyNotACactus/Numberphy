@@ -8,7 +8,12 @@ package view;
 import data.MethodsEnum;
 import javax.swing.JFrame;
 import data.Constants;
+import java.awt.Color;
 import java.awt.Component;
+import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
+import javax.swing.JButton;
 
 /**
  *
@@ -80,7 +85,11 @@ public class Intro extends JFrame {
         logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/assets/logo.png"))); // NOI18N
         logoLabel.setMaximumSize(new java.awt.Dimension(159, 60));
         logoLabel.setMinimumSize(new java.awt.Dimension(159, 60));
-        logoLabel.setPreferredSize(new java.awt.Dimension(40, 40));
+        logoLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                logoLabelMousePressed(evt);
+            }
+        });
         lowerPanel.add(logoLabel);
 
         titleLabel.setFont(new java.awt.Font("Lucida Grande", 0, 26)); // NOI18N
@@ -193,7 +202,7 @@ public class Intro extends JFrame {
     }//GEN-LAST:event_btSplinesActionPerformed
 
     private void btGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGaussActionPerformed
-        update(MethodsEnum.GAUSS);
+        //update(MethodsEnum.GAUSS);
     }//GEN-LAST:event_btGaussActionPerformed
 
     private void btExtraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExtraActionPerformed
@@ -204,22 +213,27 @@ public class Intro extends JFrame {
         update(MethodsEnum.HALLEY);
     }//GEN-LAST:event_btHalleyActionPerformed
 
+    private void logoLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoLabelMousePressed
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            Random rand = new Random();
+            public void run() {
+                for(Component c : lowerPanel.getComponents()) {
+                    if(c instanceof JButton) {
+                        c.setBackground(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+                        c.setForeground(new Color(rand.nextInt(256), rand.nextInt(256), rand.nextInt(256)));
+                    }
+                }
+            }
+        }, 0, 100);
+    }//GEN-LAST:event_logoLabelMousePressed
+
     private void update(MethodsEnum method) {
-        btRidders.setBackground(Constants.WHITE);
-        btRidders.setForeground(Constants.BLUE);
-        btHalley.setBackground(Constants.WHITE);
-        btHalley.setForeground(Constants.BLUE);
-        btHermite.setBackground(Constants.WHITE);
-        btHermite.setForeground(Constants.BLUE);
-        btRidders.setBackground(Constants.WHITE);
-        btRidders.setForeground(Constants.BLUE);
-        btSplines.setBackground(Constants.WHITE);
-        btSplines.setForeground(Constants.BLUE);
-        btGauss.setBackground(Constants.WHITE);
-        btGauss.setForeground(Constants.BLUE);
-        btExtra.setBackground(Constants.WHITE);
-        btExtra.setForeground(Constants.BLUE);
-        
+        for(Component c : lowerPanel.getComponents()) {
+            if(c instanceof JButton) {
+                c.setBackground(Constants.WHITE);
+                c.setForeground(Constants.BLUE);
+            }
+        }
         switch (method) {
             case HALLEY:
                 btHalley.setBackground(Constants.BLUE);

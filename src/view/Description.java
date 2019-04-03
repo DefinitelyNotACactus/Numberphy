@@ -96,7 +96,7 @@ public class Description extends JScrollPane {
     }
     
     private void reloadContainer() {
-        if(method == MethodsEnum.HALLEY || method == MethodsEnum.RIDDERS || method == MethodsEnum.HERMITE || method == MethodsEnum.SPLINES) {
+        if(method == MethodsEnum.HALLEY || method == MethodsEnum.RIDDERS || method == MethodsEnum.SPLINES) {
             btApplication.setVisible(true);
         } else {
             btApplication.setVisible(false);

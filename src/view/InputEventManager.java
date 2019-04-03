@@ -78,6 +78,12 @@ public class InputEventManager {
         return d;
     }
     
+    public Drawable removeLastDrawable() {
+        Drawable removed = temporary_draws.remove(temporary_draws.size()-1);
+        getCoordRect().remove(removed);
+        return removed;
+    }
+    
     /**
      * Desenha um ponto no formato de cruz.
      *
