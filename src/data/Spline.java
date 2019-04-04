@@ -93,54 +93,20 @@ public class Spline {
     }
 
     public String[] Intepolate(double[] X, double[] Y, double d0, double dn) {
-        System.out.println("X:");
-        for (int i = 0; i < X.length; i++) {
-            System.out.println("" + X[i]);
-        }
-        
+      
         double[] H = calH(X);
-        System.out.println("H:");
-        for (int i = 0; i < H.length; i++) {
-            System.out.println("" + H[i]);
-        }
         
         double[] MU = CalMu(H);
-        System.out.println("MU:");
-        for (int i = 0; i < MU.length; i++) {
-            System.out.println("" + MU[i]);
-        }
         
         double[] LAMBDA = calLambda(MU);
-        System.out.println("Lambda:");
-        for (int i = 0; i < LAMBDA.length; i++) {
-            System.out.println("" + LAMBDA[i]);
-        }
         
         double[] DD = calDD(X, Y, d0, dn);
-        System.out.println("DD:");
-        for (int i = 0; i < DD.length; i++) {
-            System.out.println("" + DD[i]);
-        }
         
         double[][] sistema = montarSistema(LAMBDA, MU);
-        System.out.println("Sistema:");
-        for (int i = 0; i < sistema.length; i++) {
-            for (int j = 0; j < sistema[0].length; j++) {
-                System.out.print("" + sistema[i][j] + " | ");
-            }
-            System.out.println("");
-        }
         
         double[] M = calM(sistema, DD);
-        System.out.println("M:");
-        for (int i = 0; i < M.length; i++) {
-            System.out.println("" + M[i]);
-        }
         
         String[] Ci = montarPolinomios(X, Y, H, M);
-        for (int i = 0; i < Ci.length; i++) {
-            System.out.println("" + Ci[i]);
-        }
         
         return Ci;
     }
