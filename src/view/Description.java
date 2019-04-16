@@ -96,11 +96,7 @@ public class Description extends JScrollPane {
     }
     
     private void reloadContainer() {
-        if(method == MethodsEnum.HALLEY || method == MethodsEnum.RIDDERS || method == MethodsEnum.SPLINES) {
-            btApplication.setVisible(true);
-        } else {
-            btApplication.setVisible(false);
-        }
+        btApplication.setVisible(method != MethodsEnum.WELCOME && method != MethodsEnum.HERMITE);
         try {
             descriptionLabel.setText(getMethodDescription(method));
         } catch(IOException ex) {
@@ -294,6 +290,8 @@ public class Description extends JScrollPane {
                         "Ou seja, a Fórmula Interpoladora de Hermite é:" +
                         "<table><p><tr><td><img src=" + hermite12Path + " alt=\"hermite12\" ></td> <td>&nbsp&nbsp&nbsp com &nbsp&nbsp&nbsp</td> <td><img src=" + hermite13Path + " alt=\"hermite13\" ></td></tr></p></table>" +
                         "</html>");
+            case GAUSS:
+                return("INSIRA ALGO AQUI");
             case WELCOME:
             default:
                 return("<html><div WIDTH="+getWidth()+"><h1 id=\"Numberphy\">Numberphy</h2>\n" +

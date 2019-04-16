@@ -260,7 +260,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="Constants.BLUE" type="code"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Gauss"/>
+            <Property name="text" type="java.lang.String" value="Gauss Lobatto"/>
             <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[160, 40]"/>
             </Property>
