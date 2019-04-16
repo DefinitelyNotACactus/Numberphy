@@ -160,7 +160,7 @@ public class Intro extends JFrame {
         btGauss.setBackground(Constants.WHITE);
         btGauss.setFont(new java.awt.Font("Helvetica Neue", 0, 14)); // NOI18N
         btGauss.setForeground(Constants.BLUE);
-        btGauss.setText("Gauss");
+        btGauss.setText("Gauss Lobatto");
         btGauss.setMaximumSize(new java.awt.Dimension(160, 40));
         btGauss.setMinimumSize(new java.awt.Dimension(160, 40));
         btGauss.setPreferredSize(new java.awt.Dimension(160, 40));
@@ -202,7 +202,7 @@ public class Intro extends JFrame {
     }//GEN-LAST:event_btSplinesActionPerformed
 
     private void btGaussActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGaussActionPerformed
-        //update(MethodsEnum.GAUSS);
+        update(MethodsEnum.GAUSS);
     }//GEN-LAST:event_btGaussActionPerformed
 
     private void btExtraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btExtraActionPerformed
@@ -216,6 +216,7 @@ public class Intro extends JFrame {
     private void logoLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoLabelMousePressed
         new Timer().scheduleAtFixedRate(new TimerTask() {
             Random rand = new Random();
+            @Override
             public void run() {
                 for(Component c : lowerPanel.getComponents()) {
                     if(c instanceof JButton) {

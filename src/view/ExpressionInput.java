@@ -1,58 +1,27 @@
-/** ************************************************************************
- * Copyright (c) 2001, 2005 David J. Eck                                   *
- *                                                                         *
- * Permission is hereby granted, free of charge, to any person obtaining   *
- * a copy of this software and associated documentation files (the         *
- * "Software"), to deal in the Software without restriction, including     *
- * without limitation the rights to use, copy, modify, merge, publish,     *
- * distribute, sublicense, and/or sell copies of the Software, and to      *
- * permit persons to whom the Software is furnished to do so, subject to   *
- * the following conditions:                                               *
- *                                                                         *
- * The above copyright notice and this permission notice shall be included *
- * in all copies or substantial portions of the Software.                  *
- *                                                                         *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,         *
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF      *
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  *
- * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY    *
- * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,    *
- * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE       *
- * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                  *
- *                                                                         *
- * ----                                                                    *
- * (Released under new license, April 2012.)                               *
- *                                                                         *
- *             David J. Eck                                                *
- *             Department of Mathematics and Computer Science              *
- *             Hobart and William Smith Colleges                           *
- *             300 Pulteney Street                                         *
- *             Geneva, NY 14456                                            *
- *             eck@hws.edu                                                 *
- *             http://math.hws.edu/eck                                     *
- ************************************************************************* */
-// November 2005: Removed processKeyEvent to get rid of bogus "beep" when shift key is pressed.
-// (this also lets illegal characters into the input box)
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package view;
 
-import data.MethodsEnum;
 import data.Constants;
 import data.Hermite;
-import data.Spline;
 import data.IntervalFunctionComposition;
-
+import data.MethodsEnum;
+import data.Spline;
 import edu.hws.jcm.awt.Controller;
 import edu.hws.jcm.awt.InputObject;
 import edu.hws.jcm.awt.JCMError;
 import edu.hws.jcm.data.Cases;
 import edu.hws.jcm.data.Expression;
 import edu.hws.jcm.data.ExpressionProgram;
+import edu.hws.jcm.data.Function;
+import edu.hws.jcm.data.ParseError;
+import edu.hws.jcm.data.Parser;
+import edu.hws.jcm.data.SimpleFunction;
 import edu.hws.jcm.data.Value;
 import edu.hws.jcm.data.Variable;
-import edu.hws.jcm.data.Parser;
-import edu.hws.jcm.data.ParseError;
-import edu.hws.jcm.data.Function;
-import edu.hws.jcm.data.SimpleFunction;
 import java.awt.AWTEvent;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -69,154 +38,145 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 /**
- * An ExpressionInput is an input box that allows the user input a mathematical
- * expression. There is an associated object that belongs to the class
- * Expression. The value of this object can change only when checkInput() is
- * called. The checkInput() method is usually called by a Controller.
- * <p>
- * An ExpressionInput will ordinarily be registered with a Controller in TWO
- * ways: It's added to a Controller with the Controller's add() method. This
- * makes the Contrller call the ExpressionInput's checkInput() method during the
- * Controller's compute() method. Secondly, the Controller is set as the
- * "onUserAction" property. This causes the Controller's compute() method to be
- * called when the user presses return in the ExpressionInput box. This is
- * optional-- you might, for example, only want the Controller to compute() when
- * a Compute button is pressed. You can also set the ExpressionInput's
- * onTextChange property to a Controller if you want it to compute every time
- * the text in the box changes.
- * <p>
- * Use the function getFunction() if you want to use an ExpressionInput as a way
- * of inputting a function.
  *
+ * @author nullPointerException
  */
-public class ExpressionInput extends JPanel implements InputObject, Value {
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+public class ExpressionInput extends JPanel implements Value, InputObject {
+                           
+    private JPanel x0Line;
+    private JPanel xRLine; // Ridders
+    private JPanel itrLine;
+    private JPanel tolLine;
+    private JPanel caLine;
+    
+    private JButton btCompute;
+    
     private void initComponents() {
-
-        x0Label = new javax.swing.JLabel();
-        x0TextField = new javax.swing.JTextField();
-        xrLabel = new javax.swing.JLabel();
-        xrTextField = new javax.swing.JTextField();
-        toleranceLabel = new javax.swing.JLabel();
-        toleranceTextField = new javax.swing.JTextField();
-        iterationsLabel = new javax.swing.JLabel();
-        iterationsTextField = new javax.swing.JTextField();
-        btAnalysis = new javax.swing.JButton();
-        inputPanel = new javax.swing.JPanel();
-        functionLabel = new javax.swing.JLabel();
-        functionTextField = new javax.swing.JTextField();
-
-        x0Label.setFont(Constants.HELVETICA);
-        x0Label.setText("X0");
-        x0Label.setToolTipText("X inicial");
-
-        x0TextField.setColumns(4);
-        x0TextField.setFont(Constants.HELVETICA);
-        x0TextField.setText("1");
-        x0TextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldActionPerformed(evt);
-            }
-        });
-
-        xrLabel.setFont(Constants.HELVETICA);
-        xrLabel.setText("xR");
-        xrLabel.setToolTipText("X da direita");
-
-        xrTextField.setColumns(4);
-        xrTextField.setFont(Constants.HELVETICA);
-        xrTextField.setText("5");
-        xrTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldActionPerformed(evt);
-            }
-        });
-
-        toleranceLabel.setFont(Constants.HELVETICA);
-        toleranceLabel.setText("Tol.");
-        toleranceLabel.setToolTipText("Tolerancia");
-
-        toleranceTextField.setColumns(4);
-        toleranceTextField.setFont(Constants.HELVETICA);
-        toleranceTextField.setText("0.001");
-        toleranceTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldActionPerformed(evt);
-            }
-        });
-
-        iterationsLabel.setFont(Constants.HELVETICA);
-        iterationsLabel.setText("Iter.");
-        iterationsLabel.setToolTipText("Iteracoes");
-
-        iterationsTextField.setColumns(4);
-        iterationsTextField.setFont(Constants.HELVETICA);
-        iterationsTextField.setText("10");
-        iterationsTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldActionPerformed(evt);
-            }
-        });
-
-        btAnalysis.setBackground(Constants.WHITE);
-        btAnalysis.setFont(Constants.HELVETICA);
-        btAnalysis.setText("Análise");
-        btAnalysis.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btAnalysisActionPerformed(evt);
-            }
-        });
-
-        setBackground(Constants.GRAY);
-
-        inputPanel.setBackground(Constants.GRAY);
-
+        boolean gauss = (method == MethodsEnum.GAUSS);
+        inputPanel = new JPanel();
+        inputPanel.setBackground(Constants.BLUE);
+        
+        functionLabel = new JLabel();
+        functionLabel.setForeground(Color.WHITE);
         functionLabel.setFont(Constants.HELVETICA);
         functionLabel.setText("f(x)");
         inputPanel.add(functionLabel);
-
-        functionTextField.setColumns(15);
+        
+        functionTextField = new JTextField();
         functionTextField.setFont(Constants.HELVETICA);
-        functionTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textFieldActionPerformed(evt);
-            }
-        });
+        functionTextField.addActionListener(this::textFieldActionPerformed);
         inputPanel.add(functionTextField);
-
-        if (method == MethodsEnum.RIDDERS) {
-            x0Label.setText("xL");
-            x0Label.setToolTipText("Limite da Esquerda");
+        
+        x0Line = new JPanel();
+        x0Line.setBackground(Constants.BLUE);
+        x0Line.setLayout(TableInput.GRID_2);
+        x0Label = new JLabel();
+        x0TextField = new JTextField();
+        
+        x0Label.setForeground(Constants.WHITE);
+        x0Label.setFont(Constants.HELVETICA);
+        x0Label.setText(gauss ? "A" : "X0");
+        x0Label.setToolTipText("X inicial");
+        
+        x0TextField.setFont(Constants.HELVETICA);
+        x0TextField.setText(gauss ? "-1" : "1");
+        x0TextField.addActionListener(this::textFieldActionPerformed);
+        
+        x0Line.add(x0Label);
+        x0Line.add(x0TextField);
+        inputPanel.add(x0Line);
+        
+        if(method == MethodsEnum.RIDDERS || gauss) {
+            xRLine = new JPanel();
+            xRLine.setBackground(Constants.BLUE);
+            xRLine.setLayout(TableInput.GRID_2);
+            xrLabel = new JLabel();
+            xrTextField = new JTextField();
+            
+            xrLabel.setForeground(Constants.WHITE);
+            xrLabel.setFont(Constants.HELVETICA);
+            xrLabel.setText(gauss? "B" : "xR");
+            xrLabel.setToolTipText(gauss? "X final" : "X da direita");
+            
+            xrTextField.setFont(Constants.HELVETICA);
+            xrTextField.setText(gauss? "1" : "5");
+            xrTextField.addActionListener(this::textFieldActionPerformed);
+            
+            if(method == MethodsEnum.RIDDERS) {
+                x0Label.setText("xL");
+                x0Label.setToolTipText("Limite da Esquerda");
+            }
+            xRLine.add(xrLabel);
+            xRLine.add(xrTextField);
+            inputPanel.add(xRLine);
         }
-        inputPanel.add(x0Label);
-        inputPanel.add(x0TextField);
-        if (method == MethodsEnum.RIDDERS) {
-            inputPanel.add(xrLabel);
-            inputPanel.add(xrTextField);
-        }
-        inputPanel.add(toleranceLabel);
-        inputPanel.add(toleranceTextField);
-        inputPanel.add(iterationsLabel);
-        inputPanel.add(iterationsTextField);
-        inputPanel.add(btAnalysis);
+        
+        if(!gauss) {
+            tolLine = new JPanel();
+            tolLine.setBackground(Constants.BLUE);
+            tolLine.setLayout(TableInput.GRID_2);
+            toleranceLabel = new JLabel();
+            toleranceTextField = new JTextField();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+            toleranceLabel.setForeground(Constants.WHITE);
+            toleranceLabel.setFont(Constants.HELVETICA);
+            toleranceLabel.setText("Tolerancia");
+            toleranceLabel.setToolTipText("Tolerancia");
+
+            toleranceTextField.setFont(Constants.HELVETICA);
+            toleranceTextField.setText("0.001");
+            toleranceTextField.addActionListener(this::textFieldActionPerformed);
+
+            tolLine.add(toleranceLabel);
+            tolLine.add(toleranceTextField);
+            inputPanel.add(tolLine);
+        }
+        
+        itrLine = new JPanel();
+        itrLine.setBackground(Constants.BLUE);
+        itrLine.setLayout(TableInput.GRID_2);
+        iterationsLabel = new JLabel();
+        iterationsTextField = new JTextField();
+        
+        iterationsLabel.setForeground(Constants.WHITE);
+        iterationsLabel.setFont(Constants.HELVETICA);
+        iterationsLabel.setText(gauss? "Num. Pontos" : "Iteracoes");
+        iterationsLabel.setToolTipText(gauss? "Nnumero de Pontos" : "Iteracoes");
+        
+        iterationsTextField.setFont(Constants.HELVETICA);
+        iterationsTextField.setText(gauss? "3" : "10");
+        iterationsTextField.addActionListener(this::textFieldActionPerformed);
+        
+        itrLine.add(iterationsLabel);
+        itrLine.add(iterationsTextField);
+        inputPanel.add(itrLine);
+        
+        caLine = new JPanel();
+        caLine.setBackground(Constants.BLUE);
+        caLine.setLayout(TableInput.GRID_2);
+        btAnalysis = new JButton();
+        btCompute = new JButton();
+        
+        btAnalysis.setBackground(Constants.WHITE);
+        btAnalysis.setForeground(Constants.BLUE);
+        btAnalysis.setFont(Constants.HELVETICA);
+        btAnalysis.setText("Análise");
+        btAnalysis.addActionListener(this::btAnalysisActionPerformed);
+
+        btCompute.setBackground(Constants.WHITE);
+        btCompute.setForeground(Constants.BLUE);
+        btCompute.setFont(Constants.HELVETICA);
+        btCompute.setText("Computar");
+        btCompute.addActionListener(this::textFieldActionPerformed);
+        
+        caLine.add(btAnalysis);
+        caLine.add(btCompute);
+        inputPanel.add(caLine);
+        
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        
+        setBackground(Constants.GRAY);        
+        add(inputPanel);
     }// </editor-fold>                        
 
     private void textFieldActionPerformed(ActionEvent evt) {
@@ -290,7 +250,6 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
     private int iterations;
     private double tolerance;
     //Interpolation fields
-    private JButton btCompute;
     private JButton btAdd;
     private JButton btRemove;
     private JPanel topLine;
@@ -347,7 +306,9 @@ public class ExpressionInput extends JPanel implements InputObject, Value {
         checkInput();  // Won't throw an error, since throwErrors is false.
         throwErrors = true;
         input_event = new InputEventManager(this);
-        performInputEvent();
+        if(method != MethodsEnum.GAUSS) {
+            performInputEvent();
+        }
     }
 
     private void initInputTable() {
