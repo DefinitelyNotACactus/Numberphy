@@ -1,8 +1,38 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/** ************************************************************************
+ * Copyright (c) 2001, 2005 David J. Eck                                   *
+ *                                                                         *
+ * Permission is hereby granted, free of charge, to any person obtaining   *
+ * a copy of this software and associated documentation files (the         *
+ * "Software"), to deal in the Software without restriction, including     *
+ * without limitation the rights to use, copy, modify, merge, publish,     *
+ * distribute, sublicense, and/or sell copies of the Software, and to      *
+ * permit persons to whom the Software is furnished to do so, subject to   *
+ * the following conditions:                                               *
+ *                                                                         *
+ * The above copyright notice and this permission notice shall be included *
+ * in all copies or substantial portions of the Software.                  *
+ *                                                                         *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,         *
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF      *
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  *
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY    *
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,    *
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE       *
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                  *
+ *                                                                         *
+ * ----                                                                    *
+ * (Released under new license, April 2012.)                               *
+ *                                                                         *
+ *             David J. Eck                                                *
+ *             Department of Mathematics and Computer Science              *
+ *             Hobart and William Smith Colleges                           *
+ *             300 Pulteney Street                                         *
+ *             Geneva, NY 14456                                            *
+ *             eck@hws.edu                                                 *
+ *             http://math.hws.edu/eck                                     *
+ ************************************************************************* */
+// November 2005: Removed processKeyEvent to get rid of bogus "beep" when shift key is pressed.
+// (this also lets illegal characters into the input box)
 package view;
 
 import data.Constants;
@@ -27,7 +57,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.TextEvent;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -37,171 +67,31 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-/**
- *
- * @author nullPointerException
- */
 public class ExpressionInput extends JPanel implements Value, InputObject {
-                           
+    private static final boolean DEBUG = false;
+    
+    private MethodsEnum method;
+    private final Application app;
+    //Input Lines                       
     private JPanel x0Line;
-    private JPanel xRLine; // Ridders
+    private JPanel xRLine;
     private JPanel itrLine;
     private JPanel tolLine;
     private JPanel caLine;
-    
+    //Input Components
+    private JButton btAnalysis;
     private JButton btCompute;
-    
-    private void initComponents() {
-        boolean gauss = (method == MethodsEnum.GAUSS);
-        inputPanel = new JPanel();
-        inputPanel.setBackground(Constants.BLUE);
-        
-        functionLabel = new JLabel();
-        functionLabel.setForeground(Color.WHITE);
-        functionLabel.setFont(Constants.HELVETICA);
-        functionLabel.setText("f(x)");
-        inputPanel.add(functionLabel);
-        
-        functionTextField = new JTextField();
-        functionTextField.setFont(Constants.HELVETICA);
-        functionTextField.addActionListener(this::textFieldActionPerformed);
-        inputPanel.add(functionTextField);
-        
-        x0Line = new JPanel();
-        x0Line.setBackground(Constants.BLUE);
-        x0Line.setLayout(TableInput.GRID_2);
-        x0Label = new JLabel();
-        x0TextField = new JTextField();
-        
-        x0Label.setForeground(Constants.WHITE);
-        x0Label.setFont(Constants.HELVETICA);
-        x0Label.setText(gauss ? "A" : "X0");
-        x0Label.setToolTipText("X inicial");
-        
-        x0TextField.setFont(Constants.HELVETICA);
-        x0TextField.setText(gauss ? "-1" : "1");
-        x0TextField.addActionListener(this::textFieldActionPerformed);
-        
-        x0Line.add(x0Label);
-        x0Line.add(x0TextField);
-        inputPanel.add(x0Line);
-        
-        if(method == MethodsEnum.RIDDERS || gauss) {
-            xRLine = new JPanel();
-            xRLine.setBackground(Constants.BLUE);
-            xRLine.setLayout(TableInput.GRID_2);
-            xrLabel = new JLabel();
-            xrTextField = new JTextField();
-            
-            xrLabel.setForeground(Constants.WHITE);
-            xrLabel.setFont(Constants.HELVETICA);
-            xrLabel.setText(gauss? "B" : "xR");
-            xrLabel.setToolTipText(gauss? "X final" : "X da direita");
-            
-            xrTextField.setFont(Constants.HELVETICA);
-            xrTextField.setText(gauss? "1" : "5");
-            xrTextField.addActionListener(this::textFieldActionPerformed);
-            
-            if(method == MethodsEnum.RIDDERS) {
-                x0Label.setText("xL");
-                x0Label.setToolTipText("Limite da Esquerda");
-            }
-            xRLine.add(xrLabel);
-            xRLine.add(xrTextField);
-            inputPanel.add(xRLine);
-        }
-        
-        if(!gauss) {
-            tolLine = new JPanel();
-            tolLine.setBackground(Constants.BLUE);
-            tolLine.setLayout(TableInput.GRID_2);
-            toleranceLabel = new JLabel();
-            toleranceTextField = new JTextField();
-
-            toleranceLabel.setForeground(Constants.WHITE);
-            toleranceLabel.setFont(Constants.HELVETICA);
-            toleranceLabel.setText("Tolerancia");
-            toleranceLabel.setToolTipText("Tolerancia");
-
-            toleranceTextField.setFont(Constants.HELVETICA);
-            toleranceTextField.setText("0.001");
-            toleranceTextField.addActionListener(this::textFieldActionPerformed);
-
-            tolLine.add(toleranceLabel);
-            tolLine.add(toleranceTextField);
-            inputPanel.add(tolLine);
-        }
-        
-        itrLine = new JPanel();
-        itrLine.setBackground(Constants.BLUE);
-        itrLine.setLayout(TableInput.GRID_2);
-        iterationsLabel = new JLabel();
-        iterationsTextField = new JTextField();
-        
-        iterationsLabel.setForeground(Constants.WHITE);
-        iterationsLabel.setFont(Constants.HELVETICA);
-        iterationsLabel.setText(gauss? "Num. Pontos" : "Iteracoes");
-        iterationsLabel.setToolTipText(gauss? "Nnumero de Pontos" : "Iteracoes");
-        
-        iterationsTextField.setFont(Constants.HELVETICA);
-        iterationsTextField.setText(gauss? "3" : "10");
-        iterationsTextField.addActionListener(this::textFieldActionPerformed);
-        
-        itrLine.add(iterationsLabel);
-        itrLine.add(iterationsTextField);
-        inputPanel.add(itrLine);
-        
-        caLine = new JPanel();
-        caLine.setBackground(Constants.BLUE);
-        caLine.setLayout(TableInput.GRID_2);
-        btAnalysis = new JButton();
-        btCompute = new JButton();
-        
-        btAnalysis.setBackground(Constants.WHITE);
-        btAnalysis.setForeground(Constants.BLUE);
-        btAnalysis.setFont(Constants.HELVETICA);
-        btAnalysis.setText("Análise");
-        btAnalysis.addActionListener(this::btAnalysisActionPerformed);
-
-        btCompute.setBackground(Constants.WHITE);
-        btCompute.setForeground(Constants.BLUE);
-        btCompute.setFont(Constants.HELVETICA);
-        btCompute.setText("Computar");
-        btCompute.addActionListener(this::textFieldActionPerformed);
-        
-        caLine.add(btAnalysis);
-        caLine.add(btCompute);
-        inputPanel.add(caLine);
-        
-        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
-        
-        setBackground(Constants.GRAY);        
-        add(inputPanel);
-    }// </editor-fold>                        
-
-    private void textFieldActionPerformed(ActionEvent evt) {
-        performInputEvent();
-    }
-
-    private void btAnalysisActionPerformed(ActionEvent evt) {
-        input_event.drawTable(input_event.getPoints());
-    }
-
-    // Variables declaration - do not modify                     
-    private javax.swing.JButton btAnalysis;
-    private javax.swing.JLabel functionLabel;
-    private javax.swing.JTextField functionTextField;
-    private javax.swing.JPanel inputPanel;
-    private javax.swing.JLabel iterationsLabel;
-    private javax.swing.JTextField iterationsTextField;
-    private javax.swing.JLabel toleranceLabel;
-    private javax.swing.JTextField toleranceTextField;
-    private javax.swing.JLabel x0Label;
-    private javax.swing.JTextField x0TextField;
-    private javax.swing.JLabel xrLabel;
-    private javax.swing.JTextField xrTextField;
-    // End of variables declaration                   
-
+    private JLabel functionLabel;
+    private JTextField functionTextField;
+    private JPanel inputPanel;
+    private JLabel iterationsLabel;
+    private JTextField iterationsTextField;
+    private JLabel toleranceLabel;
+    private JTextField toleranceTextField;
+    private JLabel x0Label;
+    private JTextField x0TextField;
+    private JLabel xRLabel;
+    private JTextField xrTextField;
     /**
      * The Expression associate with this input box. Class EI is a private
      * nested class.
@@ -242,9 +132,7 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
     private long serialNumber;         // This goes up by one every time checkInput()
     //   is called and finds a change in the
     //   user's input;
-
-    private MethodsEnum method;
-    private final Application app;
+    
     private double x0; //xL for Ridders
     private double xR;
     private int iterations;
@@ -262,7 +150,7 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
     private double[] x;
     private double[] y;
     //Hermite Fields
-    private double[] dx;
+    private double[] dX;
     //Splines fields
     private JPanel dHeaderLine;
     private JPanel dLine;
@@ -288,30 +176,155 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
      * @param app
      */
     public ExpressionInput(MethodsEnum method, String initialValue, Parser p, Application app) {
-        this.method = method;
-        this.app = app;
-        initComponents();
-        expr = new EI();
         if (initialValue == null) {
             initialValue = "";
         }
-
-        if (method == MethodsEnum.HERMITE || method == MethodsEnum.SPLINES) {
-            initInputTable();
-        } else {
-            functionTextField.setText(initialValue);
-        }
-
-        setParser(p);  // (Sets previousContents to null, so checkInput() will actually check the input.)
-        checkInput();  // Won't throw an error, since throwErrors is false.
+        
+        this.method = method;
+        this.app = app;
+        expr = new EI();
         throwErrors = true;
         input_event = new InputEventManager(this);
-        if(method != MethodsEnum.GAUSS) {
-            performInputEvent();
+        setParser(p);  // (Sets previousContents to null, so checkInput() will actually check the input.)
+
+        if (method == MethodsEnum.HERMITE || method == MethodsEnum.SPLINES) {
+            initInputTable(); // Interpolation table
+        } else {
+            initInput(); // Default input
+            functionTextField.setText(initialValue);
+            checkInput();  // Won't throw an error, since throwErrors is false.
         }
+        performInputEvent();
+    }
+    
+    private void initInput() {
+        boolean gauss = (method == MethodsEnum.GAUSS);
+        inputPanel = new JPanel();
+        inputPanel.setBackground(Constants.BLUE);
+        
+        functionLabel = createLabel("f(x)", Constants.BLUE);
+        inputPanel.add(functionLabel);
+        
+        functionTextField = new JTextField();
+        functionTextField.setFont(Constants.HELVETICA);
+        functionTextField.addActionListener(this::textFieldActionPerformed);
+        inputPanel.add(functionTextField);
+        
+        x0Line = new JPanel();
+        x0Line.setBackground(Constants.BLUE);
+        x0Line.setLayout(TableInput.GRID_2);
+        x0Label = createLabel("", Constants.BLUE);;
+        x0TextField = new JTextField();
+        
+        x0Label.setText(gauss ? "A" : "X inicial");
+        x0Label.setToolTipText("X inicial");
+        
+        x0TextField.setFont(Constants.HELVETICA);
+        x0TextField.setText(gauss ? "-1" : "1");
+        x0TextField.addActionListener(this::textFieldActionPerformed);
+        
+        x0Line.add(x0Label);
+        x0Line.add(x0TextField);
+        inputPanel.add(x0Line);
+        
+        if(method == MethodsEnum.RIDDERS || gauss) {
+            xRLine = new JPanel();
+            xRLine.setBackground(Constants.BLUE);
+            xRLine.setLayout(TableInput.GRID_2);
+            xRLabel = createLabel("", Constants.BLUE);
+            xrTextField = new JTextField();
+            
+            xRLabel.setText(gauss? "B" : "X Direito");
+            xRLabel.setToolTipText(gauss? "X final" : "X da direita");
+            
+            xrTextField.setFont(Constants.HELVETICA);
+            xrTextField.setText(gauss? "1" : "5");
+            xrTextField.addActionListener(this::textFieldActionPerformed);
+            
+            if(method == MethodsEnum.RIDDERS) {
+                x0Label.setText("X Esquerdo");
+                x0Label.setToolTipText("X da Esquerda");
+            }
+            xRLine.add(xRLabel);
+            xRLine.add(xrTextField);
+            inputPanel.add(xRLine);
+        }
+        
+        if(!gauss) {
+            tolLine = new JPanel();
+            tolLine.setBackground(Constants.BLUE);
+            tolLine.setLayout(TableInput.GRID_2);
+            toleranceLabel = createLabel("Tolerância", Constants.BLUE);
+            toleranceTextField = new JTextField();
+
+            toleranceLabel.setToolTipText("Tolerância");
+
+            toleranceTextField.setFont(Constants.HELVETICA);
+            toleranceTextField.setText("0.001");
+            toleranceTextField.addActionListener(this::textFieldActionPerformed);
+
+            tolLine.add(toleranceLabel);
+            tolLine.add(toleranceTextField);
+            inputPanel.add(tolLine);
+        }
+        
+        itrLine = new JPanel();
+        itrLine.setBackground(Constants.BLUE);
+        itrLine.setLayout(TableInput.GRID_2);
+        iterationsLabel = createLabel("", Constants.BLUE);
+        iterationsTextField = new JTextField();
+        
+        iterationsLabel.setText(gauss? "Num. Pontos" : "Iterações");
+        iterationsLabel.setToolTipText(gauss? "Número de Pontos" : "Número de Iterações");
+        
+        iterationsTextField.setFont(Constants.HELVETICA);
+        iterationsTextField.setText(gauss? "3" : "10");
+        iterationsTextField.addActionListener(this::textFieldActionPerformed);
+        
+        itrLine.add(iterationsLabel);
+        itrLine.add(iterationsTextField);
+        inputPanel.add(itrLine);
+        
+        caLine = new JPanel();
+        caLine.setBackground(Constants.BLUE);
+        caLine.setLayout(TableInput.GRID_2);
+        btAnalysis = new JButton();
+        btCompute = new JButton();
+        
+        btAnalysis.setBackground(Constants.WHITE);
+        btAnalysis.setForeground(Constants.BLUE);
+        btAnalysis.setFont(Constants.HELVETICA);
+        btAnalysis.setText("Análise");
+        btAnalysis.addActionListener(this::btAnalysisActionPerformed);
+
+        btCompute.setBackground(Constants.WHITE);
+        btCompute.setForeground(Constants.BLUE);
+        btCompute.setFont(Constants.HELVETICA);
+        btCompute.setText("Computar");
+        btCompute.addActionListener(this::textFieldActionPerformed);
+        
+        caLine.add(btAnalysis);
+        caLine.add(btCompute);
+        inputPanel.add(caLine);
+        
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+        
+        setBackground(Constants.GRAY);        
+        add(inputPanel);
+    }                       
+
+    private void textFieldActionPerformed(ActionEvent evt) {
+        performInputEvent();
+    }
+
+    private void btAnalysisActionPerformed(ActionEvent evt) {
+        input_event.drawTable(input_event.getPoints());
     }
 
     private void initInputTable() {
+        inputPanel = new JPanel();
+        inputPanel.setBackground(Constants.BLUE);
+        
         limits = new double[4];
         table = new JPanel();
         table.setLayout(new BoxLayout(table, BoxLayout.Y_AXIS));
@@ -326,10 +339,14 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
         }
         table.add(topLine);
 
-        tableLines = new LinkedList<>();
+        tableLines = new ArrayList<>();
+        TableInput input;
         for (int i = 0; i < 2; i++) {
-            tableLines.add(new TableInput(method == MethodsEnum.HERMITE));
-            table.add(tableLines.get(i));
+            input = new TableInput(method == MethodsEnum.HERMITE);
+            input.setXInput("" + (i));
+            input.setYInput("" + (i*0.2 + (0.5/(i+1))));
+            tableLines.add(input);
+            table.add(input);
         }
 
         bottomLine = new JPanel();
@@ -373,13 +390,15 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
             dLine.setLayout(TableInput.GRID_2);
             dLine.setBackground(Constants.BLUE);
 
-            d0TextField = new JTextField(10);
+            d0TextField = new JTextField();
             d0TextField.setFont(Constants.HELVETICA);
             d0TextField.setBackground(Constants.WHITE);
+            d0TextField.setText("1");
             dLine.add(d0TextField);
-            dNTextField = new JTextField(10);
+            dNTextField = new JTextField();
             dNTextField.setFont(Constants.HELVETICA);
             dNTextField.setBackground(Constants.WHITE);
+            dNTextField.setText("2");
             dLine.add(dNTextField);
             table.add(dLine);
         }
@@ -387,7 +406,7 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
 
         searchLine = new JPanel();
         searchLine.setLayout(TableInput.GRID_2);
-        searchTextField = new JTextField(10);
+        searchTextField = new JTextField();
         searchTextField.setFont(Constants.HELVETICA);
         searchTextField.setBackground(Constants.WHITE);
         searchTextField.addActionListener(this::searchTextFieldActionPerformed);
@@ -396,8 +415,11 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
         searchLine.add(searchYLabel);
         searchLine.setBackground(Constants.BLUE);
 
-        inputPanel.removeAll();
         inputPanel.add(table);
+        inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
+
+        setBackground(Constants.GRAY);        
+        add(inputPanel);
     }
 
     private void reloadInputTable(boolean remove) {
@@ -444,69 +466,7 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
     }
 
     private void btComputeActionPerformed(ActionEvent evt) {
-        if (parseTable()) {
-            searchTextField.setText("");
-            searchYLabel.setText("Procurar f(x)");
-            expressions = new EI[tableLines.size()];
-            table.add(searchLine);
-            table.revalidate();
-            input_event.invokeInputUpdate();
-            Function f;
-            String p;
-            double xi, xf;
-            switch (method) {
-                case SPLINES:
-                    Spline s = new Spline();
-                    String[] pol = s.Intepolate(x, y, d0, dN);
-                    int n = 0;
-                    for (int ip = 0; ip < pol.length; ip++) {
-                        p = pol[ip];
-                        if (p == null) {
-                            continue;
-                        }
-                        System.out.println(p);
-                        expressions[n] = new EI();
-                        expressions[n].serialNumber++;
-                        expressions[n].exp = getParser().parse(p);
-                        
-                        xi = tableLines.get(ip).parseX();
-                        xf = tableLines.get(ip + 1).parseX();
-                        f = new SimpleFunctionEI(expressions[n], getApplication().getVariable(), xi, xf);
-                        if (ip == 0) {
-                            ifc = new IntervalFunctionComposition(f);
-                        } else {
-                            ifc.stackFunction(f, xi);
-                        }
-                        input_event.drawFunction(f, Constants.GREEN, false);
-                        n++;
-                    }
-                    break;
-                case HERMITE:
-                    p = Hermite.interpolate(x, y, dx);
-                    System.out.println(p);
-                    expressions[0] = new EI();
-                    expressions[0].serialNumber++;
-                    expressions[0].exp = getParser().parse(p);
-                    xi = limits[0];
-                    xf = limits[1];
-                    f = new SimpleFunctionEI(expressions[0], getApplication().getVariable(), xi, xf);
-                    input_event.drawFunction(f, Constants.GREEN, false);
-                    break;
-            }
-            for (int i = 0; i < tableLines.size(); i++) {
-                input_event.drawCrossHair(x[i], y[i], Constants.PURPLE);
-            }
-            for(int i = 0; i < 4; i++) {
-                if(i%2 != 0) {
-                    limits[i] += 1;
-                } else {
-                    limits[i] -= 1;
-                }
-            }
-            input_event.setLimits(limits);
-        } else {
-            JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        performInputEvent();
     }
 
     private void searchTextFieldActionPerformed(ActionEvent evt) {
@@ -527,50 +487,6 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
         }
-    }
-
-    private boolean parseTable() {
-        int i = 0;
-        boolean hermite = (method == MethodsEnum.HERMITE);
-        x = new double[tableLines.size()];
-        y = new double[tableLines.size()];
-        if(hermite) {
-            dx = new double[tableLines.size()];
-        }
-        for (TableInput t : tableLines) {
-            try {
-                x[i] = t.parseX();
-                y[i] = t.parseY();
-                if(hermite) {
-                    dx[i] = t.parseDx();
-                }
-                if (i == 0) {
-                    if(!hermite) {
-                        d0 = Double.parseDouble(d0TextField.getText());
-                        dN = Double.parseDouble(dNTextField.getText());
-                    }
-                    limits[0] = x[i];
-                    limits[1] = x[i];
-                    limits[2] = y[i];
-                    limits[3] = y[i];
-                } else {
-                    if(x[i] > limits[1]) {
-                        limits[1] = x[i];
-                    } else if(x[i] < limits[0]) {
-                        limits[0] = x[i];
-                    }
-                    if(y[i] > limits[3]) {
-                        limits[3] = y[i];
-                    } else if(y[i] < limits[2]) {
-                        limits[2] = y[i];
-                    }
-                }     
-                i++;
-            } catch (NumberFormatException ex) {
-                return false;
-            }
-        }
-        return true;
     }
 
     /**
@@ -811,8 +727,6 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
         }
     }
 
-    
-    
     protected class SimpleFunctionEI extends SimpleFunction {
         
         private double xi, xf;
@@ -843,10 +757,7 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
             else return Double.NaN;
         }
     }
-
-    
-    
-    
+  
     /**
      * The expression associated with an ExpressionInput belongs to this class.
      * So is any derivative of such a function. Note that derivatives must be
@@ -979,6 +890,14 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
         return y;
     }
 
+    public double getd0() {
+        return d0;
+    }
+    
+    public double getdN() {
+        return dN;
+    }
+    
     public int getN() {
         return tableLines.size();
     }
@@ -1000,26 +919,162 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
     }
 
     /**
-     * Invocado quando o usuário pressiona Enter. Por padrão, invoca InputEvent
-     * e, em seguida, invoca a computação e exibição do input.
+     * Called when user presses Enter or Compute. 
+     * By default, invokes InputEvent, and then invokes the input computation and exhibition.
      */
     public void performInputEvent() {
-        try {
-            iterations = Integer.parseInt(iterationsTextField.getText());
-            x0 = Double.parseDouble(x0TextField.getText());
-            if (method == MethodsEnum.RIDDERS) {
-                xR = Double.parseDouble(xrTextField.getText());
-            }
-            tolerance = Double.parseDouble(toleranceTextField.getText());
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(getParent(), "Erro ao processar os parametros!");
-        }
-        if (onUserAction != null) {
-            onUserAction.compute();
-        }
-        input_event.invokeInputUpdate();
-    }
+        Function f;
+        String p;
+        double xi, xf;
+        switch(method) {
+            case HALLEY:
+            case RIDDERS:
+                try {
+                    iterations = Integer.parseInt(iterationsTextField.getText());
+                    x0 = Double.parseDouble(x0TextField.getText());
+                    if (method == MethodsEnum.RIDDERS) {
+                        xR = Double.parseDouble(xrTextField.getText());
+                    }
+                    tolerance = Double.parseDouble(toleranceTextField.getText());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(getParent(), "Erro ao processar os parametros!");
+                }
+                if (onUserAction != null) {
+                    onUserAction.compute();
+                }
+                input_event.invokeInputUpdate();
+                break;
+                
+            case SPLINES:
+                if (parseTable()) {
+                    searchTextField.setText("");
+                    searchYLabel.setText("Procurar f(x)");
+                    expressions = new EI[tableLines.size()];
+                    table.add(searchLine);
+                    table.revalidate();
+                    input_event.invokeInputUpdate();
+                    Spline s = new Spline();
+                    String[] pol = s.Intepolate(x, y, d0, dN);
+                    for (int ip = 0, n = 0; ip < pol.length; ip++, n++) {
+                        p = pol[ip];
+                        if (p == null) {
+                            continue;
+                        }
+                        if(DEBUG) {
+                            System.out.println(p);
+                        }
+                        expressions[n] = new EI();
+                        expressions[n].serialNumber++;
+                        expressions[n].exp = getParser().parse(p);
 
+                        xi = tableLines.get(ip).parseX();
+                        xf = tableLines.get(ip + 1).parseX();
+                        f = new SimpleFunctionEI(expressions[n], getApplication().getVariable(), xi, xf);
+                        if (ip == 0) {
+                            ifc = new IntervalFunctionComposition(f);
+                        } else {
+                            ifc.stackFunction(f, xi);
+                        }
+                        input_event.drawFunction(f, Constants.GREEN, false);
+                    }
+                    setBoundingBox();
+                } else {
+                    JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+              
+            case HERMITE:
+                if (parseTable()) {
+                    searchTextField.setText("");
+                    searchYLabel.setText("Procurar f(x)");
+                    expressions = new EI[tableLines.size()];
+                    table.add(searchLine);
+                    table.revalidate();
+                    input_event.invokeInputUpdate();
+                    p = Hermite.interpolate(x, y, dX);
+                    if(DEBUG) {
+                        System.out.println(p);
+                    }
+                    expressions[0] = new EI();
+                    expressions[0].serialNumber++;
+                    expressions[0].exp = getParser().parse(p);
+                    xi = limits[0];
+                    xf = limits[1];
+                    f = new SimpleFunctionEI(expressions[0], getApplication().getVariable(), xi, xf);
+                    input_event.drawFunction(f, Constants.GREEN, false);
+                    setBoundingBox();
+                } else {
+                    JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+                
+            case GAUSS:
+                break;
+        }
+    }
+    
+    private void setBoundingBox() {
+        for (int i = 0; i < tableLines.size(); i++) {
+            input_event.drawCrossHair(x[i], y[i], Constants.PURPLE);
+        }
+        for(int i = 0; i < 4; i++) {
+            if(i%2 != 0) {
+                limits[i] += 1;
+            } else {
+                limits[i] -= 1;
+            }
+        }
+        input_event.setLimits(limits);
+    }
+    
+    /** Parses the table fields and checks if it contains a valid double.
+     * 
+     * @return True if there's no invalid value, otherwise, false.
+     */
+    private boolean parseTable() {
+        int i = 0;
+        boolean hermite = (method == MethodsEnum.HERMITE);
+        x = new double[tableLines.size()];
+        y = new double[tableLines.size()];
+        if(hermite) {
+            dX = new double[tableLines.size()];
+        }
+        for (TableInput t : tableLines) {
+            try {
+                x[i] = t.parseX();
+                y[i] = t.parseY();
+                if(hermite) {
+                    dX[i] = t.parseDx();
+                }
+                if (i == 0) {
+                    if(!hermite) {
+                        d0 = Double.parseDouble(d0TextField.getText());
+                        dN = Double.parseDouble(dNTextField.getText());
+                    }
+                    limits[0] = x[i];
+                    limits[1] = x[i];
+                    limits[2] = y[i];
+                    limits[3] = y[i];
+                } else {
+                    if(x[i] > limits[1]) {
+                        limits[1] = x[i];
+                    } else if(x[i] < limits[0]) {
+                        limits[0] = x[i];
+                    }
+                    if(y[i] > limits[3]) {
+                        limits[3] = y[i];
+                    } else if(y[i] < limits[2]) {
+                        limits[2] = y[i];
+                    }
+                }     
+                i++;
+            } catch (NumberFormatException ex) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
     /**
      * Invocado quando o usuário clica em algum ponto do gráfico.
      *

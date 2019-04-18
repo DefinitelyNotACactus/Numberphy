@@ -58,8 +58,9 @@ public class Lobatto {
     public static double[] weight(int n, double[] d) {
         switch (n) {
             case 2:
-                String funcion = 
+                String funcion = ""; 
         }
+        return null;
     }
     /*public static double lobatto(double[] limits, int n, String function) {
         
