@@ -1025,7 +1025,7 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
                 break;
                 
             case GAUSS:
-                Lobatto l = new Lobatto(this, "x^2 + x + 6", -1.0, 1.0, 5);
+                Lobatto l = new Lobatto(this, "x^2 + 1", 3, 5, 3);
                 l.weight(5, l.roots(5));
                 break;
         }

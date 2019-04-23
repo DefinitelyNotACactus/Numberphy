@@ -23,20 +23,28 @@ public class Lobatto extends AbstractGauss {
     private String function;
     private Function s;
     
+    private String computedFunction;
+    private double area;
+    
     public Lobatto(view.ExpressionInput input, String function, double a, double b, int numPoints) {
         super(input, function, a, b, numPoints);
         this.a = a;
         this.b = b;
+        
         this.numPoints = numPoints;
         this.function = function;
         
+        computedFunction = changeLimits();
+        area = lobatto();
     }
     
-    public String changeLimits(double a, double b, String function) {
+    public String changeLimits() {
         double a1 = (0.5) * (b - a);
         double a0 = (0.5) * (b + a);
+        
         String newFunction = function.replaceAll("x", "((" + a1 +")*x + " + a0 + ")");
         newFunction = "(" + newFunction + ") * " + a1;
+        
         return newFunction;
     }
     
@@ -73,13 +81,13 @@ public class Lobatto extends AbstractGauss {
                 return roots5;
                 //break;
         }
+        
         return null;
     }
     
     public double[] weight(int n, double[] roots) {
         String generalFunction = "2 / (n * (n-1) * (P)^2)";
         String newFunction1, newFunction2;
-        double[] weights;
         
         switch (n) {
             case 2:
@@ -114,7 +122,6 @@ public class Lobatto extends AbstractGauss {
                     ValueImpl v = new ValueImpl(roots[i]);
                     weights3[i] = new ValueMath(s, v).getVal();
                     
-                    System.out.println(weights3[i]);
                     /*ExpressionInput input = new ExpressionInput(newFunction2, new Parser());
                     weights3[i] = input.getVal();*/
                 }
@@ -133,7 +140,7 @@ public class Lobatto extends AbstractGauss {
                     s = getInput().createFunction(newFunction2);
                     ValueImpl v = new ValueImpl(roots[i]);
                     weights4[i] = new ValueMath(s, v).getVal();
-                    System.out.println(weights4[i]);
+                    
                     /*ExpressionInput input = new ExpressionInput(newFunction2, new Parser());
                     weights4[i] = input.getVal();*/
                 }
@@ -152,7 +159,7 @@ public class Lobatto extends AbstractGauss {
                     s = getInput().createFunction(newFunction2);
                     ValueImpl v = new ValueImpl(roots[i]);
                     weights5[i] = new ValueMath(s, v).getVal();
-                    System.out.println(weights5[i]);
+                    
                     /*ExpressionInput input = new ExpressionInput(newFunction2, new Parser());
                     weights5[i] = input.getVal();*/
                 }
@@ -162,23 +169,25 @@ public class Lobatto extends AbstractGauss {
         
         return null;
     }
-    /*
-    public double lobatto(double a, double b, int n, String function) {
-        String newFunction = changeLimits(a, b, function);
-        double[] roots = roots(n);
-        double[] weights = weight(n, roots);
+    
+    public double lobatto() {
+        double[] roots = roots(numPoints);
+        double[] weights = weight(numPoints, roots);
         
-        String newNewFunction;
         double result = 0;
-        for (int i = 0; i < n; i++) {
-            newNewFunction = newFunction.replaceAll("x", roots[i] + "");
-            
+        for (int i = 0; i < numPoints; i++) {
+            s = getInput().createFunction(computedFunction);
+            ValueImpl v = new ValueImpl(roots[i]);
+            result += (new ValueMath(s, v).getVal()) * weights[i];            
         }
+        
+        System.out.println(result);
+        return result;
     }
-    */
+    
     @Override
     public double getArea() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return area;
     }
 
     @Override
@@ -188,7 +197,7 @@ public class Lobatto extends AbstractGauss {
 
     @Override
     public SimpleFunction getComputedFunction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getInput().createFunction(computedFunction);
     }
 
     @Override
