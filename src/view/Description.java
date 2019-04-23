@@ -291,7 +291,32 @@ public class Description extends JScrollPane {
                         "<table><p><tr><td><img src=" + hermite12Path + " alt=\"hermite12\" ></td> <td>&nbsp&nbsp&nbsp com &nbsp&nbsp&nbsp</td> <td><img src=" + hermite13Path + " alt=\"hermite13\" ></td></tr></p></table>" +
                         "</html>");
             case GAUSS:
-                return("INSIRA ALGO AQUI");
+                String lobatto1Path = getResource("/resources/lobatto/lobatto1.png");
+                String lobatto2Path = getResource("/resources/lobatto/lobatto2.png");
+                String lobatto3Path = getResource("/resources/lobatto/lobatto3.png");
+                String lobatto4Path = getResource("/resources/lobatto/lobatto4.png");
+                String lobatto5Path = getResource("/resources/lobatto/lobatto5.png");
+                String lobatto6Path = getResource("/resources/lobatto/lobatto6.png");
+                
+                return("<html><div WIDTH="+getWidth()+"><h2 id=\"introduo-5\">Introdução</h2>\n" +
+                        "<p>Na análise numérica, uma regra de quadratura é uma aproximação da integral definida de uma função, geralmente declarada como uma soma ponderada de valores de função em pontos especificados dentro do domínio da integração. Uma regra de quadratura Gaussiana de n pontos,  é uma regra de quadratura construída para produzir um resultado exato para polinômios de grau 2n - 1 ou menor por uma escolha adequada de nós x<sub>i</sub> e pesos w<sub>i</sub> para i = 1, ..., n . O domínio mais comum de integração para tal regra é tomado como [−1,1], então a regra é declarada como:</p>" +
+                        "<img src=" + lobatto1Path + " alt=\"lobatto1\" >" +
+                        "<p>que é exato para polinômios de grau 2n -1 ou menor. Essa regra exata é conhecida como a regra de quadratura de Gauss-Legendre. A regra de quadratura será apenas uma aproximação precisa da integral acima se f (x) for bem aproximado por um polinômio de grau 2n -1 ou menos em [-1,1] .</p>" +
+                        "<p>Abaixo é possível ver a comparação entre a quadratura gaussiana e trapezoidal de 2 pontos. A linha azul é o polinômio y (x) = 7x<sup>3</sup> - 8x<sup>2</sup> - 3x + 3, cuja integral em [−1, 1] é 2/3. A regra do trapézio retorna a integral da linha tracejada laranja, igual a y (-1) + y (1) = - 10. A regra de quadratura Gaussiana de 2 pontos retorna a integral da curva tracejada preta, igual a y (-&radic⅓) + y (&radic⅓) = 2/3. Tal resultado é exato, uma vez que a região verde tem a mesma área que a soma das regiões vermelhas. </p>" +
+                        "<img src=" + lobatto2Path + " alt=\"lobatto2\" >" +
+                        "<p><p><h2 id=\"desenvolvimento\">Desenvolvimento</h2></p></p>" +
+                        "<p>Também chamado de Quadratura de Radau, a Quadratura de Lobatto é semelhante à quadratura de Gauss com as seguintes diferenças:</p>" +
+                        "<ul><li>A função de ponderação W(x) = 1.</li>" +
+                        "<li>Os pontos de integração incluem os pontos finais do intervalo de integração.</li>" +
+                        "<li>É preciso para polinômios de grau até 2n –3, onde n é o número de pontos de integração.</li></ul>" +
+                        "<p>Quadratura de Lobatto da função f(x) no intervalo [-1,1] é dada por:</p>" +
+                        "<img src=" + lobatto3Path + " alt=\"lobatto3\" >" +
+                        "<p>Dado o fato de que as extremidades do intervalo [-1,1] são incluídos nos pontos de integração, temos que dado um número n de pontos, todos ele devem ser simétricos sobre a origem. Além disso temos os pesos:</p>" +
+                        "<table><tr><td>Nas extremidades: </td> <td><img src=" + lobatto4Path + " alt=\"lobatto4\" ></td></tr></table>" +
+                        "<table><tr><td>Nos demais pontos de integração: </td> <td><img src=" + lobatto5Path + " alt=\"lobatto5\" ></td></tr></table>" +
+                        "<table><tr><td>Termo de erro: </td> <td><img src=" + lobatto6Path + " alt=\"lobatto6\" ></td></tr></table>" +
+                        "</html>");
+                
             case WELCOME:
             default:
                 return("<html><div WIDTH="+getWidth()+"><h1 id=\"Numberphy\">Numberphy</h2>\n" +
