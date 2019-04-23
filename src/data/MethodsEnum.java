@@ -20,10 +20,6 @@ public enum MethodsEnum {
     
     HALLEY(Halley.class), RIDDERS(Ridders.class), HERMITE, SPLINES, GAUSS, WELCOME, EXTRA;
     
-    
-    
-    
-    
     private final Class method;
     private static final HashMap<MethodsEnum, MethodImplementation> instances = new HashMap<>();
     
@@ -41,9 +37,9 @@ public enum MethodsEnum {
      * @return Instância
      */
     public MethodImplementation getInstance() {
-        if (instances.containsKey(this))
+        if (instances.containsKey(this)) {
             return instances.get(this);
-        
+        }
         
         MethodImplementation mi = null;
         

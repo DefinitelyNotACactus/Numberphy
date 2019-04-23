@@ -745,9 +745,10 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
 
         /**
          * Find the value of the function at the argument values argument[0],
-         * argument[1].... Information about "cases" is stored in the Cases
-         * parameter, if it is non-null. See the Cases class for more
-         * information.
+         * argument[1]....Information about "cases" is stored in the Cases parameter, if it is non-null.See the Cases class for more information.
+         * @param arguments
+         * @param cases
+         * @return 
          */
         @Override
         public double getValueWithCases(double[] arguments, Cases cases) {
@@ -901,7 +902,28 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
     public int getN() {
         return tableLines.size();
     }
+    
+    /** 
+     * Creates a SimpleFunction object with the given function string
+     * @param function The function string
+     * @return A SimpleFunction object with the given string.
+     */
+    public SimpleFunction createFunction(String function) {
+        return createFunction(new EI(), function);
+    }
 
+    public SimpleFunction createFunction(EI ei, String function) {
+        ei.serialNumber++;
+        ei.exp = getParser().parse(function);
+        return new SimpleFunction(ei, getApplication().getVariable());
+    }
+    
+    public SimpleFunctionEI createFunctionEI(EI ei, String function, double xi, double xf) {
+        ei.serialNumber++;
+        ei.exp = getParser().parse(function);
+        return new SimpleFunctionEI(ei, getApplication().getVariable(), xi, xf);
+    }
+    
     /**
      * @return the app
      */
@@ -963,13 +985,9 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
                         if(DEBUG) {
                             System.out.println(p);
                         }
-                        expressions[n] = new EI();
-                        expressions[n].serialNumber++;
-                        expressions[n].exp = getParser().parse(p);
-
                         xi = tableLines.get(ip).parseX();
                         xf = tableLines.get(ip + 1).parseX();
-                        f = new SimpleFunctionEI(expressions[n], getApplication().getVariable(), xi, xf);
+                        f = createFunctionEI(expressions[n] = new EI(), p, xi, xf);
                         if (ip == 0) {
                             ifc = new IntervalFunctionComposition(f);
                         } else {
@@ -995,12 +1013,9 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
                     if(DEBUG) {
                         System.out.println(p);
                     }
-                    expressions[0] = new EI();
-                    expressions[0].serialNumber++;
-                    expressions[0].exp = getParser().parse(p);
                     xi = limits[0];
                     xf = limits[1];
-                    f = new SimpleFunctionEI(expressions[0], getApplication().getVariable(), xi, xf);
+                    f = createFunctionEI(expressions[0] = new EI(), p, xi, xf);
                     input_event.drawFunction(f, Constants.GREEN, false);
                     setBoundingBox();
                 } else {
