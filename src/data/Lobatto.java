@@ -5,26 +5,25 @@
  */
 package data;
 
-import edu.hws.jcm.awt.ExpressionInput;
 import edu.hws.jcm.data.Function;
-import edu.hws.jcm.data.Parser;
 import edu.hws.jcm.data.SimpleFunction;
 import edu.hws.jcm.data.ValueMath;
 import view.InputEventManager;
 
 /**
  *
- * @author LAR
+ * @author (L)uan(A)villa(R)enan
  */
 public class Lobatto extends AbstractGauss {
     
-    private int numPoints;
-    private double a, b;
-    private String function;
+    private final int numPoints;
+    private final double a, b;
+    private final String function;
     private Function s;
     
-    private String computedFunction;
+    private final String computedFunction;
     private double area;
+    private final Iteration[] iterations;
     
     public Lobatto(view.ExpressionInput input, String function, double a, double b, int numPoints) {
         super(input, function, a, b, numPoints);
@@ -33,9 +32,13 @@ public class Lobatto extends AbstractGauss {
         
         this.numPoints = numPoints;
         this.function = function;
-        
+
         computedFunction = changeLimits();
-        area = lobatto();
+        iterations = getIterations();
+    }
+    
+    public Iteration[] getRootsAndWeights() {
+        return iterations;
     }
     
     public String changeLimits() {
@@ -80,9 +83,9 @@ public class Lobatto extends AbstractGauss {
                 1.0};
                 return roots5;
                 //break;
+            default:
+                return null;
         }
-        
-        return null;
     }
     
     public double[] weight(int n, double[] roots) {
@@ -165,24 +168,9 @@ public class Lobatto extends AbstractGauss {
                 }
                 
                 return weights5;
+            default:
+                return null;
         }
-        
-        return null;
-    }
-    
-    public double lobatto() {
-        double[] roots = roots(numPoints);
-        double[] weights = weight(numPoints, roots);
-        
-        double result = 0;
-        for (int i = 0; i < numPoints; i++) {
-            s = getInput().createFunction(computedFunction);
-            ValueImpl v = new ValueImpl(roots[i]);
-            result += (new ValueMath(s, v).getVal()) * weights[i];            
-        }
-        
-        System.out.println(result);
-        return result;
     }
     
     @Override
@@ -192,7 +180,22 @@ public class Lobatto extends AbstractGauss {
 
     @Override
     public Iteration[] getIterations() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        double[] roots = roots(numPoints);
+        double[] weights = weight(numPoints, roots);
+        area = 0;
+        Iteration rootsAndWeights[] = new Iteration[roots.length];
+        
+        for(int i = 0; i < roots.length; i++) {
+            rootsAndWeights[i] = new Iteration(roots[i], weights[i]);
+        }
+
+        for (int i = 0; i < numPoints; i++) {
+            s = getInput().createFunction(computedFunction);
+            ValueImpl v = new ValueImpl(roots[i]);
+            area += (new ValueMath(s, v).getVal()) * weights[i];            
+        }
+        
+        return rootsAndWeights;
     }
 
     @Override
