@@ -38,6 +38,7 @@ package view;
 import data.Constants;
 import data.Hermite;
 import data.IntervalFunctionComposition;
+import data.Lobatto;
 import data.MethodsEnum;
 import data.Spline;
 import edu.hws.jcm.awt.Controller;
@@ -1024,6 +1025,8 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
                 break;
                 
             case GAUSS:
+                Lobatto l = new Lobatto(this, "x^2 + x + 6", -1.0, 1.0, 5);
+                l.weight(5, l.roots(5));
                 break;
         }
     }

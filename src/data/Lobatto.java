@@ -5,21 +5,42 @@
  */
 package data;
 
+import edu.hws.jcm.awt.ExpressionInput;
+import edu.hws.jcm.data.Function;
+import edu.hws.jcm.data.Parser;
+import edu.hws.jcm.data.SimpleFunction;
+import edu.hws.jcm.data.ValueMath;
+import view.InputEventManager;
+
 /**
  *
  * @author LAR
  */
-public class Lobatto {
+public class Lobatto extends AbstractGauss {
     
-    public static String changeLimits(double[] limits, String function) {
-        double a1 = (0.5) * (limits[1] - limits[0]);
-        double a0 = (0.5) * (limits[1] + limits[0]);
-        String newFunction = function.replaceAll("x", "((" + a1 +")*t + " + a0 + ")");
+    private int numPoints;
+    private double a, b;
+    private String function;
+    private Function s;
+    
+    public Lobatto(view.ExpressionInput input, String function, double a, double b, int numPoints) {
+        super(input, function, a, b, numPoints);
+        this.a = a;
+        this.b = b;
+        this.numPoints = numPoints;
+        this.function = function;
+        
+    }
+    
+    public String changeLimits(double a, double b, String function) {
+        double a1 = (0.5) * (b - a);
+        double a0 = (0.5) * (b + a);
+        String newFunction = function.replaceAll("x", "((" + a1 +")*x + " + a0 + ")");
         newFunction = "(" + newFunction + ") * " + a1;
         return newFunction;
     }
     
-    public static double[] roots(int n) {
+    public double[] roots(int n) {
         //double[] roots = null;
         switch (n) {
             case 2:
@@ -55,14 +76,128 @@ public class Lobatto {
         return null;
     }
     
-    public static double[] weight(int n, double[] d) {
+    public double[] weight(int n, double[] roots) {
+        String generalFunction = "2 / (n * (n-1) * (P)^2)";
+        String newFunction1, newFunction2;
+        double[] weights;
+        
         switch (n) {
             case 2:
-                String funcion = ""; 
+                double[] weights2 = new double[2];
+                newFunction1 = generalFunction.replaceAll("n", "2");
+                
+                String P1 = "x";
+                for (int i = 0; i < n; ++i) {                    
+                    String PResult = P1.replaceAll("x", roots[i] + "");
+                    newFunction2 = newFunction1.replaceAll("P", PResult);
+                    
+                    s = getInput().createFunction(newFunction2);
+                    ValueImpl v = new ValueImpl(roots[i]);
+                    weights2[i] = new ValueMath(s, v).getVal();
+                    
+                    /*ExpressionInput input = new ExpressionInput(newFunction2, new Parser());
+                    weights2[i] = input.getVal();*/
+                }
+                
+                return weights2;
+                
+            case 3:
+                double[] weights3 = new double[3];
+                newFunction1 = generalFunction.replaceAll("n", "3");
+                
+                String P2 = "0.5 * (3 * (x)^2 - 1)";
+                for (int i = 0; i < n; ++i) {
+                    String PResult = P2.replaceAll("x", roots[i] + "");
+                    newFunction2 = newFunction1.replaceAll("P", PResult);
+                    
+                    s = getInput().createFunction(newFunction2);
+                    ValueImpl v = new ValueImpl(roots[i]);
+                    weights3[i] = new ValueMath(s, v).getVal();
+                    
+                    System.out.println(weights3[i]);
+                    /*ExpressionInput input = new ExpressionInput(newFunction2, new Parser());
+                    weights3[i] = input.getVal();*/
+                }
+                
+                return weights3;
+                
+            case 4:
+                double[] weights4 = new double[4];
+                newFunction1 = generalFunction.replaceAll("n", "4");
+                
+                String P3 = "0.5 * (5 * (x)^3 - 3 * (x))";
+                for (int i = 0; i < n; ++i) {
+                    String PResult = P3.replaceAll("x", roots[i] + "");
+                    newFunction2 = newFunction1.replaceAll("P", PResult);
+                    
+                    s = getInput().createFunction(newFunction2);
+                    ValueImpl v = new ValueImpl(roots[i]);
+                    weights4[i] = new ValueMath(s, v).getVal();
+                    System.out.println(weights4[i]);
+                    /*ExpressionInput input = new ExpressionInput(newFunction2, new Parser());
+                    weights4[i] = input.getVal();*/
+                }
+                
+                return weights4;
+                
+            case 5:
+                double[] weights5 = new double[5];
+                newFunction1 = generalFunction.replaceAll("n", "5");
+                
+                String P4 = "0.125 * (35 * (x)^4 - 30 * (x)^2 + 3)";
+                for (int i = 0; i < n; ++i) {
+                    String PResult = P4.replaceAll("x", roots[i] + "");
+                    newFunction2 = newFunction1.replaceAll("P", PResult);
+                    
+                    s = getInput().createFunction(newFunction2);
+                    ValueImpl v = new ValueImpl(roots[i]);
+                    weights5[i] = new ValueMath(s, v).getVal();
+                    System.out.println(weights5[i]);
+                    /*ExpressionInput input = new ExpressionInput(newFunction2, new Parser());
+                    weights5[i] = input.getVal();*/
+                }
+                
+                return weights5;
         }
+        
         return null;
     }
-    /*public static double lobatto(double[] limits, int n, String function) {
+    /*
+    public double lobatto(double a, double b, int n, String function) {
+        String newFunction = changeLimits(a, b, function);
+        double[] roots = roots(n);
+        double[] weights = weight(n, roots);
         
-    }*/
+        String newNewFunction;
+        double result = 0;
+        for (int i = 0; i < n; i++) {
+            newNewFunction = newFunction.replaceAll("x", roots[i] + "");
+            
+        }
+    }
+    */
+    @Override
+    public double getArea() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Iteration[] getIterations() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public SimpleFunction getComputedFunction() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Iteration[] inputUpdate(view.ExpressionInput input, InputEventManager event) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void pointClickedEvent(view.ExpressionInput input, InputEventManager event, double x, double y) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

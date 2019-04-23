@@ -10,8 +10,8 @@ package data;
  * @author LAR
  */
 public class Teste {
-    public static void main(String[] args) {
-        double[] limits = {2.3, 3.0};
-        System.out.println(Lobatto.changeLimits(limits, "x^3 + x + 5"));
-    }
+    /*public static void main(String[] args) {
+        Lobatto l = new Lobatto(new ExpressionInput(""))
+        Lobatto.weight(3, limits);
+    }*/
 }
