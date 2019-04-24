@@ -1037,7 +1037,6 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
                 
             case GAUSS:
                 try {
-                    input_event.invokeInputUpdate();
                     iterations = Integer.parseInt(iterationsTextField.getText());
                     x0 = Double.parseDouble(x0TextField.getText());
                     xR = Double.parseDouble(xrTextField.getText());
@@ -1056,9 +1055,16 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
                     } else {
                         computedAreaLabel.setText(String.format("%5.6f", radau.getArea()));
                     }
+                    if (onUserAction != null) {
+                        onUserAction.compute();
+                    }
+                    input_event.invokeInputUpdate();
                     input_event.drawFunction(radau.getComputedFunction(), Constants.BLUE, false);
+                    input_event.setLimits(radau.getComputedLimits());
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
+                } catch (ParseError ex) {
+                    JOptionPane.showMessageDialog(getParent(), "Erro desconhecido.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
                 break;
         }

@@ -23,6 +23,7 @@ public class Lobatto extends AbstractGauss {
     
     private final String computedFunction;
     private double area;
+    private double[] computedLimits;
     private final Iteration[] iterations;
     
     public Lobatto(view.ExpressionInput input, String function, double a, double b, int numPoints) {
@@ -49,6 +50,10 @@ public class Lobatto extends AbstractGauss {
         newFunction = "(" + newFunction + ") * " + a1;
         
         return newFunction;
+    }
+    
+    public double[] getComputedLimits() {
+        return computedLimits;
     }
     
     public double[] roots(int n) {
@@ -182,6 +187,7 @@ public class Lobatto extends AbstractGauss {
     public Iteration[] getIterations() {
         double[] roots = roots(numPoints);
         double[] weights = weight(numPoints, roots);
+        ValueImpl v;
         area = 0;
         Iteration rootsAndWeights[] = new Iteration[roots.length];
         
@@ -191,9 +197,16 @@ public class Lobatto extends AbstractGauss {
 
         for (int i = 0; i < numPoints; i++) {
             s = getInput().createFunction(computedFunction);
-            ValueImpl v = new ValueImpl(roots[i]);
+            v = new ValueImpl(roots[i]);
             area += (new ValueMath(s, v).getVal()) * weights[i];            
         }
+        computedLimits = new double[4];
+        computedLimits[0] = -1;
+        computedLimits[1] = 1;
+        v = new ValueImpl(-1);
+        computedLimits[2] = new ValueMath(s, v).getVal();
+        v = new ValueImpl(1);
+        computedLimits[3] = new ValueMath(s, v).getVal();
         
         return rootsAndWeights;
     }
