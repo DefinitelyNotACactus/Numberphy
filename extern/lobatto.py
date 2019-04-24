@@ -4,7 +4,10 @@ from sympy.integrals.quadrature import gauss_lobatto
 
 precisao = 6
 
-f = eval("lambda t: " + sys.argv[1])
+farg = sys.argv[1].replace("^", "**")
+
+variavel = sys.argv[3] if len(sys.argv) >= 4 else 'x'
+f = eval("lambda " + variavel + ": " + farg)
 n = int(sys.argv[2])
 
 x, w = gauss_lobatto(n, precisao)
