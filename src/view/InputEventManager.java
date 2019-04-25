@@ -2,6 +2,7 @@ package view;
 
 import data.Constants;
 import data.Iteration;
+import data.MethodsEnum;
 import edu.hws.jcm.awt.VariableInput;
 import edu.hws.jcm.data.Function;
 import edu.hws.jcm.data.Value;
@@ -14,7 +15,6 @@ import edu.hws.jcm.draw.Graph1D;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.util.ArrayList;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -211,16 +211,18 @@ public class InputEventManager {
     }
     
     public void drawTable(Iteration[] points) {
+        boolean gauss = (input.getMethod() == MethodsEnum.GAUSS);
         Container cont = new Container();
         cont.setLayout(new BoxLayout(cont, BoxLayout.Y_AXIS));
         JPanel line = new JPanel();
-        GridLayout layout = new GridLayout(0,3);
         Color color;
         Dimension dim = new Dimension(500, 20);
-        line.setLayout(layout);
-        line.add(ExpressionInput.createLabel("k", Constants.BLUE));
-        line.add(ExpressionInput.createLabel("X(k)", Constants.BLUE));
-        line.add(ExpressionInput.createLabel("ER", Constants.BLUE));
+        line.setLayout(gauss? TableInput.GRID_2 : TableInput.GRID_3);
+        if(!gauss) {
+            line.add(ExpressionInput.createLabel("k", Constants.BLUE));
+        }
+        line.add(ExpressionInput.createLabel(gauss? "Raizes" : "X(k)", Constants.BLUE));
+        line.add(ExpressionInput.createLabel(gauss? "Pesos" : "ER", Constants.BLUE));
         line.setMaximumSize(dim);
         cont.add(line);
         int i = 0;
@@ -232,8 +234,10 @@ public class InputEventManager {
             }
             if(it != null) {
                 line = new JPanel();
-                line.setLayout(layout);
-                line.add(ExpressionInput.createLabel("" + i, color));
+                line.setLayout(gauss? TableInput.GRID_2 : TableInput.GRID_3);
+                if(!gauss) {
+                    line.add(ExpressionInput.createLabel("" + i, color));
+                }
                 line.add(ExpressionInput.createLabel(String.format("%.10f", it.getX()), color));
                 line.add(ExpressionInput.createLabel(String.format("%.10f", it.getRelativeError()), color));
                 line.setMaximumSize(dim);

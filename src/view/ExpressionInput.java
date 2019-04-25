@@ -38,6 +38,7 @@ package view;
 import data.Constants;
 import data.Hermite;
 import data.IntervalFunctionComposition;
+import data.Iteration;
 import data.Lobatto;
 import data.MethodsEnum;
 import data.Spline;
@@ -58,8 +59,11 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.TextEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -93,6 +97,14 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
     private JTextField x0TextField;
     private JLabel xRLabel;
     private JTextField xrTextField;
+    //Output Components (Gauss)
+    private JPanel areaPanel;
+    private JLabel areaLabel;
+    private JLabel computedAreaLabel;
+    private JLabel computedSymPyLabel;
+    private JLabel computedSymbolicLabel;
+    private Iteration[] rootsAndWeigths;
+    
     /**
      * The Expression associate with this input box. Class EI is a private
      * nested class.
@@ -319,7 +331,11 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
     }
 
     private void btAnalysisActionPerformed(ActionEvent evt) {
-        input_event.drawTable(input_event.getPoints());
+        if(method == MethodsEnum.GAUSS) {
+            input_event.drawTable(rootsAndWeigths);
+        } else {
+            input_event.drawTable(input_event.getPoints());
+        }
     }
 
     private void initInputTable() {
@@ -1025,8 +1041,62 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
                 break;
                 
             case GAUSS:
-                Lobatto l = new Lobatto(this, "x^2 + 1", 3, 5, 3);
-                l.weight(5, l.roots(5));
+                try {
+                    iterations = Integer.parseInt(iterationsTextField.getText());
+                    x0 = Double.parseDouble(x0TextField.getText());
+                    xR = Double.parseDouble(xrTextField.getText());
+                    Lobatto radau = new Lobatto(this, getText(), x0, xR, iterations);
+                    rootsAndWeigths = radau.getRootsAndWeights();
+                    String sympyl = "NaN", sympys = "NaN";
+                    double area = radau.getArea();
+                    
+                    System.out.println("Valor computado: " + area);
+                    try {
+                        String s = data.LobattoComparer.getSymPyLobatto(radau.getComputedFunctionString(), iterations);
+                        System.out.println("SymPy Lobatto: " + s);
+                        sympyl = String.format("%5.8f", Double.parseDouble(s));
+                    } catch (Exception ex) {
+                        Logger.getLogger(ExpressionInput.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        String s = data.LobattoComparer.getSymPySymbolic(radau.getComputedFunctionString());
+                        System.out.println("SymPy Simbolico: " + s);
+                        sympys = String.format("%5.8f", Double.parseDouble(s));
+                    } catch (Exception ex) {
+                        Logger.getLogger(ExpressionInput.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                    if(areaPanel == null) {
+                        areaPanel = new JPanel();
+                        areaPanel.setLayout(TableInput.GRID_2);
+                        areaLabel = createLabel("Valor da área:", Constants.BLUE);
+                        areaPanel.add(areaLabel);
+                        computedAreaLabel = createLabel(String.format("%5.8f", area), Constants.BLUE);
+                        areaPanel.add(computedAreaLabel);
+                        areaPanel.add(createLabel("SymPy Equiv.:", Constants.BLUE));
+                        computedSymPyLabel = createLabel(sympyl, Constants.BLUE);
+                        areaPanel.add(computedSymPyLabel);
+                        areaPanel.add(createLabel("SymPy Simb.:", Constants.BLUE));
+                        computedSymbolicLabel = createLabel(sympys, Constants.BLUE);
+                        areaPanel.add(computedSymbolicLabel);
+                        inputPanel.add(areaPanel);
+                        inputPanel.revalidate();
+                    } else {
+                        computedAreaLabel.setText(String.format("%5.6f", area));
+                        computedSymPyLabel.setText(sympyl);
+                        computedSymPyLabel.setText(sympys);
+                    }
+                    if (onUserAction != null) {
+                        onUserAction.compute();
+                    }
+                    input_event.invokeInputUpdate();
+                    input_event.drawFunction(radau.getComputedFunction(), Constants.BLUE, false);
+                    input_event.setLimits(radau.getComputedLimits());
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(getParent(), "Verifique os parâmetros informados.", "Erro", JOptionPane.ERROR_MESSAGE);
+                } catch (ParseError ex) {
+                    JOptionPane.showMessageDialog(getParent(), "Erro desconhecido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
                 break;
         }
     }
