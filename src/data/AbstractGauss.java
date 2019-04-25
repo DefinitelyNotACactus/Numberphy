@@ -30,5 +30,7 @@ public abstract class AbstractGauss implements MethodImplementation {
     
     public abstract SimpleFunction getComputedFunction();
     
+    public abstract String getComputedFunctionString();
+    
     
 }
