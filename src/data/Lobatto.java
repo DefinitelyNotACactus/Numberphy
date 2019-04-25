@@ -46,7 +46,7 @@ public class Lobatto extends AbstractGauss {
         double a1 = (0.5) * (b - a);
         double a0 = (0.5) * (b + a);
         
-        String newFunction = function.replaceAll("x", "((" + a1 +")*x + " + a0 + ")");
+        String newFunction = function.replaceAll("(x)", "((" + a1 +")*(x) + " + a0 + ")");
         newFunction = "(" + newFunction + ") * " + a1;
         
         return newFunction;
@@ -214,6 +214,11 @@ public class Lobatto extends AbstractGauss {
     @Override
     public SimpleFunction getComputedFunction() {
         return getInput().createFunction(computedFunction);
+    }
+
+    @Override
+    public String getComputedFunctionString() {
+        return computedFunction;
     }
 
     @Override

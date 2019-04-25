@@ -2,7 +2,7 @@ import sys
 from math import *
 from sympy.integrals.quadrature import gauss_lobatto
 
-precisao = 6
+precisao = 9
 
 farg = sys.argv[1].replace("^", "**")
 

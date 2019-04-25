@@ -59,8 +59,11 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.TextEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -98,6 +101,8 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
     private JPanel areaPanel;
     private JLabel areaLabel;
     private JLabel computedAreaLabel;
+    private JLabel computedSymPyLabel;
+    private JLabel computedSymbolicLabel;
     private Iteration[] rootsAndWeigths;
     
     /**
@@ -1042,18 +1047,44 @@ public class ExpressionInput extends JPanel implements Value, InputObject {
                     xR = Double.parseDouble(xrTextField.getText());
                     Lobatto radau = new Lobatto(this, getText(), x0, xR, iterations);
                     rootsAndWeigths = radau.getRootsAndWeights();
+                    String sympyl = "NaN", sympys = "NaN";
+                    double area = radau.getArea();
+                    
+                    System.out.println("Valor computado: " + area);
+                    try {
+                        String s = data.LobattoComparer.getSymPyLobatto(radau.getComputedFunctionString(), iterations);
+                        System.out.println("SymPy Lobatto: " + s);
+                        sympyl = String.format("%5.8f", Double.parseDouble(s));
+                    } catch (Exception ex) {
+                        Logger.getLogger(ExpressionInput.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        String s = data.LobattoComparer.getSymPySymbolic(radau.getComputedFunctionString());
+                        System.out.println("SymPy Simbolico: " + s);
+                        sympys = String.format("%5.8f", Double.parseDouble(s));
+                    } catch (Exception ex) {
+                        Logger.getLogger(ExpressionInput.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     
                     if(areaPanel == null) {
                         areaPanel = new JPanel();
                         areaPanel.setLayout(TableInput.GRID_2);
-                        areaLabel = createLabel("Valor da área: ", Constants.BLUE);
+                        areaLabel = createLabel("Valor da área:", Constants.BLUE);
                         areaPanel.add(areaLabel);
-                        computedAreaLabel = createLabel(String.format("%5.6f", radau.getArea()), Constants.BLUE);
+                        computedAreaLabel = createLabel(String.format("%5.8f", area), Constants.BLUE);
                         areaPanel.add(computedAreaLabel);
+                        areaPanel.add(createLabel("SymPy Equiv.:", Constants.BLUE));
+                        computedSymPyLabel = createLabel(sympyl, Constants.BLUE);
+                        areaPanel.add(computedSymPyLabel);
+                        areaPanel.add(createLabel("SymPy Simb.:", Constants.BLUE));
+                        computedSymbolicLabel = createLabel(sympys, Constants.BLUE);
+                        areaPanel.add(computedSymbolicLabel);
                         inputPanel.add(areaPanel);
                         inputPanel.revalidate();
                     } else {
-                        computedAreaLabel.setText(String.format("%5.6f", radau.getArea()));
+                        computedAreaLabel.setText(String.format("%5.6f", area));
+                        computedSymPyLabel.setText(sympyl);
+                        computedSymPyLabel.setText(sympys);
                     }
                     if (onUserAction != null) {
                         onUserAction.compute();
